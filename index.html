@@ -22,19 +22,19 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 /* ── HEADER ── */
 header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 48px;height:76px;display:flex;align-items:center;justify-content:space-between;transition:all .4s var(--ease);}
-header.scrolled{background:rgba(250,245,236,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(192,84,26,.2);box-shadow:0 4px 32px rgba(60,42,20,.08);}
+header.scrolled{background:rgba(250,245,236,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(192,84,26,.2);box-shadow:0 4px 32px rgba(60,42,20,.08);}header.scrolled nav a{color:var(--bark);}header.scrolled .logo-text-block span{color:var(--bark);}header.scrolled .logo-text-block small{color:var(--terra);}
 .logo-wrap{display:flex;align-items:center;gap:14px;text-decoration:none;}
-.logo-emblem{width:48px;height:48px;background:linear-gradient(135deg,var(--terra),var(--saffron));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:20px;font-weight:700;color:#fff;letter-spacing:1px;box-shadow:0 4px 16px rgba(192,84,26,.4);}
+.logo-emblem{width:54px;height:54px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(192,84,26,.3);flex-shrink:0;} .logo-emblem img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
 .logo-text-block{line-height:1.15;}
-.logo-text-block span{display:block;font-family:var(--font-display);font-size:22px;font-weight:600;color:var(--bark);letter-spacing:.5px;}
-.logo-text-block small{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--terra);font-weight:500;}
+.logo-text-block span{display:block;font-family:var(--font-display);font-size:22px;font-weight:600;color:#fff;letter-spacing:.5px;transition:color .4s;}
+.logo-text-block small{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.7);font-weight:500;transition:color .4s;}
 nav{display:flex;align-items:center;gap:4px;}
-nav a{text-decoration:none;font-size:13.5px;font-weight:500;color:var(--bark);padding:8px 18px;border-radius:40px;letter-spacing:.3px;transition:all .25s;}
+nav a{text-decoration:none;font-size:13.5px;font-weight:500;color:#fff;padding:8px 18px;border-radius:40px;letter-spacing:.3px;transition:all .25s;}
 nav a:hover{background:var(--terra);color:#fff;}
 .nav-inquiry{background:var(--ink)!important;color:var(--turmeric)!important;font-weight:600!important;letter-spacing:.5px!important;}
 .nav-inquiry:hover{background:var(--bark)!important;transform:translateY(-1px);box-shadow:0 6px 20px rgba(28,18,8,.3)!important;}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
-.hamburger span{width:22px;height:2px;background:var(--bark);border-radius:2px;display:block;transition:.3s;}
+.hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;display:block;transition:.3s;}header.scrolled .hamburger span{background:var(--bark);}
 
 /* ── HERO ── */
 #hero{height:100vh;min-height:700px;position:relative;display:flex;align-items:center;overflow:hidden;}
@@ -270,7 +270,7 @@ footer{background:#110c05;padding:72px 48px 32px;}
 <!-- HEADER -->
 <header id="site-header">
   <a class="logo-wrap" href="#" onclick="nav('home')">
-    <div class="logo-emblem">AF</div>
+    <div class="logo-emblem"><img src="src/products/logo.png" alt="Abhyuday Foods Logo" onerror="this.style.display='none';this.parentNode.innerHTML='AF'"></div>
     <div class="logo-text-block">
       <span>Abhyuday Foods</span>
       <small>Premium Frozen Foods · B2B</small>
@@ -307,7 +307,7 @@ footer{background:#110c05;padding:72px 48px 32px;}
     </div>
     <div class="hero-right fade-up d4">
       <div class="hero-stat-card"><div class="stat-icon">🍟</div><div class="stat-info"><strong>5+</strong><span>Frozen Fries Varieties</span></div></div>
-      <div class="hero-stat-card"><div class="stat-icon">❄️</div><div class="stat-info"><strong>80+</strong><span>Total Frozen SKUs</span></div></div>
+      <div class="hero-stat-card"><div class="stat-icon">❄️</div><div class="stat-info"><strong>100+</strong><span>Total Premium SKUs</span></div></div>
       <div class="hero-stat-card"><div class="stat-icon">🏭</div><div class="stat-info"><strong>FSSAI</strong><span>Certified Facility</span></div></div>
       <div class="hero-stat-card"><div class="stat-icon">🚚</div><div class="stat-info"><strong>PAN India</strong><span>B2B Delivery</span></div></div>
     </div>
@@ -368,7 +368,7 @@ footer{background:#110c05;padding:72px 48px 32px;}
 <section id="categories">
   <div class="cat-inner">
     <div class="section-label">Product Lines</div>
-    <h2 class="display-title">Seven <em>Categories,</em><br>One Trusted Source</h2>
+    <h2 class="display-title">All <em>Categories,</em><br>One Trusted Source</h2>
     <div class="cat-grid">
       <div class="cat-tile tall" onclick="nav('products');filterProducts('vegs')">
         <img src="src/products/IQF Mix Veg.png" alt="Frozen Vegetables" onerror="this.src='https://images.unsplash.com/photo-1574316071802-0d684efa7bf5?w=900&q=80'">
@@ -396,6 +396,16 @@ footer{background:#110c05;padding:72px 48px 32px;}
         <div class="cat-tile-body"><div class="label">5 Products</div><h3>Curries & Gravy</h3><span>Dal · Paneer · Chole · Gravies & more</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div>
       </div>
     </div>
+      <div class="cat-tile short" onclick="nav('products');filterProducts('millet')">
+        <img src="src/products/millets.jpg" alt="Millet Premixes" onerror="this.src='src/products/millet_khichdi.png'">
+        <div class="cat-tile-overlay"></div>
+        <div class="cat-tile-body"><div class="label">24 Products</div><h3>Millet Premixes</h3><span>Idli · Dosa · Khichdi · Biryani · Malt & more</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div>
+      </div>
+      <div class="cat-tile short" onclick="nav('products');filterProducts('nonmillet')">
+        <img src="src/products/sheera.png" alt="Non-Millet Premixes" onerror="this.src='https://images.unsplash.com/photo-1624300629298-e9de39c13be5?w=700&q=80'">
+        <div class="cat-tile-overlay"></div>
+        <div class="cat-tile-body"><div class="label">17 Products</div><h3>Non-Millet Premixes</h3><span>Sheera · Kheer · Dosa · Idli · Waffle & more</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div>
+      </div>
     <div style="text-align:center;margin-top:48px;">
       <a href="#" class="cta-primary" onclick="nav('products')" style="font-size:15px;padding:16px 48px;">View All Products →</a>
     </div>
@@ -427,9 +437,9 @@ footer{background:#110c05;padding:72px 48px 32px;}
     <div class="contact-grid">
       <div class="contact-left">
         <p>We work exclusively with institutional buyers, distributors, HoReCa chains, private-label brands, and cloud kitchens. Share your requirements and our team will respond within 24 hours.</p>
-        <div class="contact-detail-item"><div class="cdi-icon">📍</div><div class="cdi-text"><strong>Address</strong><span>Abhyuday Foods, Gujarat, India</span></div></div>
-        <div class="contact-detail-item"><div class="cdi-icon">📞</div><div class="cdi-text"><strong>Phone</strong><span>+91 98765 43210</span></div></div>
-        <div class="contact-detail-item"><div class="cdi-icon">✉️</div><div class="cdi-text"><strong>Email</strong><span>b2b@abhyudayfoods.com</span></div></div>
+        <div class="contact-detail-item"><div class="cdi-icon">📍</div><div class="cdi-text"><strong>Address</strong><span>1001 &amp; 1020 Time Square Arcade, Nr Bagban Party Plot, Thaltej Shilaj Road, Thaltej, Ahmedabad 380059, Gujarat, India</span></div></div>
+        <div class="contact-detail-item"><div class="cdi-icon">📞</div><div class="cdi-text"><strong>Phone</strong><span>+91 99041 33088</span></div></div>
+        <div class="contact-detail-item"><div class="cdi-icon">✉️</div><div class="cdi-text"><strong>Email</strong><span>info@abhyuday.in</span></div></div>
         <div class="contact-detail-item"><div class="cdi-icon">🕐</div><div class="cdi-text"><strong>Hours</strong><span>Mon – Sat, 9 AM – 6 PM IST</span></div></div>
         <div class="contact-certs"><span class="cert-chip">✅ FSSAI</span><span class="cert-chip">✅ ISO</span><span class="cert-chip">✅ GMP</span><span class="cert-chip">✅ Make in India</span></div>
       </div>
@@ -460,7 +470,7 @@ footer{background:#110c05;padding:72px 48px 32px;}
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
-        <a class="logo-wrap" href="#" onclick="nav('home')"><div class="logo-emblem">AF</div><div class="logo-text-block"><span>Abhyuday Foods</span><small style="color:rgba(255,255,255,.35)">Premium Frozen Foods · B2B</small></div></a>
+        <a class="logo-wrap" href="#" onclick="nav('home')"><div class="logo-emblem"><img src="src/products/logo.png" alt="Abhyuday Foods Logo" onerror="this.style.display='none';this.parentNode.innerHTML='AF'"></div><div class="logo-text-block"><span>Abhyuday Foods</span><small style="color:rgba(255,255,255,.35)">Premium Frozen Foods · B2B</small></div></a>
         <p>India's premium B2B frozen food processor. Serving HoReCa, QSRs, institutional kitchens and private-label brands with consistent cold-chain quality at scale.</p>
         <div class="socials"><a href="#">in</a><a href="#">f</a><a href="#">ig</a><a href="#">yt</a></div>
       </div>
@@ -478,10 +488,14 @@ footer{background:#110c05;padding:72px 48px 32px;}
         <a href="#" onclick="nav('products');filterProducts('breads')">Breads & Paratha</a>
         <a href="#" onclick="nav('products');filterProducts('curries')">Curries & Gravy</a>
         <a href="#" onclick="nav('products');filterProducts('combo')">Combo & Meals</a>
+        <a href="#" onclick="nav('products');filterProducts('millet')">Millet Premixes</a>
+        <a href="#" onclick="nav('products');filterProducts('nonmillet')">Non-Millet Premixes</a>
       </div>
       <div class="footer-col"><h5>Contact</h5>
-        <a href="#">+91 98765 43210</a><a href="#">b2b@abhyudayfoods.com</a>
-        <a href="#">Gujarat, India</a><a href="#">Mon–Sat · 9AM–6PM</a>
+        <a href="tel:+919904133088">+91 99041 33088</a>
+        <a href="mailto:info@abhyuday.in">info@abhyuday.in</a>
+        <a href="#">Thaltej, Ahmedabad 380059</a>
+        <a href="#">Mon–Sat · 9AM–6PM</a>
       </div>
     </div>
     <div class="footer-bottom"><span>© 2025 Abhyuday Foods. All rights reserved.</span><span>FSSAI Licensed · ISO Certified · GMP Compliant</span></div>
@@ -498,7 +512,7 @@ footer{background:#110c05;padding:72px 48px 32px;}
     <div class="products-hero-content">
       <p style="color:var(--turmeric);font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:600;margin-bottom:12px;">Our Complete Range</p>
       <h1>All <em>Products</em></h1>
-      <p style="color:rgba(255,255,255,.6);font-size:16px;margin-top:14px;">Frozen Fries · Vegetables · Snacks · Breads · Combo Meals · Curries & Gravy — B2B inquiry based</p>
+      <p style="color:rgba(255,255,255,.6);font-size:16px;margin-top:14px;">Frozen Foods · Vegetables · Snacks · Breads · Curries · Millet &amp; Non-Millet Premixes — B2B inquiry based</p>
     </div>
   </div>
   <div class="filter-bar">
@@ -510,6 +524,8 @@ footer{background:#110c05;padding:72px 48px 32px;}
       <button class="filter-btn" onclick="filterProducts('breads',this)">🫓 Breads & Paratha</button>
       <button class="filter-btn" onclick="filterProducts('curries',this)">🍛 Curries & Gravy</button>
       <button class="filter-btn" onclick="filterProducts('combo',this)">🍱 Combo & Meals</button>
+      <button class="filter-btn" onclick="filterProducts('millet',this)">🌾 Millet Premixes</button>
+      <button class="filter-btn" onclick="filterProducts('nonmillet',this)">🍚 Non-Millet Premixes</button>
     </div>
   </div>
   <div class="products-body" id="products-body"></div>
@@ -539,9 +555,9 @@ footer{background:#110c05;padding:72px 48px 32px;}
   <footer>
     <div class="footer-inner">
       <div class="footer-top" style="grid-template-columns:1fr 1fr 1fr;">
-        <div class="footer-brand"><a class="logo-wrap" href="#" onclick="nav('home')"><div class="logo-emblem">AF</div><div class="logo-text-block"><span>Abhyuday Foods</span></div></a><p>India's premium B2B frozen food processor.</p></div>
+        <div class="footer-brand"><a class="logo-wrap" href="#" onclick="nav('home')"><div class="logo-emblem"><img src="src/products/logo.png" alt="Abhyuday Foods Logo" onerror="this.style.display='none';this.parentNode.innerHTML='AF'"></div><div class="logo-text-block"><span>Abhyuday Foods</span></div></a><p>India's premium B2B frozen food processor.</p></div>
         <div class="footer-col"><h5>Quick Links</h5><a href="#" onclick="nav('home')">Home</a><a href="#" onclick="nav('products')">Products</a><a href="#" onclick="nav('home');setTimeout(()=>document.querySelector('#contact').scrollIntoView({behavior:'smooth'}),100)">Contact</a></div>
-        <div class="footer-col"><h5>Contact</h5><a href="#">+91 98765 43210</a><a href="#">b2b@abhyudayfoods.com</a></div>
+        <div class="footer-col"><h5>Contact</h5><a href="tel:+919904133088">+91 99041 33088</a><a href="mailto:info@abhyuday.in">info@abhyuday.in</a></div>
       </div>
       <div class="footer-bottom"><span>© 2025 Abhyuday Foods.</span><span>FSSAI · ISO · GMP</span></div>
     </div>
@@ -590,12 +606,14 @@ function scrollTo(id){setTimeout(()=>document.querySelector(id).scrollIntoView({
    7 categories: fries · vegs · snacks · breads · combo · curries
 ══════════════════════════════════════════════ */
 const CATS={
-  fries:  {label:'Frozen Fries',           emoji:'🍟'},
-  vegs:   {label:'Frozen Vegetables',      emoji:'🥦'},
-  snacks: {label:'Frozen Snacks',          emoji:'🥟'},
-  breads: {label:'Breads & Paratha',       emoji:'🫓'},
-  combo:  {label:'Combo Meals',            emoji:'🍱'},
-  curries:{label:'Curries & Gravy',        emoji:'🍛'}
+  fries:  {label:'Frozen Fries',             emoji:'🍟'},
+  vegs:   {label:'Frozen Vegetables',        emoji:'🥦'},
+  snacks: {label:'Frozen Snacks',            emoji:'🥟'},
+  breads: {label:'Breads & Paratha',         emoji:'🫓'},
+  combo:  {label:'Combo Meals',              emoji:'🍱'},
+  curries:{label:'Curries & Gravy',          emoji:'🍛'},
+  millet: {label:'Millet Based Premixes',    emoji:'🌾'},
+  nonmillet:{label:'Non-Millet Premixes',    emoji:'🍚'}
 };
 
 /* ══════════════════════════════════════════════
@@ -717,19 +735,154 @@ const PRODUCTS=[
 {cat:'combo',sub:'Combo Meal', name:'Rice + Rajma',       qty:'Pack', tags:['Frozen','Combo Meal'],
  img:'src/products/Rice-With-Rajma.jpg',
  note:'Wholesome comfort meal combo — consistent quality for every order.'},
+
+/* ─────────────── 7. MILLET BASED PREMIXES ─────────────── */
+/* Idli */
+{cat:'millet',sub:'Idli', name:'Multi Millet Idli',         qty:'1 KG', tags:['Millet','High Protein'],
+ img:'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&q=80',
+ note:'Blend of 5 millets for idlis rich in fibre, iron and calcium.'},
+{cat:'millet',sub:'Idli', name:'Jowar & Oats Idli',         qty:'1 KG', tags:['Millet','High Fibre'],
+ img:'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&q=80',
+ note:'Sustained energy and digestive support from jowar and oats.'},
+{cat:'millet',sub:'Idli', name:'Ragi & Jowar Idli',         qty:'1 KG', tags:['Millet','Calcium Rich'],
+ img:'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&q=80',
+ note:'Excellent for bone health — ragi delivers natural calcium.'},
+{cat:'millet',sub:'Idli', name:'Quinoa Idli',               qty:'1 KG', tags:['Millet','Premium'],
+ img:'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&q=80',
+ note:'All 9 essential amino acids from quinoa for premium menus.'},
+/* Dosa */
+{cat:'millet',sub:'Dosa', name:'Multi Millet Dosa',         qty:'1 KG', tags:['Millet','Multi-Grain'],
+ img:'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=500&q=80',
+ note:'Crispy dosa with maximum nutritional variety from 5 millets.'},
+{cat:'millet',sub:'Dosa', name:'Jowar Dosa',                qty:'1 KG', tags:['Millet','Gluten Free'],
+ img:'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=500&q=80',
+ note:'Antioxidant-rich jowar dosa. Ready-mix for quick bulk prep.'},
+{cat:'millet',sub:'Dosa', name:'Ragi Dosa',                 qty:'1 KG', tags:['Millet','Calcium Rich'],
+ img:'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=500&q=80',
+ note:'Finger millet dosa — supports bone density and blood sugar balance.'},
+{cat:'millet',sub:'Dosa', name:'Oats Dosa',                 qty:'1 KG', tags:['Millet','Heart Healthy'],
+ img:'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=500&q=80',
+ note:'Beta-glucan rich oats dosa — supports healthy cholesterol levels.'},
+/* Khichdi */
+{cat:'millet',sub:'Khichdi', name:'Multi Millet Khichdi',   qty:'1 KG', tags:['Millet','One Pot Meal'],
+ img:'src/products/millet_khichdi.png',
+ note:'Complete one-pot meal with protein, carbs and essential minerals.'},
+{cat:'millet',sub:'Khichdi', name:'Foxtail Khichdi',        qty:'1 KG', tags:['Millet','Low GI'],
+ img:'src/products/millet_khichdi.png',
+ note:'Low glycaemic index foxtail millet — ideal for health-focused menus.'},
+{cat:'millet',sub:'Khichdi', name:'Kodo Khichdi',           qty:'1 KG', tags:['Millet'],
+ img:'src/products/millet_khichdi.png',
+ note:'Polyphenol-rich kodo millet for weight management menus.'},
+{cat:'millet',sub:'Khichdi', name:'Quinoa Khichdi',         qty:'1 KG', tags:['Millet','High Protein'],
+ img:'src/products/millet_khichdi.png',
+ note:'Quinoa + lentil khichdi — all amino acids in one dish.'},
+/* Biryani / Rice */
+{cat:'millet',sub:'Biryani', name:'Kodo Millet Biryani',    qty:'1 KG', tags:['Millet','Aromatic'],
+ img:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&q=80',
+ note:'Whole spice biryani blend with kodo millet for healthy QSR menus.'},
+{cat:'millet',sub:'Lemon Rice', name:'Little Millet Lemon Rice', qty:'1 KG', tags:['Millet','Tangy'],
+ img:'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=500&q=80',
+ note:'Vitamin C enriched, fibrous lemon rice ready in 20 min.'},
+/* Upma / Pongal / Sheera */
+{cat:'millet',sub:'Upma', name:'Jowar Oats Upma',           qty:'1 KG', tags:['Millet','High Fibre'],
+ img:'https://images.unsplash.com/photo-1606166325683-e6deb697d301?w=500&q=80',
+ note:'Jowar and oats provide sustained energy for busy mornings.'},
+{cat:'millet',sub:'Pongal', name:'Foxtail Millet Sweet Pongal (Jaggery)', qty:'1 KG', tags:['Millet','Jaggery'],
+ img:'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=500&q=80',
+ note:'Naturally sweetened festival pongal with jaggery. Consistent batch quality.'},
+{cat:'millet',sub:'Sheera', name:'Multi Millet Sheera (Jaggery)',         qty:'1 KG', tags:['Millet','Jaggery'],
+ img:'src/products/sheera.png',
+ note:'Nutritious sheera sweetened with jaggery for clean-label desserts.'},
+/* Malt */
+{cat:'millet',sub:'Malt', name:'Ragi Malt',                 qty:'1 KG', tags:['Millet','Calcium Rich'],
+ img:'https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=500&q=80',
+ note:'Sprouted ragi malt — high in calcium and iron. Kids and adults.'},
+{cat:'millet',sub:'Malt', name:'Ragi Malt (Sweet)',         qty:'1 KG', tags:['Millet','Jaggery'],
+ img:'https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=500&q=80',
+ note:'Pre-sweetened with jaggery. Just add milk — institutional favourite.'},
+/* Chilla */
+{cat:'millet',sub:'Chilla', name:'Sprouted Moong Chilla',             qty:'1 KG', tags:['Millet','High Protein'],
+ img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=500&q=80',
+ note:'Sprouted moong increases iron and protein bioavailability.'},
+{cat:'millet',sub:'Chilla', name:'Sprouted Moong + Foxtail Millet Chilla', qty:'1 KG', tags:['Millet','Low GI'],
+ img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=500&q=80',
+ note:'Balanced protein from sprouted moong and low-GI foxtail millet.'},
+{cat:'millet',sub:'Chilla', name:'Sprouted Moong + Jowar Chilla',     qty:'1 KG', tags:['Millet','Gluten Free'],
+ img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=500&q=80',
+ note:'High-fibre, high-protein gluten-free chilla for wellness menus.'},
+/* Soup & Pasta */
+{cat:'millet',sub:'Soup', name:'Bajra Soup',                qty:'1 KG', tags:['Millet','Iron Rich'],
+ img:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500&q=80',
+ note:'Bajra is among the highest iron-containing millets. Filling starter soup.'},
+{cat:'millet',sub:'Pasta Sauce', name:'Oats White Pasta Sauce (Gluten Free)', qty:'1 KG', tags:['Millet','Gluten Free'],
+ img:'https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=500&q=80',
+ note:'Clean-label gluten-free white pasta sauce base. No artificial thickeners.'},
+
+/* ─────────────── 8. NON-MILLET PREMIXES ─────────────── */
+{cat:'nonmillet',sub:'Sheera', name:'Pineapple Sheera',     qty:'1 KG', tags:['Premix','Dessert'],
+ img:'src/products/sheera.png',
+ note:'Classic tangy-sweet pineapple sheera. Consistent bulk batch results.'},
+{cat:'nonmillet',sub:'Halwa',  name:'Moong Dal Halwa',      qty:'1 KG', tags:['Premix','Traditional'],
+ img:'https://images.unsplash.com/photo-1624300629298-e9de39c13be5?w=500&q=80',
+ note:'Winter special high-protein moong dal halwa for catering menus.'},
+{cat:'nonmillet',sub:'Halwa',  name:'Sooji / Rava Halwa',   qty:'1 KG', tags:['Premix','Classic'],
+ img:'https://images.unsplash.com/photo-1624300629298-e9de39c13be5?w=500&q=80',
+ note:'Traditional rava halwa with pre-measured flavour blend.'},
+{cat:'nonmillet',sub:'Kheer',  name:'Rice Kheer',           qty:'1 KG', tags:['Premix','Festival'],
+ img:'https://images.unsplash.com/photo-1611292287520-908b94e7c9f4?w=500&q=80',
+ note:'Creamy rice kheer mix for consistent batch results.'},
+{cat:'nonmillet',sub:'Kheer',  name:'Vermicelli Kheer',     qty:'1 KG', tags:['Premix','Quick Prep'],
+ img:'https://images.unsplash.com/photo-1611292287520-908b94e7c9f4?w=500&q=80',
+ note:'Fast-prep kheer for high-volume kitchens. Ready in 15 min.'},
+{cat:'nonmillet',sub:'Pasta Sauce', name:'White Sauce for Pasta', qty:'1 KG', tags:['Premix','Creamy'],
+ img:'https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=500&q=80',
+ note:'Consistent béchamel-style sauce every time. No lumps.'},
+{cat:'nonmillet',sub:'Dosa',   name:'Rice Dosa Mix',        qty:'1 KG', tags:['Premix','Crispy'],
+ img:'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=500&q=80',
+ note:'Perfectly blended rice and urad for consistently crispy dosas.'},
+{cat:'nonmillet',sub:'Idli',   name:'Rice Idli Mix',        qty:'1 KG', tags:['Premix','Soft'],
+ img:'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&q=80',
+ note:'Classic idli mix for soft, fluffy idlis with consistent results.'},
+{cat:'nonmillet',sub:'Dhokla', name:'Rice Dhokla Mix',      qty:'1 KG', tags:['Premix','Gujarati'],
+ img:'https://images.unsplash.com/photo-1548943487-a2e4e43b4853?w=500&q=80',
+ note:'Light steamed Gujarati snack. High volume from each batch.'},
+{cat:'nonmillet',sub:'Pancake', name:'Vanilla Pancake',     qty:'1 KG', tags:['Premix','Cafe Ready'],
+ img:'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&q=80',
+ note:'Classic vanilla pancake for high-volume cafe and hotel use.'},
+{cat:'nonmillet',sub:'Pancake', name:'Double Chocolate Pancake', qty:'1 KG', tags:['Premix','Chocolate'],
+ img:'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&q=80',
+ note:'Indulgent double-chocolate pancake for cafe and kids menus.'},
+{cat:'nonmillet',sub:'Waffle', name:'Double Chocochip Waffle Mix', qty:'1 KG', tags:['Premix','Premium'],
+ img:'https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=500&q=80',
+ note:'Rich double choc waffle with chips for cafe menu differentiation.'},
+{cat:'nonmillet',sub:'Waffle', name:'Plain Vanilla Waffle Mix',   qty:'1 KG', tags:['Premix','Classic'],
+ img:'https://images.unsplash.com/photo-1562376552-0d160a2f238d?w=500&q=80',
+ note:'Versatile vanilla waffle base for sweet or savoury options.'},
+{cat:'nonmillet',sub:'Upma',   name:'Sooji / Rava Upma',    qty:'1 KG', tags:['Premix','Quick Cook'],
+ img:'https://images.unsplash.com/photo-1606166325683-e6deb697d301?w=500&q=80',
+ note:'Pre-seasoned rava upma blend for fast, consistent bulk cooking.'},
+{cat:'nonmillet',sub:'Khichdi', name:'Rice Masala Khichdi', qty:'1 KG', tags:['Premix','Comfort Food'],
+ img:'src/products/millet_khichdi.png',
+ note:'Spiced masala khichdi — complete meal for hospital and canteen menus.'},
+{cat:'nonmillet',sub:'Biryani', name:'Rice Biryani',        qty:'1 KG', tags:['Premix','Aromatic'],
+ img:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&q=80',
+ note:'Balanced spice blend for restaurant-quality biryani every time.'},
+{cat:'nonmillet',sub:'Lemon Rice', name:'Lemon Rice Mix',   qty:'1 KG', tags:['Premix','Tangy'],
+ img:'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=500&q=80',
+ note:'Pre-blended tempering for quick, consistent lemon rice.'},
 ];
 
 /* TAG COLOURS */
 const tagClasses={
   'Frozen':'frozen','IQF':'iqf','Gluten Free':'gf','Healthy':'gf','Farali':'gf',
-  'RTE':'rte','Street Food':'rte','Indo-Chinese':'rte'
+  'RTE':'rte','Street Food':'rte','Indo-Chinese':'rte','Millet':'gf','Premix':'frozen','Jaggery':'jag','Gluten Free':'gf','Calcium Rich':'gf'
 };
 function getTagClass(t){return tagClasses[t]||'';}
 
 /* RENDER */
 function renderProducts(filter){
   const body=document.getElementById('products-body');
-  const order=['vegs','fries','snacks','breads','curries','combo'];
+  const order=['vegs','fries','snacks','breads','curries','combo','millet','nonmillet'];
   let html='';
   order.forEach(cat=>{
     const items=PRODUCTS.filter(p=>p.cat===cat&&(filter==='all'||filter===cat));
@@ -781,6 +934,8 @@ function filterProducts(f,btnEl){
       else if(f==='snacks'&&t.includes('snack'))b.classList.add('on');
       else if(f==='breads'&&t.includes('bread'))b.classList.add('on');
       else if(f==='combo'&&t.includes('combo'))b.classList.add('on');
+      else if(f==='millet'&&t.includes('millet')&&!t.includes('non'))b.classList.add('on');
+      else if(f==='nonmillet'&&t.includes('non-millet'))b.classList.add('on');
       else if(f==='curries'&&t.includes('curr'))b.classList.add('on');
     });
   }
