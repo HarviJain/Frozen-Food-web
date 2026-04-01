@@ -1045,6 +1045,7 @@ function filterProducts(f,btnEl){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
   if(btnEl){btnEl.classList.add('on');}
   else{
+
     document.querySelectorAll('.filter-btn').forEach(b=>{
       const t=b.textContent.toLowerCase();
       if(f==='all'&&t.includes('all'))b.classList.add('on');
