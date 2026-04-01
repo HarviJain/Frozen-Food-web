@@ -16,51 +16,112 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;font-size:16px;}
 body{background:var(--cream);color:var(--ink);font-family:var(--font-body);overflow-x:hidden;}
-#cursor{display:none;}
-#cursor-ring{display:none;}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9997;opacity:.6;}
 
 /* ── HEADER ── */
 header{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 48px;height:76px;display:flex;align-items:center;justify-content:space-between;transition:all .4s var(--ease);}
-header.scrolled{background:rgba(250,245,236,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(192,84,26,.2);box-shadow:0 4px 32px rgba(60,42,20,.08);}header.scrolled nav a{color:var(--bark);}header.scrolled .logo-text-block span{color:var(--bark);}header.scrolled .logo-text-block small{color:var(--terra);}
+header.scrolled{background:rgba(250,245,236,.95);backdrop-filter:blur(16px);border-bottom:1px solid rgba(192,84,26,.2);box-shadow:0 4px 32px rgba(60,42,20,.08);}
+header.scrolled nav a{color:var(--bark);}
+header.scrolled .logo-text-block span{color:var(--bark);}
+header.scrolled .logo-text-block small{color:var(--terra);}
 .logo-wrap{display:flex;align-items:center;gap:14px;text-decoration:none;}
-.logo-emblem{width:54px;height:54px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(192,84,26,.3);flex-shrink:0;} .logo-emblem img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.logo-emblem{width:54px;height:54px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(192,84,26,.3);flex-shrink:0;}
+.logo-emblem img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
 .logo-text-block{line-height:1.15;}
 .logo-text-block span{display:block;font-family:var(--font-display);font-size:22px;font-weight:600;color:#fff;letter-spacing:.5px;transition:color .4s;}
 .logo-text-block small{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.7);font-weight:500;transition:color .4s;}
 nav{display:flex;align-items:center;gap:4px;}
 nav a{text-decoration:none;font-size:13.5px;font-weight:500;color:#fff;padding:8px 18px;border-radius:40px;letter-spacing:.3px;transition:all .25s;}
 nav a:hover{background:var(--terra);color:#fff;}
-.nav-inquiry{background:var(--ink)!important;color:var(--turmeric)!important;font-weight:600!important;letter-spacing:.5px!important;}
-.nav-inquiry:hover{background:var(--bark)!important;transform:translateY(-1px);box-shadow:0 6px 20px rgba(28,18,8,.3)!important;}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
-.hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;display:block;transition:.3s;}header.scrolled .hamburger span{background:var(--bark);}
+.hamburger span{width:22px;height:2px;background:#fff;border-radius:2px;display:block;transition:.3s;}
+header.scrolled .hamburger span{background:var(--bark);}
 
-/* ── HERO ── */
-#hero{height:100vh;min-height:700px;position:relative;display:flex;align-items:center;overflow:hidden;}
-.hero-bg-img{position:absolute;inset:0;background:url('src/products/mix frozen.jpg') center/cover no-repeat;}
-.hero-gradient{position:absolute;inset:0;background:linear-gradient(110deg,rgba(28,18,8,.88) 0%,rgba(28,18,8,.6) 50%,rgba(28,18,8,.2) 100%);}
-.hero-accent{position:absolute;bottom:-2px;left:0;right:0;height:160px;background:linear-gradient(to top,var(--cream),transparent);}
-.hero-inner{position:relative;max-width:1300px;margin:auto;padding:0 48px;width:100%;display:flex;align-items:center;}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;background:rgba(232,147,10,.15);border:1px solid rgba(232,147,10,.4);color:var(--turmeric);font-size:24px;letter-spacing:3px;text-transform:uppercase;font-weight:600;padding:7px 18px;border-radius:40px;margin-bottom:28px;}
-.hero-eyebrow::before{content:'✦';font-size:8px;}
-.hero-left h1{font-family:var(--font-display);font-size:clamp(44px,5.5vw,82px);color:#fff;line-height:1.05;font-weight:300;margin-bottom:28px;}
-.hero-left h1 strong{font-weight:700;color:var(--turmeric);display:block;}
-.hero-left h1 em{font-style:italic;color:rgba(255,255,255,.7);}
-.hero-desc{color:rgba(255,255,255,.65);font-size:20px;line-height:1.85;max-width:480px;margin-bottom:44px;font-weight:300;}
-.hero-cta-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
-.cta-primary{background:var(--terra);color:#fff;padding:15px 40px;border-radius:50px;text-decoration:none;font-weight:600;font-size:14px;letter-spacing:.5px;transition:all .3s;display:inline-flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(192,84,26,.5);}
+/* ══════════════════════════════════════════
+   HERO SLIDER
+══════════════════════════════════════════ */
+#hero{height:100vh;min-height:700px;position:relative;overflow:hidden;}
+.hero-slides{position:absolute;inset:0;display:flex;transition:transform .9s cubic-bezier(.77,0,.175,1);}
+.hero-slide{position:relative;min-width:100%;height:100%;flex-shrink:0;overflow:hidden;}
+.hero-slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 8s ease;transform:scale(1.06);}
+.hero-slide.active .hero-slide-bg{transform:scale(1);}
+
+/* Gradient overlays */
+.hero-slide-grad{position:absolute;inset:0;}
+.slide-1 .hero-slide-grad{background:linear-gradient(110deg,rgba(28,18,8,.9) 0%,rgba(28,18,8,.55) 55%,rgba(28,18,8,.15) 100%);}
+.slide-2 .hero-slide-grad{background:linear-gradient(110deg,rgba(14,40,28,.92) 0%,rgba(14,40,28,.55) 55%,rgba(14,40,28,.1) 100%);}
+.slide-3 .hero-slide-grad{background:linear-gradient(110deg,rgba(28,12,4,.92) 0%,rgba(28,12,4,.55) 55%,rgba(28,12,4,.1) 100%);}
+.slide-4 .hero-slide-grad{background:linear-gradient(110deg,rgba(12,20,40,.92) 0%,rgba(12,20,40,.55) 55%,rgba(12,20,40,.1) 100%);}
+
+/* Slide 5 — split millet overlay: left half green, right half amber */
+.slide-5 .hero-slide-bg{display:none;}
+.slide-5-bg{position:absolute;inset:0;display:flex;z-index:0;}
+.slide-5-half{flex:1;background-size:cover;background-position:center;transition:transform 8s ease;transform:scale(1.06);}
+.hero-slide.active .slide-5-half{transform:scale(1);}
+.slide-5-half-left{position:relative;}
+.slide-5-half-right{position:relative;}
+.slide-5-divider{position:absolute;top:0;bottom:0;left:50%;width:3px;background:rgba(255,255,255,.25);z-index:2;transform:translateX(-50%);}
+.slide-5-divider::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.4);border-radius:50%;backdrop-filter:blur(4px);}
+.slide-5-half-left::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,rgba(20,28,12,.9) 0%,rgba(20,28,12,.55) 60%,rgba(20,28,12,.2) 100%);}
+.slide-5-half-right::after{content:'';position:absolute;inset:0;background:linear-gradient(110deg,rgba(28,20,4,.2) 0%,rgba(28,20,4,.55) 40%,rgba(28,20,4,.9) 100%);}
+
+/* Labels over each half */
+.slide-5-labels{position:absolute;inset:0;z-index:3;display:flex;pointer-events:none;}
+.slide-5-label{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:80px;text-align:center;}
+.slide-5-label .s5-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:30px;padding:6px 18px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.85);font-weight:600;margin-bottom:10px;backdrop-filter:blur(4px);}
+.slide-5-label .s5-count{font-family:var(--font-display);font-size:36px;font-weight:700;color:#fff;line-height:1;}
+.slide-5-label .s5-name{font-size:13px;color:rgba(255,255,255,.65);margin-top:4px;}
+
+/* Bottom fade */
+.hero-accent{position:absolute;bottom:-2px;left:0;right:0;height:180px;background:linear-gradient(to top,var(--cream),transparent);z-index:4;}
+.hero-content{position:absolute;inset:0;z-index:3;display:flex;align-items:center;}
+.hero-inner{max-width:1300px;margin:auto;padding:0 48px;width:100%;}
+
+/* Category pill */
+.slide-cat-pill{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(245,200,66,.45);color:var(--turmeric);font-size:11px;letter-spacing:4px;text-transform:uppercase;font-weight:600;padding:7px 20px;border-radius:40px;margin-bottom:22px;background:rgba(232,147,10,.12);backdrop-filter:blur(6px);}
+.slide-cat-pill span{font-size:16px;}
+.slide-headline{font-family:var(--font-display);font-size:clamp(48px,6vw,88px);color:#fff;line-height:1.0;font-weight:300;margin-bottom:20px;}
+.slide-headline strong{font-weight:700;color:var(--turmeric);display:block;}
+.slide-headline em{font-style:italic;color:rgba(255,255,255,.75);}
+.slide-sub{color:rgba(255,255,255,.6);font-size:17px;line-height:1.8;max-width:500px;margin-bottom:32px;font-weight:300;}
+.slide-chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:40px;}
+.slide-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);font-size:12px;font-weight:500;padding:6px 16px;border-radius:30px;backdrop-filter:blur(4px);}
+.slide-cta-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+.cta-primary{background:var(--terra);color:#fff;padding:15px 40px;border-radius:50px;text-decoration:none;font-weight:600;font-size:14px;letter-spacing:.5px;transition:all .3s;display:inline-flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(192,84,26,.5);cursor:pointer;border:none;font-family:var(--font-body);}
 .cta-primary:hover{background:var(--saffron);transform:translateY(-3px);box-shadow:0 14px 40px rgba(232,147,10,.5);}
-.cta-secondary{color:rgba(255,255,255,.8);padding:15px 32px;border-radius:50px;text-decoration:none;font-weight:500;font-size:14px;border:1.5px solid rgba(255,255,255,.25);transition:all .3s;display:inline-flex;align-items:center;gap:8px;}
+.cta-secondary{color:rgba(255,255,255,.8);padding:15px 32px;border-radius:50px;text-decoration:none;font-weight:500;font-size:14px;border:1.5px solid rgba(255,255,255,.3);transition:all .3s;display:inline-flex;align-items:center;gap:8px;cursor:pointer;background:none;font-family:var(--font-body);}
 .cta-secondary:hover{border-color:rgba(255,255,255,.7);color:#fff;background:rgba(255,255,255,.08);}
-.hero-right{display:flex;flex-direction:column;gap:16px;}
-.hero-stat-card{background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:22px 28px;display:flex;align-items:center;gap:20px;transition:.3s;}
-.hero-stat-card:hover{background:rgba(255,255,255,.12);transform:translateX(6px);}
-.stat-icon{font-size:32px;}
-.stat-info strong{display:block;font-family:var(--font-display);font-size:28px;color:#fff;font-weight:700;line-height:1;}
-.stat-info span{font-size:12px;color:rgba(255,255,255,.55);letter-spacing:1px;text-transform:uppercase;margin-top:4px;display:block;}
-.hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.4);font-size:10px;letter-spacing:3px;text-transform:uppercase;}
-.scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,rgba(255,255,255,.4),transparent);animation:scrollPulse 2s ease infinite;}
+
+/* Dot indicators */
+.slide-dots{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:10px;align-items:center;}
+.slide-dot{width:28px;height:3px;border-radius:2px;background:rgba(255,255,255,.25);cursor:pointer;transition:all .4s;border:none;padding:0;}
+.slide-dot.active{background:var(--turmeric);width:52px;}
+
+/* Arrows */
+.slide-arrow{position:absolute;top:50%;z-index:5;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.3s;backdrop-filter:blur(8px);}
+.slide-arrow:hover{background:var(--terra);border-color:var(--terra);}
+.slide-prev{left:32px;}
+.slide-next{right:32px;}
+
+/* Slide content animation */
+.hero-slide .slide-cat-pill,
+.hero-slide .slide-headline,
+.hero-slide .slide-sub,
+.hero-slide .slide-chips,
+.hero-slide .slide-cta-row{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.hero-slide.active .slide-cat-pill{opacity:1;transform:none;transition-delay:.1s;}
+.hero-slide.active .slide-headline{opacity:1;transform:none;transition-delay:.22s;}
+.hero-slide.active .slide-sub{opacity:1;transform:none;transition-delay:.34s;}
+.hero-slide.active .slide-chips{opacity:1;transform:none;transition-delay:.44s;}
+.hero-slide.active .slide-cta-row{opacity:1;transform:none;transition-delay:.54s;}
+
+/* Slide 5 split label animation */
+.slide-5 .slide-5-labels{opacity:0;transition:opacity .7s var(--ease);transition-delay:.3s;}
+.slide-5.active .slide-5-labels{opacity:1;}
+
+/* Scroll hint */
+.hero-scroll{position:absolute;bottom:44px;left:48px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.35);font-size:9px;letter-spacing:3px;text-transform:uppercase;}
+.scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,rgba(255,255,255,.35),transparent);animation:scrollPulse 2s ease infinite;}
 @keyframes scrollPulse{0%,100%{opacity:1;transform:scaleY(1);}50%{opacity:.3;transform:scaleY(.6);}}
 
 /* ── MARQUEE ── */
@@ -73,10 +134,9 @@ nav a:hover{background:var(--terra);color:#fff;}
 .section-label{font-size:22px;letter-spacing:4px;text-transform:uppercase;color:var(--terra);font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
 .section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--terra);}
 .display-title{font-family:var(--font-display);font-size:clamp(32px,4vw,58px);color:var(--bark);line-height:1.1;font-weight:300;}
-.display-title strong{font-weight:700;}
 .display-title em{font-style:italic;color:var(--terra);}
 
-/* ── VISION MISSION ── */
+/* ── VMP ── */
 #vmp{padding:120px 48px;background:var(--parchment);}
 .vmp-inner{max-width:1300px;margin:auto;}
 .vmp-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;margin-top:64px;}
@@ -94,7 +154,6 @@ nav a:hover{background:var(--terra);color:#fff;}
 .about-img-main{width:100%;height:560px;object-fit:cover;border-radius:24px 24px 120px 24px;display:block;box-shadow:0 32px 80px rgba(60,42,20,.2);}
 .about-img-float{position:absolute;bottom:-40px;right:-40px;width:220px;height:260px;object-fit:cover;border-radius:24px;border:6px solid var(--cream);box-shadow:0 20px 60px rgba(60,42,20,.25);}
 .about-badge-pill{position:absolute;top:32px;left:-28px;background:var(--terra);color:#fff;border-radius:50px;padding:12px 24px;box-shadow:0 12px 40px rgba(192,84,26,.4);font-size:13px;font-weight:600;letter-spacing:.5px;white-space:nowrap;}
-.about-content .display-title{margin-bottom:28px;}
 .about-body{color:#5a4a35;font-size:15.5px;line-height:1.9;font-weight:300;margin-bottom:40px;}
 .pillars{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .pillar{background:var(--parchment);border-radius:16px;padding:20px;border-left:3px solid var(--terra);transition:.3s;}
@@ -103,62 +162,14 @@ nav a:hover{background:var(--terra);color:#fff;}
 .pillar h4{font-family:var(--font-display);font-size:16px;font-weight:600;color:var(--bark);margin-bottom:4px;}
 .pillar p{font-size:12.5px;color:#7a6a55;line-height:1.6;}
 
-/* ── HOW IT WORKS ── */
-#cycle{padding:120px 48px;background:var(--bark);position:relative;overflow:hidden;}
-#cycle::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1540420773420-3366772f4999?w=1200&q=60') center/cover;opacity:.06;}
-.cycle-inner{max-width:1300px;margin:auto;position:relative;}
-.cycle-inner .section-label{color:var(--turmeric);}
-.cycle-inner .section-label::after{background:var(--turmeric);}
-.cycle-inner .display-title{color:#fff;}
-.cycle-inner .display-title em{color:var(--saffron);}
-.cycle-subtitle{color:rgba(255,255,255,.55);font-size:15px;line-height:1.8;max-width:500px;margin:16px 0 64px;}
-.steps-row{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;position:relative;}
-.step-connector{position:absolute;top:48px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,var(--terra),var(--saffron),var(--turmeric),var(--saffron),var(--terra));opacity:.4;}
-.step{text-align:center;padding:0 16px;position:relative;z-index:1;}
-.step-orb{width:96px;height:96px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(8px);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:36px;position:relative;transition:.3s;}
-.step-orb::after{content:attr(data-n);position:absolute;top:-6px;right:-6px;width:24px;height:24px;background:var(--terra);border-radius:50%;font-size:11px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-body);}
-.step:hover .step-orb{background:rgba(232,147,10,.15);border-color:rgba(232,147,10,.4);transform:translateY(-6px);}
-.step h4{color:#fff;font-size:14px;font-weight:600;margin-bottom:8px;}
-.step p{color:rgba(255,255,255,.45);font-size:12px;line-height:1.6;}
-
-/* ── CATEGORY SHOWCASE ── */
-#categories{padding:120px 48px;background:var(--cream);}
-/* Scrollable category row */
-.cat-scroll-wrap{overflow-x:auto;padding-bottom:8px;margin-top:0;scrollbar-width:thin;scrollbar-color:var(--terra) var(--parchment);}
-.cat-scroll-wrap::-webkit-scrollbar{height:6px;}
-.cat-scroll-wrap::-webkit-scrollbar-thumb{background:var(--terra);border-radius:4px;}
-.cat-scroll-track{display:flex;gap:20px;min-width:max-content;padding:4px 2px;}
-.cat-scroll-tile{width:280px;height:200px;flex-shrink:0;border-radius:20px;overflow:hidden;position:relative;cursor:pointer;transition:.4s var(--ease);}
-.cat-scroll-tile:hover{transform:scale(1.03);box-shadow:0 20px 60px rgba(60,42,20,.25);}
-.cat-scroll-tile img{width:100%;height:100%;object-fit:cover;display:block;transition:.6s var(--ease);}
-.cat-scroll-tile:hover img{transform:scale(1.08);}
-.cat-scroll-tile .cat-tile-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,18,8,.85) 0%,rgba(28,18,8,.1) 100%);}
-.cat-scroll-tile .cat-tile-body{position:absolute;bottom:0;left:0;right:0;padding:18px;}
-.cat-scroll-tile .cat-tile-body .label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--turmeric);font-weight:600;margin-bottom:4px;}
-.cat-scroll-tile .cat-tile-body h3{font-family:var(--font-display);font-size:18px;font-weight:600;color:#fff;margin-bottom:2px;}
-.cat-scroll-tile .cat-tile-body span{font-size:11px;color:rgba(255,255,255,.6);}
-/* Millet section on home */
-#millet-section{padding:80px 48px;background:var(--parchment);}
-.millet-section-inner{max-width:1300px;margin:auto;}
-.millet-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px;}
-.millet-card{border-radius:24px;overflow:hidden;position:relative;cursor:pointer;height:280px;transition:.4s var(--ease);}
-.millet-card:hover{transform:scale(1.02);box-shadow:0 24px 64px rgba(60,42,20,.2);}
-.millet-card img{width:100%;height:100%;object-fit:cover;display:block;transition:.6s var(--ease);}
-.millet-card:hover img{transform:scale(1.06);}
-.millet-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,18,8,.88) 0%,rgba(28,18,8,.1) 100%);}
-.millet-card-body{position:absolute;bottom:0;left:0;right:0;padding:28px;}
-.millet-card-body .label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--turmeric);font-weight:600;margin-bottom:6px;}
-.millet-card-body h3{font-family:var(--font-display);font-size:26px;font-weight:600;color:#fff;margin-bottom:6px;}
-.millet-card-body p{font-size:13px;color:rgba(255,255,255,.65);margin-bottom:12px;}
-.millet-card-cta{display:inline-flex;align-items:center;gap:6px;color:var(--turmeric);font-size:12px;font-weight:600;letter-spacing:.5px;text-decoration:none;}
-.millet-card-cta::after{content:'→';}
-/* Stats bar */
+/* ── STATS ── */
 #stats-bar{padding:60px 48px;background:var(--bark);}
 .stats-inner{max-width:1300px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;}
 .stat-box{text-align:center;}
 .stat-box strong{display:block;font-family:var(--font-display);font-size:42px;font-weight:700;color:var(--turmeric);}
 .stat-box span{font-size:13px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:2px;margin-top:6px;display:block;}
-/* Farmer slider */
+
+/* ── FARMER SLIDER ── */
 #farmer-strip{padding:80px 48px;background:var(--cream);overflow:hidden;}
 .farmer-inner{max-width:1300px;margin:auto;}
 .farmer-slider{display:flex;gap:24px;overflow-x:auto;padding-bottom:12px;scrollbar-width:thin;scrollbar-color:var(--sage) var(--parchment);}
@@ -168,6 +179,9 @@ nav a:hover{background:var(--terra);color:#fff;}
 .farmer-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(60,42,20,.1);}
 .farmer-num{font-family:var(--font-display);font-size:40px;font-weight:700;color:var(--sage);line-height:1;}
 .farmer-label{font-size:13px;color:#7a6a55;margin-top:6px;line-height:1.5;}
+
+/* ── CATEGORIES ── */
+#categories{padding:120px 48px;background:var(--cream);}
 .cat-inner{max-width:1300px;margin:auto;}
 .cat-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:20px;margin-top:56px;}
 .cat-tile{border-radius:24px;overflow:hidden;position:relative;cursor:pointer;transition:.4s var(--ease);}
@@ -181,9 +195,19 @@ nav a:hover{background:var(--terra);color:#fff;}
 .cat-tile-body span{font-size:12px;color:rgba(255,255,255,.55);}
 .cat-tile-cta{display:inline-flex;align-items:center;gap:6px;color:var(--turmeric);font-size:12px;font-weight:600;letter-spacing:.5px;margin-top:12px;text-decoration:none;}
 .cat-tile-cta::after{content:'→';}
-.cat-tile:hover .cat-tile-cta{gap:10px;}
 .cat-tile.tall{grid-row:span 2;height:600px;}
 .cat-tile.short{height:280px;}
+.millet-card{border-radius:24px;overflow:hidden;position:relative;cursor:pointer;height:280px;transition:.4s var(--ease);}
+.millet-card:hover{transform:scale(1.02);box-shadow:0 24px 64px rgba(60,42,20,.2);}
+.millet-card img{width:100%;height:100%;object-fit:cover;display:block;transition:.6s var(--ease);}
+.millet-card:hover img{transform:scale(1.06);}
+.millet-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,18,8,.88) 0%,rgba(28,18,8,.1) 100%);}
+.millet-card-body{position:absolute;bottom:0;left:0;right:0;padding:28px;}
+.millet-card-body .label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--turmeric);font-weight:600;margin-bottom:6px;}
+.millet-card-body h3{font-family:var(--font-display);font-size:26px;font-weight:600;color:#fff;margin-bottom:6px;}
+.millet-card-body p{font-size:13px;color:rgba(255,255,255,.65);margin-bottom:12px;}
+.millet-card-cta{display:inline-flex;align-items:center;gap:6px;color:var(--turmeric);font-size:12px;font-weight:600;letter-spacing:.5px;text-decoration:none;}
+.millet-card-cta::after{content:'→';}
 
 /* ── PRODUCTS PAGE ── */
 .products-hero{height:420px;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:0 48px 60px;}
@@ -208,12 +232,17 @@ nav a:hover{background:var(--terra);color:#fff;}
 .cat-section-head h2 span{font-style:italic;font-weight:300;color:var(--terra);}
 .cat-section-head small{font-size:13px;color:#9a8a75;}
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px;}
-.product-card{background:var(--white);border-radius:20px;overflow:hidden;transition:.35s var(--ease);border:1px solid transparent;}
+
+/* ── PRODUCT CARD ── */
+.product-card{background:var(--white);border-radius:20px;overflow:hidden;transition:.35s var(--ease);border:1px solid transparent;cursor:pointer;}
 .product-card:hover{transform:translateY(-8px);box-shadow:0 24px 64px rgba(60,42,20,.14);border-color:rgba(192,84,26,.15);}
 .product-card-img{height:200px;overflow:hidden;position:relative;background:var(--parchment);}
 .product-card-img img{width:100%;height:100%;object-fit:cover;transition:.6s var(--ease);display:block;}
 .product-card:hover .product-card-img img{transform:scale(1.1);}
-.product-tag{position:absolute;top:14px;left:14px;background:var(--ink);color:var(--turmeric);font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:600;padding:5px 12px;border-radius:30px;}
+.product-img-hover-hint{position:absolute;inset:0;background:rgba(28,18,8,.45);display:flex;align-items:center;justify-content:center;opacity:0;transition:.3s;}
+.product-card:hover .product-img-hover-hint{opacity:1;}
+.product-img-hover-hint span{color:#fff;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:1.5px solid rgba(255,255,255,.6);padding:8px 18px;border-radius:30px;}
+.product-tag{position:absolute;top:14px;left:14px;background:var(--ink);color:var(--turmeric);font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:600;padding:5px 12px;border-radius:30px;z-index:1;}
 .product-tag.frozen{background:#1d4ed8;color:#fff;}
 .product-tag.iqf{background:#0e7490;color:#fff;}
 .product-tag.gf{background:var(--sage);color:#fff;}
@@ -228,25 +257,36 @@ nav a:hover{background:var(--terra);color:#fff;}
 .btn-enquire{background:var(--ink);color:#fff;border:none;padding:9px 20px;border-radius:30px;font-size:12px;font-weight:600;font-family:var(--font-body);cursor:pointer;transition:.2s;}
 .btn-enquire:hover{background:var(--terra);}
 
-/* ── MODAL ── */
-.modal-veil{position:fixed;inset:0;background:rgba(28,18,8,.7);backdrop-filter:blur(8px);z-index:5000;display:none;align-items:center;justify-content:center;padding:20px;}
-.modal-veil.show{display:flex;}
-.modal-box{background:var(--white);border-radius:28px;max-width:540px;width:100%;padding:48px;position:relative;max-height:90vh;overflow-y:auto;}
-.modal-close-btn{position:absolute;top:20px;right:20px;background:var(--parchment);border:none;width:36px;height:36px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;color:var(--bark);}
-.modal-close-btn:hover{background:var(--terra);color:#fff;}
-.modal-box h3{font-family:var(--font-display);font-size:30px;font-weight:600;color:var(--bark);margin-bottom:6px;}
-.modal-product-ref{display:inline-flex;align-items:center;gap:8px;background:var(--parchment);border-radius:8px;padding:8px 14px;font-size:13px;color:var(--terra);font-weight:500;margin-bottom:28px;}
-.modal-product-ref::before{content:'❄️';}
-.form-field{margin-bottom:18px;}
-.form-field label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:#7a6a55;margin-bottom:8px;}
-.form-field input,.form-field select,.form-field textarea{width:100%;padding:13px 18px;border:1.5px solid var(--parchment);border-radius:12px;font-family:var(--font-body);font-size:14px;background:var(--cream);color:var(--ink);outline:none;transition:.25s;}
-.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--terra);background:#fff;box-shadow:0 0 0 4px rgba(192,84,26,.1);}
-.form-field textarea{min-height:90px;resize:vertical;}
-.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.form-note{background:var(--parchment);border-radius:12px;padding:14px 18px;font-size:12.5px;color:#7a6a55;line-height:1.7;margin-bottom:20px;}
-.btn-submit-modal{width:100%;background:linear-gradient(135deg,var(--terra),var(--saffron));color:#fff;border:none;padding:16px;border-radius:50px;font-family:var(--font-display);font-size:18px;font-weight:600;cursor:pointer;letter-spacing:.5px;transition:.3s;box-shadow:0 8px 32px rgba(192,84,26,.4);}
-.btn-submit-modal:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(192,84,26,.5);}
-.modal-success{display:none;text-align:center;padding:20px;background:#f0f7ed;border-radius:16px;margin-top:16px;color:var(--sage);font-weight:600;font-size:15px;border:1px solid rgba(74,103,65,.2);}
+/* ══════════════════════════════════════════
+   PRODUCT POPUP MODAL
+══════════════════════════════════════════ */
+.product-modal-veil{position:fixed;inset:0;background:rgba(28,18,8,.75);backdrop-filter:blur(10px);z-index:6000;display:none;align-items:center;justify-content:center;padding:20px;}
+.product-modal-veil.show{display:flex;}
+.product-modal-box{background:var(--white);border-radius:28px;max-width:680px;width:100%;position:relative;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 40px 120px rgba(28,18,8,.4);}
+.product-modal-img-wrap{width:100%;height:340px;overflow:hidden;position:relative;flex-shrink:0;background:var(--parchment);}
+.product-modal-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+.product-modal-img-overlay{position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(to top,var(--white),transparent);}
+.product-modal-close{position:absolute;top:16px;right:16px;z-index:10;width:40px;height:40px;border-radius:50%;background:rgba(28,18,8,.55);border:none;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;backdrop-filter:blur(6px);}
+.product-modal-close:hover{background:var(--terra);}
+.product-modal-body{padding:32px 36px 36px;overflow-y:auto;}
+.product-modal-tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.product-modal-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:5px 14px;border-radius:30px;background:var(--parchment);color:var(--terra);}
+.product-modal-tag.frozen{background:#dbeafe;color:#1d4ed8;}
+.product-modal-tag.iqf{background:#cffafe;color:#0e7490;}
+.product-modal-tag.gf{background:#dcfce7;color:var(--sage);}
+.product-modal-tag.rte{background:var(--mist);color:var(--bark);}
+.product-modal-name{font-family:var(--font-display);font-size:34px;font-weight:600;color:var(--bark);line-height:1.1;margin-bottom:8px;}
+.product-modal-sub{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--terra);font-weight:600;margin-bottom:20px;}
+.product-modal-divider{height:1px;background:var(--parchment);margin-bottom:20px;}
+.product-modal-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+.product-modal-detail-item{background:var(--parchment);border-radius:14px;padding:16px 18px;}
+.product-modal-detail-item label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9a8a75;font-weight:600;display:block;margin-bottom:6px;}
+.product-modal-detail-item span{font-size:14px;font-weight:600;color:var(--bark);}
+.product-modal-note{background:var(--cream);border:1px solid var(--parchment);border-radius:14px;padding:18px;font-size:14px;color:#5a4a35;line-height:1.8;margin-bottom:28px;border-left:3px solid var(--terra);}
+.product-modal-cta-row{display:flex;gap:12px;}
+.product-modal-cta-row .cta-primary{flex:1;justify-content:center;padding:14px 20px;}
+.product-modal-cta-row .cta-secondary{padding:14px 24px;color:var(--bark);border-color:var(--parchment);}
+.product-modal-cta-row .cta-secondary:hover{border-color:var(--terra);color:var(--terra);background:transparent;}
 
 /* ── CONTACT ── */
 #contact{padding:120px 48px;background:var(--ink);position:relative;overflow:hidden;}
@@ -256,22 +296,27 @@ nav a:hover{background:var(--terra);color:#fff;}
 .contact-inner .section-label::after{background:var(--turmeric);}
 .contact-inner .display-title{color:#fff;}
 .contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start;margin-top:64px;}
-.contact-left p{color:rgba(255,255,255,.55);font-size:15px;line-height:1.9;margin-bottom:40px;}
 .contact-detail-item{display:flex;align-items:flex-start;gap:16px;margin-bottom:24px;}
 .cdi-icon{width:44px;height:44px;background:rgba(232,147,10,.15);border:1px solid rgba(232,147,10,.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
 .cdi-text strong{display:block;color:#fff;font-size:14px;margin-bottom:3px;}
 .cdi-text span{font-size:13px;color:rgba(255,255,255,.5);}
-.contact-certs{display:flex;gap:12px;flex-wrap:wrap;margin-top:36px;}
-.cert-chip{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-size:12px;font-weight:600;padding:8px 16px;border-radius:30px;letter-spacing:.5px;}
 .contact-form-box{background:var(--white);border-radius:28px;padding:44px;}
 .contact-form-box h4{font-family:var(--font-display);font-size:26px;font-weight:600;color:var(--bark);margin-bottom:28px;}
+.form-field{margin-bottom:18px;}
+.form-field label{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:#7a6a55;margin-bottom:8px;}
+.form-field input,.form-field select,.form-field textarea{width:100%;padding:13px 18px;border:1.5px solid var(--parchment);border-radius:12px;font-family:var(--font-body);font-size:14px;background:var(--cream);color:var(--ink);outline:none;transition:.25s;}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--terra);background:#fff;box-shadow:0 0 0 4px rgba(192,84,26,.1);}
+.form-field textarea{min-height:90px;resize:vertical;}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-note{background:var(--parchment);border-radius:12px;padding:14px 18px;font-size:12.5px;color:#7a6a55;line-height:1.7;margin-bottom:20px;}
+.btn-submit-modal{width:100%;background:linear-gradient(135deg,var(--terra),var(--saffron));color:#fff;border:none;padding:16px;border-radius:50px;font-family:var(--font-display);font-size:18px;font-weight:600;cursor:pointer;letter-spacing:.5px;transition:.3s;box-shadow:0 8px 32px rgba(192,84,26,.4);}
+.btn-submit-modal:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(192,84,26,.5);}
 
 /* ── FOOTER ── */
 footer{background:#110c05;padding:72px 48px 32px;}
 .footer-inner{max-width:1300px;margin:auto;}
 .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:64px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:32px;}
-.footer-brand .logo-wrap{margin-bottom:20px;}
-.footer-brand p{color:rgba(255,255,255,.4);font-size:13.5px;line-height:1.85;}
+.footer-brand p{color:rgba(255,255,255,.4);font-size:13.5px;line-height:1.85;margin-top:16px;}
 .socials{display:flex;gap:10px;margin-top:24px;}
 .socials a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.5);font-size:14px;text-decoration:none;transition:.2s;}
 .socials a:hover{background:var(--terra);color:#fff;border-color:var(--terra);}
@@ -284,16 +329,13 @@ footer{background:#110c05;padding:72px 48px 32px;}
 /* ── PAGE SYSTEM ── */
 .page-view{display:none;}
 .page-view.active{display:block;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-.fade-up{opacity:0;animation:fadeUp .7s var(--ease) forwards;}
-.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
 
+/* ── RESPONSIVE ── */
 @media(max-width:1100px){
-  .hero-inner{grid-template-columns:1fr;}.hero-right{display:none;}
   .about-grid{grid-template-columns:1fr;gap:60px;}.about-img-float{display:none;}
   .vmp-cards{grid-template-columns:1fr 1fr;}.cat-grid{grid-template-columns:1fr 1fr;}
   .cat-tile.tall{grid-row:auto;height:280px;}.contact-grid{grid-template-columns:1fr;}
-  .footer-top{grid-template-columns:1fr 1fr;}.steps-row{grid-template-columns:repeat(3,1fr);gap:32px;}.step-connector{display:none;}
+  .footer-top{grid-template-columns:1fr 1fr;}
 }
 @media(max-width:768px){
   header{padding:0 20px;}
@@ -301,34 +343,40 @@ footer{background:#110c05;padding:72px 48px 32px;}
   nav.open{display:flex;}nav a{border-radius:12px;padding:12px 18px;}
   .hamburger{display:flex;}
   .hero-inner{padding:0 20px;}
-  section,#about,#cycle,#categories,#vmp,#contact{padding-left:20px;padding-right:20px;}
+  .slide-headline{font-size:38px;}
+  .slide-arrow{display:none;}
+  .hero-scroll{display:none;}
+  section,#about,#categories,#vmp,#contact,#farmer-strip,#stats-bar{padding-left:20px;padding-right:20px;}
   .about-img-main{height:360px;}.about-badge-pill{display:none;}
   .cat-grid{grid-template-columns:1fr;}.vmp-cards{grid-template-columns:1fr;}
   .products-hero-content h1{font-size:44px;}.filter-bar{padding:0 20px;}.products-body{padding:32px 20px;}
-  .steps-row{grid-template-columns:1fr 1fr;}.footer-top{grid-template-columns:1fr;}
-  footer{padding:48px 20px 24px;}.hero-left h1{font-size:40px;}.contact-form-box{padding:28px 20px;}
-  .modal-box{padding:32px 24px;}.form-2col{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr;}
+  footer{padding:48px 20px 24px;}.contact-form-box{padding:28px 20px;}
+  .form-2col{grid-template-columns:1fr;}
+  .product-modal-box{border-radius:20px;}
+  .product-modal-img-wrap{height:240px;}
+  .product-modal-body{padding:24px 20px 28px;}
+  .product-modal-detail-grid{grid-template-columns:1fr;}
+  .product-modal-name{font-size:26px;}
 }
 </style>
 </head>
 <body>
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
 
 <!-- HEADER -->
 <header id="site-header">
   <a class="logo-wrap" href="#" onclick="nav('home')">
     <div class="logo-emblem"><img src="src/products/logo.png" alt="Abhyuday Foods Logo" onerror="this.style.display='none';this.parentNode.innerHTML='AF'"></div>
     <div class="logo-text-block">
-      <span>Abhyuday Foods</span>
+      <span>Abhyuday Bharat Food Cluster</span>
       <small>Premium Frozen Foods · B2B</small>
     </div>
   </a>
   <nav id="main-nav">
     <a href="#" onclick="nav('home')">Home</a>
-    <a href="#" onclick="nav('home');scrollTo('#vmp')">About</a>
+    <a href="#" onclick="nav('home');sDelay('#vmp')">About</a>
     <a href="#" onclick="nav('products')">Products</a>
-    <a href="#" onclick="nav('home');scrollTo('#contact')">Contact</a>
+    <a href="#" onclick="goContact()">Contact</a>
   </nav>
   <button class="hamburger" id="ham-btn" onclick="toggleMob()"><span></span><span></span><span></span></button>
 </header>
@@ -336,45 +384,144 @@ footer{background:#110c05;padding:72px 48px 32px;}
 <!-- ═══ HOME VIEW ═══ -->
 <div class="page-view active" id="view-home">
 
-<!-- HERO -->
+<!-- HERO SLIDER -->
 <section id="hero">
-  <div class="hero-bg-img"></div>
-  <div class="hero-gradient"></div>
-  <div class="hero-accent"></div>
-  <div class="hero-inner">
-    <div class="hero-left">
-      <div class="hero-eyebrow fade-up d1">From Indian Farms to Global Markets</div>
-      <h1 class="fade-up d2">Fresh Quality, <strong>Frozen for Scale.</strong> <em>Delivered <em>Worldwide.</em></em></h1>
-      <p class="hero-desc fade-up d3">IQF Vegetables · Frozen Snacks · Indian Breads · Ready-to-Eat Foods · Millet Products — export-ready frozen foods from India to the world.</p>
-      <div class="hero-cta-row fade-up d4">
-        <a href="#" class="cta-primary" onclick="nav('products')"><span>Explore Products</span><span>→</span></a>
-        <a href="#" class="cta-secondary" onclick="nav('home');setTimeout(()=>document.querySelector('#contact').scrollIntoView({behavior:'smooth'}),100)"><span>Contact Us</span></a>
-      </div>
+  <div class="hero-slides" id="hero-slides">
+
+    <!-- SLIDE 1 · FROZEN VEGETABLES -->
+    <div class="hero-slide active slide-1">
+      <div class="hero-slide-bg" style="background-image:url('src/products/IQF Mix Veg.png')"></div>
+      <div class="hero-slide-grad"></div>
+      <div class="hero-content"><div class="hero-inner">
+        <div class="slide-cat-pill"><span>🥦</span> Frozen Vegetables</div>
+        <h1 class="slide-headline">Farm Fresh,<br><strong>IQF Frozen.</strong><br><em>Global Ready.</em></h1>
+        <p class="slide-sub">10 varieties of IQF vegetables — peas, corn, broccoli, spinach, okra and more. Flash-frozen at peak harvest for maximum nutrition.</p>
+        <div class="slide-chips">
+          <span class="slide-chip">Green Peas</span><span class="slide-chip">Sweet Corn</span><span class="slide-chip">Broccoli</span><span class="slide-chip">Spinach</span><span class="slide-chip">Baby Corn</span><span class="slide-chip">Mixed Veg</span>
+        </div>
+        <div class="slide-cta-row">
+          <button class="cta-primary" onclick="nav('products');filterProducts('vegs')">Explore Vegetables →</button>
+          <button class="cta-secondary" onclick="goContact()">Get a Quote</button>
+        </div>
+      </div></div>
     </div>
 
+    <!-- SLIDE 2 · FRENCH FRIES -->
+    <div class="hero-slide slide-2">
+      <div class="hero-slide-bg" style="background-image:url('src/products/Stright Fries.png')"></div>
+      <div class="hero-slide-grad"></div>
+      <div class="hero-content"><div class="hero-inner">
+        <div class="slide-cat-pill"><span>🍟</span> French Fries</div>
+        <h1 class="slide-headline">Crispy Every<br><strong>Single Time.</strong><br><em>QSR Proven.</em></h1>
+        <p class="slide-sub">Straight cut, crinkle, curly and wedges — every fry style your QSR or cloud kitchen needs, frozen to perfection and export-ready.</p>
+        <div class="slide-chips">
+          <span class="slide-chip">Straight Cut</span><span class="slide-chip">Crinkle Cut</span><span class="slide-chip">Curly Fries</span><span class="slide-chip">Potato Wedges</span>
+        </div>
+        <div class="slide-cta-row">
+          <button class="cta-primary" onclick="nav('products');filterProducts('fries')">Explore Fries →</button>
+          <button class="cta-secondary" onclick="goContact()">Get a Quote</button>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- SLIDE 3 · FROZEN SNACKS -->
+    <div class="hero-slide slide-3">
+      <div class="hero-slide-bg" style="background-image:url('src/products/Punjabi Samosa.jpg')"></div>
+      <div class="hero-slide-grad"></div>
+      <div class="hero-content"><div class="hero-inner">
+        <div class="slide-cat-pill"><span>🥟</span> Frozen Snacks</div>
+        <h1 class="slide-headline">India's Flavours,<br><strong>Frozen Fresh.</strong><br><em>Served Worldwide.</em></h1>
+        <p class="slide-sub">Samosas, tikkis, kababs and more — authentic Indian snacks with consistent batch quality, ready to fry or bake straight from frozen.</p>
+        <div class="slide-chips">
+          <span class="slide-chip">Punjabi Samosa</span><span class="slide-chip">Aloo Tikki</span><span class="slide-chip">Hara Bhara Kabab</span>
+        </div>
+        <div class="slide-cta-row">
+          <button class="cta-primary" onclick="nav('products');filterProducts('snacks')">Explore Snacks →</button>
+          <button class="cta-secondary" onclick="goContact()">Get a Quote</button>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- SLIDE 4 · BREADS & CURRIES -->
+    <div class="hero-slide slide-4">
+      <div class="hero-slide-bg" style="background-image:url('src/products/Dal-Makhani.jpg')"></div>
+      <div class="hero-slide-grad"></div>
+      <div class="hero-content"><div class="hero-inner">
+        <div class="slide-cat-pill"><span>🍛</span> Breads &amp; Curries</div>
+        <h1 class="slide-headline">Restaurant Quality,<br><strong>Heat &amp; Serve.</strong><br><em>Every Batch.</em></h1>
+        <p class="slide-sub">Naans, parathas, dal makhani, chole, rajma — complete Indian meal solutions, frozen for scale. Ideal for HoReCa and cloud kitchens.</p>
+        <div class="slide-chips">
+          <span class="slide-chip">Plain Naan</span><span class="slide-chip">Garlic Naan</span><span class="slide-chip">Aloo Paratha</span><span class="slide-chip">Dal Makhani</span><span class="slide-chip">Chole Chana</span>
+        </div>
+        <div class="slide-cta-row">
+          <button class="cta-primary" onclick="nav('products');filterProducts('breads')">Explore Breads &amp; Curries →</button>
+          <button class="cta-secondary" onclick="goContact()">Get a Quote</button>
+        </div>
+      </div></div>
+    </div>
+
+    <!-- SLIDE 5 · MILLET — SPLIT BACKGROUND -->
+    <div class="hero-slide slide-5">
+      <!-- Split bg: left = millet, right = non-millet/sheera -->
+      <div class="slide-5-bg">
+        <div class="slide-5-half slide-5-half-left" style="background-image:url('src/products/millets.jpg');background-size:cover;background-position:center;"></div>
+        <div class="slide-5-half slide-5-half-right" style="background-image:url('src/products/sheera.png');background-size:cover;background-position:center;"></div>
+      </div>
+      <!-- Divider line between halves -->
+      <div class="slide-5-divider"></div>
+      <!-- Per-half labels at bottom -->
+      <div class="slide-5-labels">
+        <div class="slide-5-label">
+          <div class="s5-badge">🌾 Millet Based</div>
+          <div class="s5-count">24</div>
+          <div class="s5-name">Products</div>
+        </div>
+        <div class="slide-5-label">
+          <div class="s5-badge">🍚 Non-Millet</div>
+          <div class="s5-count">17</div>
+          <div class="s5-name">Products</div>
+        </div>
+      </div>
+      <!-- Content overlay (centred) -->
+      <div class="hero-content"><div class="hero-inner">
+        <div class="slide-cat-pill"><span>🌾</span> Millet &amp; Grain Premixes</div>
+        <h1 class="slide-headline">Ancient Grains,<br><strong>Modern Menus.</strong><br><em>41 Premixes.</em></h1>
+        <p class="slide-sub">From ragi idli to quinoa khichdi — 24 millet-based and 17 non-millet premixes for health-forward menus. Consistent, clean-label, ready in minutes.</p>
+        <div class="slide-chips">
+          <span class="slide-chip">Millet Idli &amp; Dosa</span><span class="slide-chip">Khichdi</span><span class="slide-chip">Ragi Malt</span><span class="slide-chip">Rice Kheer</span><span class="slide-chip">Moong Dal Halwa</span>
+        </div>
+        <div class="slide-cta-row">
+          <button class="cta-primary" onclick="nav('products');filterProducts('millet')">Explore Millet Premixes →</button>
+          <button class="cta-secondary" onclick="nav('products');filterProducts('nonmillet')">Non-Millet Premixes</button>
+        </div>
+      </div></div>
+    </div>
+
+  </div><!-- /hero-slides -->
+
+  <div class="hero-accent"></div>
+  <button class="slide-arrow slide-prev" onclick="heroSlide(-1)" aria-label="Previous">‹</button>
+  <button class="slide-arrow slide-next" onclick="heroSlide(1)" aria-label="Next">›</button>
+  <div class="slide-dots" id="slide-dots">
+    <button class="slide-dot active" onclick="heroGoTo(0)"></button>
+    <button class="slide-dot" onclick="heroGoTo(1)"></button>
+    <button class="slide-dot" onclick="heroGoTo(2)"></button>
+    <button class="slide-dot" onclick="heroGoTo(3)"></button>
+    <button class="slide-dot" onclick="heroGoTo(4)"></button>
   </div>
-  <div class="hero-scroll"><span>Discover</span><div class="scroll-line"></div></div>
+  <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
 </section>
 
 <!-- MARQUEE -->
 <div class="marquee-strip"><div class="marquee-track">
-  <span>FROZEN FRIES</span><span>FROZEN VEGETABLES</span><span>FROZEN SNACKS</span>
-  <span>BREADS & PARATHA</span><span>COMBO MEALS</span><span>CURRIES & GRAVY</span>
-  <span>SAMOSA</span><span>KABAB</span><span>NAAN</span><span>DAL MAKHANI</span>
-  <span>PANEER DISHES</span><span>IQF VEGETABLES</span><span>EXPORT READY</span><span>WORLDWIDE DELIVERY</span>
-  <span>FROZEN FRIES</span><span>FROZEN VEGETABLES</span><span>FROZEN SNACKS</span>
-  <span>BREADS & PARATHA</span><span>COMBO MEALS</span><span>CURRIES & GRAVY</span>
-  <span>SAMOSA</span><span>KABAB</span><span>NAAN</span><span>DAL MAKHANI</span>
-  <span>PANEER DISHES</span><span>IQF VEGETABLES</span><span>EXPORT READY</span><span>WORLDWIDE DELIVERY</span>
+  <span>FROZEN FRIES</span><span>FROZEN VEGETABLES</span><span>FROZEN SNACKS</span><span>BREADS & PARATHA</span><span>COMBO MEALS</span><span>CURRIES & GRAVY</span><span>SAMOSA</span><span>KABAB</span><span>NAAN</span><span>DAL MAKHANI</span><span>IQF VEGETABLES</span><span>EXPORT READY</span><span>WORLDWIDE DELIVERY</span>
+  <span>FROZEN FRIES</span><span>FROZEN VEGETABLES</span><span>FROZEN SNACKS</span><span>BREADS & PARATHA</span><span>COMBO MEALS</span><span>CURRIES & GRAVY</span><span>SAMOSA</span><span>KABAB</span><span>NAAN</span><span>DAL MAKHANI</span><span>IQF VEGETABLES</span><span>EXPORT READY</span><span>WORLDWIDE DELIVERY</span>
 </div></div>
 
-<!-- VISION MISSION -->
+<!-- VMP -->
 <section id="vmp">
   <div class="vmp-inner">
-    <div style="max-width:600px;">
-      <div class="section-label">Our Philosophy</div>
-      <h2 class="display-title">Vision. <em>Mission.</em><br>Passion for Quality.</h2>
-    </div>
+    <div style="max-width:600px;"><div class="section-label">Our Philosophy</div><h2 class="display-title">Vision. <em>Mission.</em><br>Passion for Quality.</h2></div>
     <div class="vmp-cards">
       <div class="vmp-card"><div class="vmp-card-glyph">🎯</div><h3>Our Vision</h3><p>To deliver trusted, high-quality agricultural and food products from India to global markets while creating sustainable value for farmers, partners, and buyers worldwide.</p></div>
       <div class="vmp-card"><div class="vmp-card-glyph">❄️</div><h3>Our Mission</h3><p>To build a reliable bridge between Indian agricultural strength and international demand through quality-driven sourcing, processing excellence, and scalable supply solutions.</p></div>
@@ -388,7 +535,7 @@ footer{background:#110c05;padding:72px 48px 32px;}
   <div class="about-grid">
     <div class="about-visual">
       <div class="about-badge-pill">❄️ Cold Chain Guaranteed</div>
-      <img src="src/products/about img.jpg" alt="Abhyuday Foods Facility" class="about-img-main" onerror="this.src='src/products/mix frozen.jpg'" onerror="this.src='https://images.unsplash.com/photo-1506084868230-bb9d95c24759?w=800&q=80'">
+      <img src="src/products/about img.jpg" alt="Abhyuday Foods Facility" class="about-img-main" onerror="this.src='src/products/mix frozen.jpg'">
       <img src="src/products/Punjabi Samosa.jpg" alt="Frozen Snacks" class="about-img-float" onerror="this.src='https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80'">
     </div>
     <div class="about-content">
@@ -405,8 +552,6 @@ footer{background:#110c05;padding:72px 48px 32px;}
   </div>
 </section>
 
-
-<!-- FARMER NETWORK STATS -->
 <div id="stats-bar">
   <div class="stats-inner">
     <div class="stat-box"><strong>₹6,000 Cr+</strong><span>Projects Executed</span></div>
@@ -416,116 +561,46 @@ footer{background:#110c05;padding:72px 48px 32px;}
   </div>
 </div>
 
-<!-- FARMER NETWORK SLIDER -->
 <section id="farmer-strip">
   <div class="farmer-inner">
     <div class="section-label">Our Strength</div>
     <h2 class="display-title" style="margin-bottom:32px;">From <em>Farm</em> to Your Table</h2>
     <div class="farmer-slider">
-      <div class="farmer-card">
-        <div class="farmer-num">40L+</div>
-        <div class="farmer-label">Farmers directly associated across Gujarat through our cooperative network</div>
-      </div>
-      <div class="farmer-card">
-        <div class="farmer-num">7,000+</div>
-        <div class="farmer-label">PACS (Primary Agricultural Credit Societies) in our supply network</div>
-      </div>
-      <div class="farmer-card">
-        <div class="farmer-num">21</div>
-        <div class="farmer-label">States where we have successfully executed agricultural infrastructure projects</div>
-      </div>
-      <div class="farmer-card">
-        <div class="farmer-num">₹6K Cr+</div>
-        <div class="farmer-label">Total value of agri-infrastructure projects executed across India</div>
-      </div>
-      <div class="farmer-card">
-        <div class="farmer-num">GAP</div>
-        <div class="farmer-label">Good Agricultural Practices followed — residue-free, traceable, export-ready produce</div>
-      </div>
-      <div class="farmer-card">
-        <div class="farmer-num">CPP</div>
-        <div class="farmer-label">Co-operative Private Partnership model connecting farmers, processors &amp; global buyers</div>
-      </div>
-      <div class="farmer-card">
-        <div class="farmer-num">2T/hr</div>
-        <div class="farmer-label">IQF Frozen Fruits &amp; Vegetables processing capacity per hour</div>
-      </div>
-      <div class="farmer-card">
-        <div class="farmer-num">5,000MT</div>
-        <div class="farmer-label">Cold storage capacity to maintain freshness from farm to delivery</div>
-      </div>
+      <div class="farmer-card"><div class="farmer-num">40L+</div><div class="farmer-label">Farmers directly associated across Gujarat through our cooperative network</div></div>
+      <div class="farmer-card"><div class="farmer-num">7,000+</div><div class="farmer-label">PACS (Primary Agricultural Credit Societies) in our supply network</div></div>
+      <div class="farmer-card"><div class="farmer-num">21</div><div class="farmer-label">States where we have successfully executed agricultural infrastructure projects</div></div>
+      <div class="farmer-card"><div class="farmer-num">₹6K Cr+</div><div class="farmer-label">Total value of agri-infrastructure projects executed across India</div></div>
+      <div class="farmer-card"><div class="farmer-num">GAP</div><div class="farmer-label">Good Agricultural Practices — residue-free, traceable, export-ready produce</div></div>
+      <div class="farmer-card"><div class="farmer-num">CPP</div><div class="farmer-label">Co-operative Private Partnership model connecting farmers, processors &amp; global buyers</div></div>
+      <div class="farmer-card"><div class="farmer-num">2T/hr</div><div class="farmer-label">IQF Frozen Fruits &amp; Vegetables processing capacity per hour</div></div>
+      <div class="farmer-card"><div class="farmer-num">5,000MT</div><div class="farmer-label">Cold storage capacity to maintain freshness from farm to delivery</div></div>
     </div>
   </div>
 </section>
 
-<!-- CATEGORY SHOWCASE -->
+<!-- CATEGORIES -->
 <section id="categories">
   <div class="cat-inner">
     <div class="section-label">Product Lines</div>
     <h2 class="display-title">All <em>Categories,</em><br>One Trusted Source</h2>
     <div class="cat-grid">
-      <div class="cat-tile tall" onclick="nav('products');filterProducts('vegs')">
-        <img src="src/products/IQF Mix Veg.png" alt="Frozen Vegetables" onerror="this.src='https://images.unsplash.com/photo-1574316071802-0d684efa7bf5?w=900&q=80'">
-        <div class="cat-tile-overlay"></div>
-        <div class="cat-tile-body"><div class="label">10 Products</div><h3>Frozen Vegetables</h3><span>IQF Peas · Corn · Broccoli · Spinach & more</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div>
-      </div>
-      <div class="cat-tile short" onclick="nav('products');filterProducts('fries')">
-        <img src="src/products/Stright Fries.png" alt="French Fries" onerror="this.src='https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=700&q=80'">
-        <div class="cat-tile-overlay"></div>
-        <div class="cat-tile-body"><div class="label">4 Products</div><h3>French Fries</h3><span>Straight · Crinkle · Curly · Coated · Wedges</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div>
-      </div>
-      <div class="cat-tile short" onclick="nav('products');filterProducts('snacks')">
-        <img src="src/products/Punjabi Samosa.jpg" alt="Frozen Snacks" onerror="this.src='https://images.unsplash.com/photo-1601050690597-df0568f70950?w=700&q=80'">
-        <div class="cat-tile-overlay"></div>
-        <div class="cat-tile-body"><div class="label">5 Products</div><h3>Frozen Snacks</h3><span>Samosa · Kabab · Kachori · Tikki · Rolls</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div>
-      </div>
-      <div class="cat-tile short" onclick="nav('products');filterProducts('breads')">
-        <img src="src/products/plain-naan.jpg" alt="Breads & Paratha" onerror="this.src='https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=700&q=80'">
-        <div class="cat-tile-overlay"></div>
-        <div class="cat-tile-body"><div class="label">6 Products</div><h3>Breads & Paratha</h3><span>Naan · Paratha · Kulcha · Roti</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div>
-      </div>
-      <div class="cat-tile short" onclick="nav('products');filterProducts('curries')">
-        <img src="src/products/Dal-Makhani.jpg" alt="Curries & Gravy" onerror="this.src='https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=700&q=80'">
-        <div class="cat-tile-overlay"></div>
-        <div class="cat-tile-body"><div class="label">5 Products</div><h3>Curries & Gravy</h3><span>Dal · Paneer · Chole · Gravies & more</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div>
-      </div>
+      <div class="cat-tile tall" onclick="nav('products');filterProducts('vegs')"><img src="src/products/IQF Mix Veg.png" alt="Frozen Vegetables" onerror="this.src='https://images.unsplash.com/photo-1574316071802-0d684efa7bf5?w=900&q=80'"><div class="cat-tile-overlay"></div><div class="cat-tile-body"><div class="label">10 Products</div><h3>Frozen Vegetables</h3><span>IQF Peas · Corn · Broccoli · Spinach & more</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div></div>
+      <div class="cat-tile short" onclick="nav('products');filterProducts('fries')"><img src="src/products/Stright Fries.png" alt="French Fries" onerror="this.src='https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=700&q=80'"><div class="cat-tile-overlay"></div><div class="cat-tile-body"><div class="label">4 Products</div><h3>French Fries</h3><span>Straight · Crinkle · Curly · Wedges</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div></div>
+      <div class="cat-tile short" onclick="nav('products');filterProducts('snacks')"><img src="src/products/Punjabi Samosa.jpg" alt="Frozen Snacks" onerror="this.src='https://images.unsplash.com/photo-1601050690597-df0568f70950?w=700&q=80'"><div class="cat-tile-overlay"></div><div class="cat-tile-body"><div class="label">3 Products</div><h3>Frozen Snacks</h3><span>Samosa · Kabab · Tikki · Rolls</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div></div>
+      <div class="cat-tile short" onclick="nav('products');filterProducts('breads')"><img src="src/products/Plain Naan.jpg" alt="Breads & Paratha" onerror="this.src='https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=700&q=80'"><div class="cat-tile-overlay"></div><div class="cat-tile-body"><div class="label">6 Products</div><h3>Breads & Paratha</h3><span>Naan · Paratha · Kulcha · Roti</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div></div>
+      <div class="cat-tile short" onclick="nav('products');filterProducts('curries')"><img src="src/products/Dal-Makhani.jpg" alt="Curries & Gravy" onerror="this.src='https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=700&q=80'"><div class="cat-tile-overlay"></div><div class="cat-tile-body"><div class="label">5 Products</div><h3>Curries & Gravy</h3><span>Dal · Paneer · Chole · Gravies & more</span><div><a class="cat-tile-cta" href="#">Explore Range</a></div></div></div>
     </div>
-
-    <!-- Millet row — equal 2-col grid, separated from above categories -->
     <div style="margin-top:48px;">
       <div class="section-label" style="margin-bottom:16px;">Healthy Premixes</div>
       <h3 style="font-family:var(--font-display);font-size:clamp(22px,2.5vw,34px);color:var(--bark);font-weight:300;margin-bottom:28px;">Millet &amp; <em style="font-style:italic;color:var(--terra);">Grain Premixes</em></h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-        <div class="millet-card" onclick="nav('products');filterProducts('millet')">
-          <img src="src/products/millets.jpg" alt="Millet Premixes" onerror="this.src='src/products/millet_khichdi.png'">
-          <div class="millet-card-overlay"></div>
-          <div class="millet-card-body">
-            <div class="label">24 Products</div>
-            <h3>Millet Based Premixes</h3>
-            <p>Idli · Dosa · Khichdi · Biryani · Upma · Pongal · Malt · Chilla & more</p>
-            <a class="millet-card-cta" href="#">Explore Range</a>
-          </div>
-        </div>
-        <div class="millet-card" onclick="nav('products');filterProducts('nonmillet')">
-          <img src="src/products/sheera.png" alt="Non-Millet Premixes" onerror="this.src='https://images.unsplash.com/photo-1624300629298-e9de39c13be5?w=700&q=80'">
-          <div class="millet-card-overlay"></div>
-          <div class="millet-card-body">
-            <div class="label">17 Products</div>
-            <h3>Non-Millet Premixes</h3>
-            <p>Sheera · Halwa · Kheer · Dosa · Idli · Dhokla · Pancake · Waffle & more</p>
-            <a class="millet-card-cta" href="#">Explore Range</a>
-          </div>
-        </div>
+        <div class="millet-card" onclick="nav('products');filterProducts('millet')"><img src="src/products/millets.jpg" alt="Millet Premixes" onerror="this.src='src/products/millet_khichdi.png'"><div class="millet-card-overlay"></div><div class="millet-card-body"><div class="label">24 Products</div><h3>Millet Based Premixes</h3><p>Idli · Dosa · Khichdi · Biryani · Upma · Pongal · Malt · Chilla & more</p><a class="millet-card-cta" href="#">Explore Range</a></div></div>
+        <div class="millet-card" onclick="nav('products');filterProducts('nonmillet')"><img src="src/products/sheera.png" alt="Non-Millet Premixes" onerror="this.src='https://images.unsplash.com/photo-1624300629298-e9de39c13be5?w=700&q=80'"><div class="millet-card-overlay"></div><div class="millet-card-body"><div class="label">17 Products</div><h3>Non-Millet Premixes</h3><p>Sheera · Halwa · Kheer · Dosa · Idli · Dhokla · Pancake · Waffle & more</p><a class="millet-card-cta" href="#">Explore Range</a></div></div>
       </div>
     </div>
-
-    <div style="text-align:center;margin-top:48px;">
-      <a href="#" class="cta-primary" onclick="nav('products')" style="font-size:15px;padding:16px 48px;">View All Products →</a>
-    </div>
+    <div style="text-align:center;margin-top:48px;"><a href="#" class="cta-primary" onclick="nav('products')" style="font-size:15px;padding:16px 48px;">View All Products →</a></div>
   </div>
 </section>
-
-
 
 <!-- CONTACT -->
 <section id="contact">
@@ -534,45 +609,12 @@ footer{background:#110c05;padding:72px 48px 32px;}
     <h2 class="display-title" style="color:#fff;">Let's Build a <em>Partnership</em></h2>
     <p style="color:rgba(255,255,255,.6);font-size:16px;margin-top:12px;margin-bottom:56px;">Connect with us for product catalog, samples, and private label opportunities.</p>
     <div class="contact-grid">
-      <!-- LEFT: Contact Details -->
-      <div class="contact-left">
-        <div class="contact-detail-item">
-          <div class="cdi-icon">📍</div>
-          <div class="cdi-text">
-            <strong>Corporate Office</strong>
-            <span>1001 &amp; 1020 Time Square Arcade,<br>Nr Bagban Party Plot, Thaltej Shilaj Road,<br>Thaltej, Ahmedabad – 380059, Gujarat, India</span>
-          </div>
-        </div>
-        <div class="contact-detail-item">
-          <div class="cdi-icon">📞</div>
-          <div class="cdi-text">
-            <strong>Phone</strong>
-            <span><a href="tel:+919904133088" style="color:rgba(255,255,255,.5);text-decoration:none;">  </a></span>
-          </div>
-        </div>
-        <div class="contact-detail-item">
-          <div class="cdi-icon">✉️</div>
-          <div class="cdi-text">
-            <strong>Email</strong>
-            <span><a href="mailto:food@abhyuday.in" style="color:rgba(255,255,255,.5);text-decoration:none;">food@abhyuday.in</a></span>
-          </div>
-        </div>
-        <div class="contact-detail-item">
-          <div class="cdi-icon">🕐</div>
-          <div class="cdi-text">
-            <strong>Hours</strong>
-            <span>Mon – Sat, 9 AM – 6 PM IST</span>
-          </div>
-        </div>
-        <!-- <div class="contact-certs">
-          <span class="cert-chip">✅ FSSAI Certified</span>
-          <span class="cert-chip">✅ ISO Compliant</span>
-          <span class="cert-chip">✅ GMP Standards</span>
-          <span class="cert-chip">✅ Export Ready</span>
-          <span class="cert-chip">✅ Make in India</span>
-        </div> -->
+      <div>
+        <div class="contact-detail-item"><div class="cdi-icon">📍</div><div class="cdi-text"><strong>Corporate Office</strong><span>1001 &amp; 1020 Time Square Arcade, Nr Bagban Party Plot, Thaltej Shilaj Road, Thaltej, Ahmedabad – 380059, Gujarat, India</span></div></div>
+        <div class="contact-detail-item"><div class="cdi-icon">📞</div><div class="cdi-text"><strong>Phone</strong><span><a href="tel:+919904133088" style="color:rgba(255,255,255,.5);text-decoration:none;">+91 99041 33088</a></span></div></div>
+        <div class="contact-detail-item"><div class="cdi-icon">✉️</div><div class="cdi-text"><strong>Email</strong><span><a href="mailto:food@abhyuday.in" style="color:rgba(255,255,255,.5);text-decoration:none;">food@abhyuday.in</a></span></div></div>
+        <div class="contact-detail-item"><div class="cdi-icon">🕐</div><div class="cdi-text"><strong>Hours</strong><span>Mon – Sat, 9 AM – 6 PM IST</span></div></div>
       </div>
-      <!-- RIGHT: Enquiry Form -->
       <div class="contact-form-box">
         <h4>Send a B2B Enquiry</h4>
         <div class="form-2col">
@@ -583,23 +625,10 @@ footer{background:#110c05;padding:72px 48px 32px;}
           <div class="form-field"><label>Phone *</label><input id="c-ph" type="tel" placeholder="+91 XXXXX XXXXX"></div>
           <div class="form-field"><label>Email</label><input id="c-em" type="email" placeholder="you@company.com"></div>
         </div>
-        <div class="form-field">
-          <label>Business Type</label>
-          <select id="c-type">
-            <option value="">Select your business</option>
-            <option>HoReCa / Restaurant Chain</option>
-            <option>QSR / Cloud Kitchen</option>
-            <option>Institutional / Canteen</option>
-            <option>Distributor / Wholesaler</option>
-            <option>Private Label Brand</option>
-            <option>Export / International</option>
-            <option>Other</option>
-          </select>
+        <div class="form-field"><label>Business Type</label>
+          <select id="c-type"><option value="">Select your business</option><option>HoReCa / Restaurant Chain</option><option>QSR / Cloud Kitchen</option><option>Institutional / Canteen</option><option>Distributor / Wholesaler</option><option>Private Label Brand</option><option>Export / International</option><option>Other</option></select>
         </div>
-        <div class="form-field">
-          <label>Message / Requirements</label>
-          <textarea id="c-msg" placeholder="Tell us about your product requirements, quantities, delivery location…"></textarea>
-        </div>
+        <div class="form-field"><label>Message / Requirements</label><textarea id="c-msg" placeholder="Tell us about your product requirements, quantities, delivery location…"></textarea></div>
         <div class="form-note">⚡ Pricing is customised per order volume.</div>
         <button class="btn-submit-modal" onclick="submitContact()">Send Enquiry →</button>
         <div id="contact-success" style="display:none;margin-top:16px;background:#f0f7ed;border-radius:12px;padding:14px;text-align:center;color:var(--sage);font-weight:600;border:1px solid rgba(74,103,65,.2);">✅ Thank you! Our team will be in touch soon.</div>
@@ -613,32 +642,13 @@ footer{background:#110c05;padding:72px 48px 32px;}
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
-        <a class="logo-wrap" href="#" onclick="nav('home')"><div class="logo-emblem"><img src="src/products/logo.png" alt="Abhyuday Foods Logo" onerror="this.style.display='none';this.parentNode.innerHTML='AF'"></div><div class="logo-text-block"><span>Abhyuday Foods</span><small style="color:rgba(255,255,255,.35)">Premium Frozen Foods · B2B</small></div></a>
+        <a class="logo-wrap" href="#" onclick="nav('home')"><div class="logo-emblem"><img src="src/products/logo.png" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='AF'"></div><div class="logo-text-block"><span>Abhyuday Foods</span><small style="color:rgba(255,255,255,.35)">Premium Frozen Foods · B2B</small></div></a>
         <p>From Indian farms to global markets — export-ready frozen foods, IQF vegetables, and millet products with consistent quality and cold-chain integrity.</p>
         <div class="socials"><a href="#">in</a><a href="#">f</a><a href="#">ig</a><a href="#">yt</a></div>
       </div>
-      <div class="footer-col"><h5>Navigate</h5>
-        <a href="#" onclick="nav('home')">Home</a>
-        <a href="#" onclick="nav('home');setTimeout(()=>document.querySelector('#vmp').scrollIntoView({behavior:'smooth'}),100)">About Us</a>
-        <a href="#" onclick="nav('products')">All Products</a>
-        <a href="#" onclick="nav('home');setTimeout(()=>document.querySelector('#contact').scrollIntoView({behavior:'smooth'}),100)">Contact</a>
-      </div>
-      <div class="footer-col"><h5>Product Lines</h5>
-        <a href="#" onclick="nav('products');filterProducts('vegs')">Frozen Vegetables</a>
-        <a href="#" onclick="nav('products');filterProducts('fries')">French Fries</a>
-        <a href="#" onclick="nav('products');filterProducts('snacks')">Frozen Snacks</a>
-        <a href="#" onclick="nav('products');filterProducts('breads')">Breads & Paratha</a>
-        <a href="#" onclick="nav('products');filterProducts('curries')">Curries & Gravy</a>
-        <a href="#" onclick="nav('products');filterProducts('combo')">Combo & Meals</a>
-        <a href="#" onclick="nav('products');filterProducts('millet')">Millet Premixes</a>
-        <a href="#" onclick="nav('products');filterProducts('nonmillet')">Non-Millet Premixes</a>
-      </div>
-      <div class="footer-col"><h5>Contact</h5>
-        <a href="tel:+919904133088">+91 99041 33088</a>
-        <a href="mailto:info@abhyuday.in">info@abhyuday.in</a>
-        <a href="#">Thaltej, Ahmedabad 380059</a>
-        <a href="#">Mon–Sat · 9AM–6PM</a>
-      </div>
+      <div class="footer-col"><h5>Navigate</h5><a href="#" onclick="nav('home')">Home</a><a href="#" onclick="nav('home');sDelay('#vmp')">About Us</a><a href="#" onclick="nav('products')">All Products</a><a href="#" onclick="goContact()">Contact</a></div>
+      <div class="footer-col"><h5>Product Lines</h5><a href="#" onclick="nav('products');filterProducts('vegs')">Frozen Vegetables</a><a href="#" onclick="nav('products');filterProducts('fries')">French Fries</a><a href="#" onclick="nav('products');filterProducts('snacks')">Frozen Snacks</a><a href="#" onclick="nav('products');filterProducts('breads')">Breads & Paratha</a><a href="#" onclick="nav('products');filterProducts('curries')">Curries & Gravy</a><a href="#" onclick="nav('products');filterProducts('millet')">Millet Premixes</a><a href="#" onclick="nav('products');filterProducts('nonmillet')">Non-Millet Premixes</a></div>
+      <div class="footer-col"><h5>Contact</h5><a href="tel:+919904133088">+91 99041 33088</a><a href="mailto:food@abhyuday.in">food@abhyuday.in</a><a href="#">Thaltej, Ahmedabad 380059</a><a href="#">Mon–Sat · 9AM–6PM</a></div>
     </div>
     <div class="footer-bottom"><span>© 2025 Abhyuday Foods. All rights reserved.</span><span>FSSAI Licensed · ISO Certified · GMP Compliant</span></div>
   </div>
@@ -648,9 +658,7 @@ footer{background:#110c05;padding:72px 48px 32px;}
 <!-- ═══ PRODUCTS VIEW ═══ -->
 <div class="page-view" id="view-products">
 <div style="padding-top:76px;">
-  <div class="products-hero">
-    <div class="products-hero-bg"></div>
-    <div class="products-hero-overlay"></div>
+  <div class="products-hero"><div class="products-hero-bg"></div><div class="products-hero-overlay"></div>
     <div class="products-hero-content">
       <p style="color:var(--turmeric);font-size:12px;letter-spacing:3px;text-transform:uppercase;font-weight:600;margin-bottom:12px;">Our Complete Range</p>
       <h1>All <em>Products</em></h1>
@@ -659,7 +667,7 @@ footer{background:#110c05;padding:72px 48px 32px;}
   </div>
   <div class="filter-bar">
     <div class="filter-bar-wrap">
-      <button class="filter-arrow" onclick="scrollFilter(-1)" title="Previous">‹</button>
+      <button class="filter-arrow" onclick="scrollFilter(-1)">‹</button>
       <div class="filter-inner" id="filter-inner">
         <button class="filter-btn on" onclick="filterProducts('all',this)">All Products</button>
         <button class="filter-btn" onclick="filterProducts('vegs',this)">Frozen Vegetables</button>
@@ -671,19 +679,19 @@ footer{background:#110c05;padding:72px 48px 32px;}
         <button class="filter-btn" onclick="filterProducts('millet',this)">Millet Premixes</button>
         <button class="filter-btn" onclick="filterProducts('nonmillet',this)">Non-Millet Premixes</button>
       </div>
-      <button class="filter-arrow" onclick="scrollFilter(1)" title="Next">›</button>
+      <button class="filter-arrow" onclick="scrollFilter(1)">›</button>
     </div>
   </div>
   <div class="products-body" id="products-body"></div>
   <div style="background:var(--parchment);padding:12px 48px;text-align:center;border-top:1px solid rgba(192,84,26,.1);">
-    <p style="font-size:12px;color:#000000;font-style:italic;">⚠️ Disclaimer: Product images shown are for illustrative purposes only and may not exactly represent the final product. Actual product appearance may vary.</p>
+    <p style="font-size:12px;color:#000;font-style:italic;">⚠️ Disclaimer: Product images shown are for illustrative purposes only and may not exactly represent the final product.</p>
   </div>
   <footer>
     <div class="footer-inner">
       <div class="footer-top" style="grid-template-columns:1fr 1fr 1fr;">
-        <div class="footer-brand"><a class="logo-wrap" href="#" onclick="nav('home')"><div class="logo-emblem"><img src="src/products/logo.png" alt="Abhyuday Foods Logo" onerror="this.style.display='none';this.parentNode.innerHTML='AF'"></div><div class="logo-text-block"><span>Abhyuday Foods</span></div></a><p>Export-ready frozen foods from Indian farms to global markets.</p></div>
-        <div class="footer-col"><h5>Quick Links</h5><a href="#" onclick="nav('home')">Home</a><a href="#" onclick="nav('products')">Products</a><a href="#" onclick="nav('home');setTimeout(()=>document.querySelector('#contact').scrollIntoView({behavior:'smooth'}),100)">Contact</a></div>
-        <div class="footer-col"><h5>Contact</h5><a href="tel:+919904133088">+91 99041 33088</a><a href="mailto:info@abhyuday.in">info@abhyuday.in</a></div>
+        <div class="footer-brand"><a class="logo-wrap" href="#" onclick="nav('home')"><div class="logo-emblem"><img src="src/products/logo.png" alt="" onerror="this.style.display='none';this.parentNode.innerHTML='AF'"></div><div class="logo-text-block"><span>Abhyuday Foods</span></div></a><p>Export-ready frozen foods from Indian farms to global markets.</p></div>
+        <div class="footer-col"><h5>Quick Links</h5><a href="#" onclick="nav('home')">Home</a><a href="#" onclick="nav('products')">Products</a><a href="#" onclick="goContact()">Contact</a></div>
+        <div class="footer-col"><h5>Contact</h5><a href="tel:+919904133088">+91 99041 33088</a><a href="mailto:food@abhyuday.in">food@abhyuday.in</a></div>
       </div>
       <div class="footer-bottom"><span>© 2025 Abhyuday Foods.</span><span>FSSAI · ISO · GMP</span></div>
     </div>
@@ -691,13 +699,75 @@ footer{background:#110c05;padding:72px 48px 32px;}
 </div>
 </div><!-- /view-products -->
 
+<!-- ═══ PRODUCT POPUP MODAL ═══ -->
+<div class="product-modal-veil" id="product-modal" onclick="closeProductModal(event)">
+  <div class="product-modal-box" onclick="event.stopPropagation()">
+    <button class="product-modal-close" onclick="closeProductModal()">✕</button>
+    <div class="product-modal-img-wrap">
+      <img id="pm-img" src="" alt="">
+      <div class="product-modal-img-overlay"></div>
+    </div>
+    <div class="product-modal-body">
+      <div class="product-modal-tag-row" id="pm-tags"></div>
+      <div class="product-modal-sub" id="pm-sub"></div>
+      <div class="product-modal-name" id="pm-name"></div>
+      <div class="product-modal-divider"></div>
+      <div class="product-modal-detail-grid">
+        <div class="product-modal-detail-item"><label>Pack Sizes</label><span id="pm-qty"></span></div>
+        <div class="product-modal-detail-item"><label>Pricing</label><span>Inquiry Based</span></div>
+      </div>
+      <div class="product-modal-note" id="pm-note"></div>
+      <div class="product-modal-cta-row">
+        <button class="cta-primary" onclick="closeProductModal();goContact()">Get a Quote →</button>
+        <button class="cta-secondary" onclick="closeProductModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-function scrollFilter(dir){
-  const el=document.getElementById('filter-inner');
-  if(el) el.scrollBy({left:dir*220,behavior:'smooth'});
+/* ══ HERO SLIDER — CYCLIC (1→2→3→4→5→1→2...) ══ */
+let currentSlide=0,totalSlides=5,autoTimer=null;
+const slides=document.querySelectorAll('.hero-slide');
+const dots=document.querySelectorAll('.slide-dot');
+
+function heroGoTo(n){
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  /* True modulo — always goes forward cyclically */
+  currentSlide=((n%totalSlides)+totalSlides)%totalSlides;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+  document.getElementById('hero-slides').style.transform=`translateX(-${currentSlide*100}%)`;
+  resetAuto();
 }
-/* ── SCROLL ── */window.addEventListener('scroll',()=>{document.getElementById('site-header').classList.toggle('scrolled',scrollY>60);});
+function heroSlide(dir){heroGoTo(currentSlide+dir);}
+function resetAuto(){clearInterval(autoTimer);autoTimer=setInterval(()=>heroSlide(1),5500);}
+
+/* Touch/swipe */
+let touchX=0;
+document.getElementById('hero-slides').addEventListener('touchstart',e=>{touchX=e.touches[0].clientX;},{passive:true});
+document.getElementById('hero-slides').addEventListener('touchend',e=>{
+  const d=touchX-e.changedTouches[0].clientX;
+  if(Math.abs(d)>50) heroSlide(d>0?1:-1);
+});
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')heroSlide(1);if(e.key==='ArrowLeft')heroSlide(-1);});
+resetAuto();
+
+/* ══ NAVIGATION ══ */
+window.addEventListener('scroll',()=>{document.getElementById('site-header').classList.toggle('scrolled',scrollY>60);});
 function toggleMob(){document.getElementById('main-nav').classList.toggle('open');}
+function goContact(){
+  if(document.getElementById('view-home').classList.contains('active')){
+    document.querySelector('#contact').scrollIntoView({behavior:'smooth'});
+  } else {
+    document.querySelectorAll('.page-view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-home').classList.add('active');
+    window.scrollTo(0,0);
+    document.getElementById('main-nav').classList.remove('open');
+    setTimeout(()=>document.querySelector('#contact').scrollIntoView({behavior:'smooth'}),200);
+  }
+}
 function nav(page){
   document.querySelectorAll('.page-view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+page).classList.add('active');
@@ -705,307 +775,112 @@ function nav(page){
   document.getElementById('main-nav').classList.remove('open');
   if(page==='products') renderProducts('all');
 }
-function scrollTo(id){setTimeout(()=>document.querySelector(id).scrollIntoView({behavior:'smooth'}),120);}
+function sDelay(id){setTimeout(()=>document.querySelector(id).scrollIntoView({behavior:'smooth'}),120);}
+function scrollFilter(dir){const el=document.getElementById('filter-inner');if(el)el.scrollBy({left:dir*220,behavior:'smooth'});}
 
-/* ══════════════════════════════════════════════
-   CATEGORY META
-   7 categories: fries · vegs · snacks · breads · combo · curries
-══════════════════════════════════════════════ */
+/* ══ PRODUCT POPUP ══ */
+function openProductModal(p){
+  document.getElementById('pm-img').src=p.img;
+  document.getElementById('pm-img').alt=p.name;
+  document.getElementById('pm-name').textContent=p.name;
+  document.getElementById('pm-sub').textContent=p.sub;
+  document.getElementById('pm-qty').textContent=p.qty;
+  document.getElementById('pm-note').textContent=p.note;
+  const tagRow=document.getElementById('pm-tags');
+  tagRow.innerHTML=p.tags.map(t=>`<span class="product-modal-tag ${getTagClass(t)}">${t}</span>`).join('');
+  document.getElementById('product-modal').classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeProductModal(e){
+  if(e&&e.target!==document.getElementById('product-modal'))return;
+  document.getElementById('product-modal').classList.remove('show');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeProductModal();});
+
+/* ══ PRODUCTS DATA ══ */
 const CATS={
-  fries:  {label:'Frozen Fries',             emoji:'🍟'},
-  vegs:   {label:'Frozen Vegetables',        emoji:'🥦'},
-  snacks: {label:'Frozen Snacks',            emoji:'🥟'},
-  breads: {label:'Breads & Paratha',         emoji:'🫓'},
-  combo:  {label:'Combo Meals',              emoji:'🍱'},
-  curries:{label:'Curries & Gravy',          emoji:'🍛'},
-  millet: {label:'Millet Based Premixes',    emoji:'🌾'},
-  nonmillet:{label:'Non-Millet Premixes',    emoji:'🍚'}
+  fries:{label:'Frozen Fries',emoji:'🍟'},vegs:{label:'Frozen Vegetables',emoji:'🥦'},
+  snacks:{label:'Frozen Snacks',emoji:'🥟'},breads:{label:'Breads & Paratha',emoji:'🫓'},
+  combo:{label:'Combo Meals',emoji:'🍱'},curries:{label:'Curries & Gravy',emoji:'🍛'},
+  millet:{label:'Millet Based Premixes',emoji:'🌾'},nonmillet:{label:'Non-Millet Premixes',emoji:'🍚'}
 };
 
-/* ══════════════════════════════════════════════
-   PRODUCTS — img paths from src/products/
-   Fallback: onerror on each <img> tag
-══════════════════════════════════════════════ */
 const PRODUCTS=[
-
-/* ─────────────── 1. FROZEN FRIES ─────────────── */
-{cat:'fries',sub:'French Fries', name:'Straight Cut French Fries', qty:'400g · 1kg · 2.5kg · 10kg', tags:['Frozen','RTE'],
- img:'src/products/Stright Fries.png',
- note:'Classic straight-cut fries for consistent QSR results — crispy outside, fluffy inside.'},
-{cat:'fries',sub:'French Fries', name:'Crinkle Cut French Fries', qty:'400g · 1kg · 2.5kg · 10kg', tags:['Frozen','RTE'],
- img:'src/products/Crinkle Fries.png',
- note:'Crinkle-cut for extra crunch and superior sauce-holding. QSR favourite.'},
-{cat:'fries',sub:'French Fries', name:'Curly French Fries', qty:'400g · 1kg · 2.5kg · 10kg', tags:['Frozen','RTE'],
- img:'src/products/Curly Fries.png',
- note:'Fun spiral curly fries — a crowd-pleasing menu addition for cafes and QSRs.'},
-{cat:'fries',sub:'Wedges', name:'Potato Wedges', qty:'400g · 1kg · 2.5kg · 10kg', tags:['Frozen','RTE'],
- img:'src/products/Coted Fries.png',
- note:'Thick seasoned potato wedges with crispy exterior — air fry or deep fry from frozen.'},
-
-/* ─────────────── 2. FROZEN VEGETABLES (IQF) ─────────────── */
-{cat:'vegs',sub:'IQF Vegetables', name:'Green Peas', qty:'400g · 1kg · 2.5kg · 10kg', tags:['IQF'],
- img:'src/products/IQF Green Peas.png',
- note:'Flash-frozen at peak freshness — sweet, vibrant green peas for any dish.'},
-{cat:'vegs',sub:'IQF Vegetables', name:'Sweet Corn', qty:'400g · 1kg · 2.5kg · 10kg', tags:['IQF'],
- img:'src/products/IQF Sweet Corn.png',
- note:'Golden sweet corn kernels, individually frozen for easy bulk use.'},
-{cat:'vegs',sub:'IQF Vegetables', name:'Mixed Vegetables', qty:'400g · 1kg · 2.5kg · 10kg', tags:['IQF'],
- img:'src/products/IQF Mix Veg.png',
- note:'Pre-cut blend of seasonal vegetables — saves prep time for high-volume kitchens.'},
-{cat:'vegs',sub:'IQF Vegetables', name:'Okra', qty:'400g · 1kg · 2.5kg · 10kg', tags:['IQF'],
- img:'src/products/IQF Cut Okra (2).png',
- note:'Tender okra pieces, individually quick frozen — no sliminess, ready to cook.'},
-{cat:'vegs',sub:'IQF Vegetables', name:'Cauliflower', qty:'400g · 1kg · 2.5kg · 10kg', tags:['IQF'],
- img:'src/products/IQF Cualiflower.png',
- note:'Florets frozen at peak freshness — consistent size for uniform cooking.'},
-{cat:'vegs',sub:'IQF Vegetables', name:'French Beans', qty:'400g · 1kg · 2.5kg · 10kg', tags:['IQF'],
- img:'src/products/IQF French Beans.png',
- note:'Tender green beans, trimmed and frozen — saves significant prep time.'},
-{cat:'vegs',sub:'IQF Vegetables', name:'Carrot', qty:'400g · 1kg · 2.5kg · 10kg', tags:['IQF'],
- img:'src/products/IQF Carrot.png',
- note:'Diced carrots flash-frozen for colour, flavour and nutrition retention.'},
-{cat:'vegs',sub:'IQF Vegetables', name:'Broccoli', qty:'400g · 1kg · 2.5kg · 10kg', tags:['IQF'],
- img:'src/products/IQF Broccoli.png',
- note:'Premium broccoli florets, IQF frozen — retaining maximum nutrition.'},
-{cat:'vegs',sub:'IQF Vegetables', name:'Baby Corn', qty:'400g · 1kg · 2.5kg · 10kg', tags:['IQF'],
- img:'src/products/IQF Baby Corn.png',
- note:'Tender baby corn — individually frozen for stir-fry, curries and salads.'},
-{cat:'vegs',sub:'IQF Vegetables', name:'Spinach', qty:'400g · 1kg · 2.5kg · 10kg', tags:['IQF'],
- img:'src/products/IQF Spinach.png',
- note:'Washed, chopped spinach flash-frozen — iron-rich convenience for bulk kitchens.'},
-
-/* ─────────────── 3. FROZEN SNACKS ─────────────── */
-{cat:'snacks',sub:'Snacks', name:'Punjabi Samosa', qty:'400g · 1kg · 2.5kg · 10kg', tags:['Frozen','RTE'],
- img:'src/products/Punjabi Samosa.jpg',
- note:'Classic Punjabi samosa with spiced potato filling. Fry or bake from frozen.'},
-{cat:'snacks',sub:'Snacks', name:'Aloo Tikki', qty:'400g · 1kg · 2.5kg · 10kg', tags:['Frozen','RTE'],
- img:'src/products/Aloo Tikki.jpg',
- note:'Ready-to-fry potato tikkis with consistent shape and spice for snack menus.'},
-{cat:'snacks',sub:'Snacks', name:'Hara Bhara Kabab', qty:'400g · 1kg · 2.5kg · 10kg', tags:['Frozen'],
- img:'src/products/Harabhara Kabab.jpg',
- note:'Spinach and pea-based kabab — healthy, vibrant green snack for wellness menus.'},
-
-
-/* ─────────────── 4. BREADS & PARATHA ─────────────── */
-{cat:'breads',sub:'Naan',    name:'Plain Naan', qty:'320g · 400g · 1kg · 5kg', tags:['Frozen'],
- img:'src/products/Plain Naan.jpg',
- note:'Soft, fluffy naans ready to serve straight from freezer. Ideal for bulk HoReCa use.'},
-{cat:'breads',sub:'Naan',    name:'Garlic Butter Naan', qty:'400g · 1kg · 5kg', tags:['Frozen','Premium'],
- img:'src/products/Garlic Butter Naan.jpg',
- note:'Pre-loaded with garlic butter — consistent flavour every time for restaurant menus.'},
-{cat:'breads',sub:'Paratha', name:'Plain Paratha', qty:'400g · 1kg · 5kg', tags:['Frozen'],
- img:'src/products/Plain Paratha.jpg',
- note:'Layered, flaky plain paratha. Ready to griddle — no prep needed.'},
-{cat:'breads',sub:'Paratha', name:'Aloo Paratha', qty:'400g · 1kg · 5kg', tags:['Frozen'],
- img:'src/products/Aloo Paratha.jpg',
- note:'Classic spiced potato stuffed paratha for breakfast and meal menus.'},
-{cat:'breads',sub:'Paratha', name:'Lachha Paratha', qty:'400g · 1kg · 5kg', tags:['Frozen'],
- img:'src/products/Laccha Paratha.jpg',
- note:'Crispy multi-layered lachha paratha — consistently flaky every batch.'},
-{cat:'breads',sub:'Paratha', name:'Malabar Paratha', qty:'400g · 1kg · 5kg', tags:['Frozen'],
- img:'src/products/Malabar Paratha.jpg',
- note:'Soft, layered Kerala-style paratha — ideal for South Indian menu options.'},
-
-/* ─────────────── 5. CURRIES ─────────────── */
-{cat:'curries',sub:'Dal',         name:'Dal Makhani', qty:'300g · 500g · 1kg', tags:['Frozen','Rich'],
- img:'src/products/Dal-Makhani.jpg',
- note:'Slow-cooked creamy dal makhani. Heat and serve — restaurant quality at scale.'},
-{cat:'curries',sub:'Curry',       name:'Chole Chana', qty:'300g · 500g · 1kg', tags:['Frozen','High Protein'],
- img:'src/products/Amritsari-Cholle.jpg',
- note:'Punjabi-style chole — bold spices, consistent batch results for bulk menus.'},
-{cat:'curries',sub:'Curry',       name:'Rajma Masala', qty:'300g · 500g · 1kg', tags:['Frozen','High Protein'],
- img:'src/products/Shahi-Rajma.jpg',
- note:'Rich kidney bean curry — protein-packed comfort food for canteen menus.'},
-{cat:'curries',sub:'Dal',         name:'Dal Tadka', qty:'300g · 500g · 1kg', tags:['Frozen'],
- img:'src/products/Dal-Tadka.jpg',
- note:'Classic tempered dal — ready to serve with minimal heating time.'},
-{cat:'curries',sub:'Pav Bhaji', name:'Pav Bhaji', qty:'300g · 500g · 1kg', tags:['Frozen','RTE'],
- img:'src/products/Pav-Bhaji.jpg',
- note:'Mumbai-style pav bhaji — bold, buttery and consistent for high-volume service.'},
-
-/* ─────────────── 6. COMBO & MEALS ─────────────── */
-{cat:'combo',sub:'Rice',       name:'Jeera Rice', qty:'300g · 500g · 1kg', tags:['Frozen','Quick Serve'],
- img:'src/products/Plain-Rice.jpg',
- note:'Perfectly cooked cumin-tempered rice. Heat and serve in minutes.'},
-{cat:'combo',sub:'Combo Meal', name:'Rice + Dal Makhani', qty:'300g · 500g · 1kg', tags:['Frozen','Combo Meal'],
- img:'src/products/Rice-With-Dal-Makhani.jpg',
- note:'Complete meal combo — ideal for cloud kitchens and institutional meal services.'},
-{cat:'combo',sub:'Combo Meal', name:'Rice + Chole', qty:'300g · 500g · 1kg', tags:['Frozen','Combo Meal'],
- img:'src/products/Rice-With-Amritsarichole.jpg',
- note:'High-protein combo meal — ready in minutes from frozen for bulk operations.'},
-{cat:'combo',sub:'Combo Meal', name:'Rice + Rajma', qty:'300g · 500g · 1kg', tags:['Frozen','Combo Meal'],
- img:'src/products/Rice-With-Rajma.jpg',
- note:'Wholesome comfort meal combo — consistent quality for every order.'},
-
-/* ─────────────── 7. MILLET BASED PREMIXES ─────────────── */
-/* Idli */
-{cat:'millet',sub:'Idli', name:'Multi Millet Idli',         qty:'1 KG', tags:['Millet','High Protein'],
- img:'src/products/multi millet idli.jpg',
- note:'Blend of 5 millets for idlis rich in fibre, iron and calcium.'},
-
-{cat:'millet',sub:'Idli', name:'Jowar & Oats Idli',         qty:'1 KG', tags:['Millet','High Fibre'],
- img:'src/products/jowar idli.png',
- note:'Sustained energy and digestive support from jowar and oats.'},
-
-{cat:'millet',sub:'Idli', name:'Ragi & Jowar Idli',         qty:'1 KG', tags:['Millet','Calcium Rich'],
- img:'src/products/ragi-idli.png',
- note:'Excellent for bone health — ragi delivers natural calcium.'},
-
-{cat:'millet',sub:'Idli', name:'Quinoa Idli',               qty:'1 KG', tags:['Millet','Premium'],
- img:'src/products/quinoa idli.jpg',
- note:'All 9 essential amino acids from quinoa for premium menus.'},
-
-/* Dosa */
-{cat:'millet',sub:'Dosa', name:'Multi Millet Dosa',         qty:'1 KG', tags:['Millet','Multi-Grain'],
- img:'src/products/multi millet dosa.png',
- note:'Crispy dosa with maximum nutritional variety from 5 millets.'},
-
-{cat:'millet',sub:'Dosa', name:'Jowar Dosa',                qty:'1 KG', tags:['Millet','Gluten Free'],
- img:'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=500&q=80',
- note:'Antioxidant-rich jowar dosa. Ready-mix for quick bulk prep.'},
-
-{cat:'millet',sub:'Dosa', name:'Ragi Dosa',                 qty:'1 KG', tags:['Millet','Calcium Rich'],
- img:'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=500&q=80',
- note:'Finger millet dosa — supports bone density and blood sugar balance.'},
-
-{cat:'millet',sub:'Dosa', name:'Oats Dosa',                 qty:'1 KG', tags:['Millet','Heart Healthy'],
- img:'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=500&q=80',
- note:'Beta-glucan rich oats dosa — supports healthy cholesterol levels.'},
-
-/* Khichdi */
-{cat:'millet',sub:'Khichdi', name:'Multi Millet Khichdi',   qty:'1 KG', tags:['Millet','One Pot Meal'],
- img:'src/products/millet_khichdi.png',
-
- note:'Complete one-pot meal with protein, carbs and essential minerals.'},
- 
-{cat:'millet',sub:'Khichdi', name:'Foxtail Khichdi',        qty:'1 KG', tags:['Millet','Low GI'],
- img:'src/products/millet_khichdi.png',
- note:'Low glycaemic index foxtail millet — ideal for health-focused menus.'},
-
-{cat:'millet',sub:'Khichdi', name:'Kodo Khichdi',           qty:'1 KG', tags:['Millet'],
- img:'src/products/millet_khichdi.png',
- note:'Polyphenol-rich kodo millet for weight management menus.'},
-
-{cat:'millet',sub:'Khichdi', name:'Quinoa Khichdi',         qty:'1 KG', tags:['Millet','High Protein'],
- img:'src/products/millet_khichdi.png',
- note:'Quinoa + lentil khichdi — all amino acids in one dish.'},
-
-/* Biryani / Rice */
-{cat:'millet',sub:'Biryani', name:'Kodo Millet Biryani',    qty:'1 KG', tags:['Millet','Aromatic'],
- img:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&q=80',
- note:'Whole spice biryani blend with kodo millet for healthy QSR menus.'},
-
-{cat:'millet',sub:'Lemon Rice', name:'Little Millet Lemon Rice', qty:'1 KG', tags:['Millet','Tangy'],
- img:'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=500&q=80',
- note:'Vitamin C enriched, fibrous lemon rice ready in 20 min.'},
-
-/* Upma / Pongal / Sheera */
-{cat:'millet',sub:'Upma', name:'Jowar Oats Upma',           qty:'1 KG', tags:['Millet','High Fibre'],
- img:'https://images.unsplash.com/photo-1606166325683-e6deb697d301?w=500&q=80',
- note:'Jowar and oats provide sustained energy for busy mornings.'},
-
-{cat:'millet',sub:'Pongal', name:'Foxtail Millet Sweet Pongal (Jaggery)', qty:'1 KG', tags:['Millet','Jaggery'],
- img:'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=500&q=80',
- note:'Naturally sweetened festival pongal with jaggery. Consistent batch quality.'},
-
-{cat:'millet',sub:'Sheera', name:'Multi Millet Sheera (Jaggery)',         qty:'1 KG', tags:['Millet','Jaggery'],
- img:'src/products/sheera.png',
- note:'Nutritious sheera sweetened with jaggery for clean-label desserts.'},
-
-/* Malt */
-{cat:'millet',sub:'Malt', name:'Ragi Malt',                 qty:'1 KG', tags:['Millet','Calcium Rich'],
- img:'https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=500&q=80',
- note:'Sprouted ragi malt — high in calcium and iron. Kids and adults.'},
-
-{cat:'millet',sub:'Malt', name:'Ragi Malt (Sweet)',         qty:'1 KG', tags:['Millet','Jaggery'],
- img:'https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=500&q=80',
- note:'Pre-sweetened with jaggery. Just add milk — institutional favourite.'},
-/* Chilla */
-{cat:'millet',sub:'Chilla', name:'Sprouted Moong Chilla',             qty:'1 KG', tags:['Millet','High Protein'],
- img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=500&q=80',
- note:'Sprouted moong increases iron and protein bioavailability.'},
-
-{cat:'millet',sub:'Chilla', name:'Sprouted Moong + Foxtail Millet Chilla', qty:'1 KG', tags:['Millet','Low GI'],
- img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=500&q=80',
- note:'Balanced protein from sprouted moong and low-GI foxtail millet.'},
-
-{cat:'millet',sub:'Chilla', name:'Sprouted Moong + Jowar Chilla',     qty:'1 KG', tags:['Millet','Gluten Free'],
- img:'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=500&q=80',
- note:'High-fibre, high-protein gluten-free chilla for wellness menus.'},
-/* Soup & Pasta */
-{cat:'millet',sub:'Soup', name:'Bajra Soup',                qty:'1 KG', tags:['Millet','Iron Rich'],
- img:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500&q=80',
- note:'Bajra is among the highest iron-containing millets. Filling starter soup.'},
-
-{cat:'millet',sub:'Pasta Sauce', name:'Oats White Pasta Sauce (Gluten Free)', qty:'1 KG', tags:['Millet','Gluten Free'],
- img:'src/products/White-Gravy.jpg',
- note:'Clean-label gluten-free white pasta sauce base. No artificial thickeners.'},
-
-/* ─────────────── 8. NON-MILLET PREMIXES ─────────────── */
-{cat:'nonmillet',sub:'Sheera', name:'Pineapple Sheera',     qty:'1 KG', tags:['Premix','Dessert'],
- img:'src/products/PINEAPPLE SHEERA.png',
- note:'Classic tangy-sweet pineapple sheera. Consistent bulk batch results.'},
- 
-{cat:'nonmillet',sub:'Halwa',  name:'Moong Dal Halwa',      qty:'1 KG', tags:['Premix','Traditional'],
- img:'src/products/moong daal halwa.png',
- note:'Winter special high-protein moong dal halwa for catering menus.'},
-
-{cat:'nonmillet',sub:'Halwa',  name:'Sooji / Rava Halwa',   qty:'1 KG', tags:['Premix','Classic'],
- img:'src/products/rava halwa.png',
- note:'Traditional rava halwa with pre-measured flavour blend.'},
-
-{cat:'nonmillet',sub:'Kheer',  name:'Rice Kheer',           qty:'1 KG', tags:['Premix','Festival'],
- img:'src/products/rice kheer.png',
- note:'Creamy rice kheer mix for consistent batch results.'},
-
-{cat:'nonmillet',sub:'Kheer',  name:'Vermicelli Kheer',     qty:'1 KG', tags:['Premix','Quick Prep'],
- img:'src/products/VERMICELLI KHEER.png',
- note:'Fast-prep kheer for high-volume kitchens. Ready in 15 min.'},
-
-{cat:'nonmillet',sub:'Pasta Sauce', name:'White Sauce for Pasta', qty:'1 KG', tags:['Premix','Creamy'],
- img:'src/products/White-Gravy.jpg',
- note:'Consistent béchamel-style sauce every time. No lumps.'},
-
-{cat:'nonmillet',sub:'Dosa',   name:'Rice Dosa Mix',        qty:'1 KG', tags:['Premix','Crispy'],
- img:'src/products/rice dosa mix.png',
- note:'Perfectly blended rice and urad for consistently crispy dosas.'},
-
-{cat:'nonmillet',sub:'Idli',   name:'Rice Idli Mix',        qty:'1 KG', tags:['Premix','Soft'],
- img:'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&q=80',
- note:'Classic idli mix for soft, fluffy idlis with consistent results.'},
-
-{cat:'nonmillet',sub:'Dhokla', name:'Rice Dhokla Mix',      qty:'1 KG', tags:['Premix','Gujarati'],
- img:'src/products/rice_dhokla.png',
- note:'Light steamed Gujarati snack. High volume from each batch.'},
-
-
-
-
-
-{cat:'nonmillet',sub:'Upma',   name:'Sooji / Rava Upma',    qty:'1 KG', tags:['Premix','Quick Cook'],
- img:'src/products/Rava Upma.jpg',
- note:'Pre-seasoned rava upma blend for fast, consistent bulk cooking.'},
-
-{cat:'nonmillet',sub:'Khichdi', name:'Rice Masala Khichdi', qty:'1 KG', tags:['Premix','Comfort Food'],
- img:'src/products/rice masala khichdi.jpg',
- note:'Spiced masala khichdi — complete meal for hospital and canteen menus.'},
-
-{cat:'nonmillet',sub:'Biryani', name:'Rice Biryani',        qty:'1 KG', tags:['Premix','Aromatic'],
- img:'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&q=80',
- note:'Balanced spice blend for restaurant-quality biryani every time.'},
-{cat:'nonmillet',sub:'Lemon Rice', name:'Lemon Rice Mix',   qty:'1 KG', tags:['Premix','Tangy'],
- img:'src/products/Lemon-Rice.jpg',
- note:'Pre-blended tempering for quick, consistent lemon rice.'},
+{cat:'fries',sub:'French Fries',name:'Straight Cut French Fries',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Stright Fries.png',note:'Classic straight-cut fries for consistent QSR results — crispy outside, fluffy inside.'},
+{cat:'fries',sub:'French Fries',name:'Crinkle Cut French Fries',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Crinkle Fries.png',note:'Crinkle-cut for extra crunch and superior sauce-holding. QSR favourite.'},
+{cat:'fries',sub:'French Fries',name:'Curly French Fries',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Curly Fries.png',note:'Fun spiral curly fries — a crowd-pleasing menu addition.'},
+{cat:'fries',sub:'Wedges',name:'Potato Wedges',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Coted Fries.png',note:'Thick seasoned potato wedges — air fry or deep fry from frozen.'},
+{cat:'vegs',sub:'IQF Vegetables',name:'Green Peas',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Green Peas.png',note:'Flash-frozen at peak freshness — sweet, vibrant green peas.'},
+{cat:'vegs',sub:'IQF Vegetables',name:'Sweet Corn',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Sweet Corn.png',note:'Golden sweet corn kernels, individually frozen for easy bulk use.'},
+{cat:'vegs',sub:'IQF Vegetables',name:'Mixed Vegetables',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Mix Veg.png',note:'Pre-cut blend of seasonal vegetables — saves prep time.'},
+{cat:'vegs',sub:'IQF Vegetables',name:'Okra',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Cut Okra (2).png',note:'Tender okra, individually quick frozen — ready to cook.'},
+{cat:'vegs',sub:'IQF Vegetables',name:'Cauliflower',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Cualiflower.png',note:'Florets frozen at peak freshness — consistent size.'},
+{cat:'vegs',sub:'IQF Vegetables',name:'French Beans',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF French Beans.png',note:'Tender green beans, trimmed and frozen.'},
+{cat:'vegs',sub:'IQF Vegetables',name:'Carrot',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Carrot.png',note:'Diced carrots flash-frozen for colour and nutrition retention.'},
+{cat:'vegs',sub:'IQF Vegetables',name:'Broccoli',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Broccoli.png',note:'Premium broccoli florets — maximum nutrition retained.'},
+{cat:'vegs',sub:'IQF Vegetables',name:'Baby Corn',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Baby Corn.png',note:'Tender baby corn — individually frozen for stir-fry and curries.'},
+{cat:'vegs',sub:'IQF Vegetables',name:'Spinach',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Spinach.png',note:'Washed, chopped spinach flash-frozen — iron-rich convenience.'},
+{cat:'snacks',sub:'Snacks',name:'Punjabi Samosa',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Punjabi Samosa.jpg',note:'Classic Punjabi samosa with spiced potato filling.'},
+{cat:'snacks',sub:'Snacks',name:'Aloo Tikki',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Aloo Tikki.jpg',note:'Ready-to-fry potato tikkis with consistent shape and spice.'},
+{cat:'snacks',sub:'Snacks',name:'Hara Bhara Kabab',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen'],img:'src/products/Harabhara Kabab.jpg',note:'Spinach and pea-based kabab — healthy, vibrant green snack.'},
+{cat:'breads',sub:'Naan',name:'Plain Naan',qty:'320g · 400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Plain Naan.jpg',note:'Soft, fluffy naans ready to serve from freezer.'},
+{cat:'breads',sub:'Naan',name:'Garlic Butter Naan',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Garlic Butter Naan.jpg',note:'Pre-loaded with garlic butter — consistent flavour every time.'},
+{cat:'breads',sub:'Paratha',name:'Plain Paratha',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Plain Paratha.jpg',note:'Layered, flaky plain paratha. Ready to griddle.'},
+{cat:'breads',sub:'Paratha',name:'Aloo Paratha',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Aloo Paratha.jpg',note:'Classic spiced potato stuffed paratha.'},
+{cat:'breads',sub:'Paratha',name:'Lachha Paratha',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Laccha Paratha.jpg',note:'Crispy multi-layered lachha paratha.'},
+{cat:'breads',sub:'Paratha',name:'Malabar Paratha',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/malabar paratha.jpg',note:'Soft Kerala-style paratha — ideal for South Indian menus.'},
+{cat:'curries',sub:'Dal',name:'Dal Makhani',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Dal-Makhani.jpg',note:'Slow-cooked creamy dal makhani. Heat and serve.'},
+{cat:'curries',sub:'Curry',name:'Chole Chana',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Amritsari-Cholle.jpg',note:'Punjabi-style chole — bold spices, consistent results.'},
+{cat:'curries',sub:'Curry',name:'Rajma Masala',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Shahi-Rajma.jpg',note:'Rich kidney bean curry — protein-packed.'},
+{cat:'curries',sub:'Dal',name:'Dal Tadka',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Dal-Tadka.jpg',note:'Classic tempered dal — minimal heating time.'},
+{cat:'curries',sub:'Pav Bhaji',name:'Pav Bhaji',qty:'300g · 500g · 1kg',tags:['Frozen','RTE'],img:'src/products/Pav-Bhaji.jpg',note:'Mumbai-style pav bhaji — bold, buttery and consistent.'},
+{cat:'combo',sub:'Rice',name:'Jeera Rice',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Plain-Rice.jpg',note:'Perfectly cooked cumin-tempered rice.'},
+{cat:'combo',sub:'Combo Meal',name:'Rice + Dal Makhani',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Rice-With-Dal-Makhani.jpg',note:'Complete meal combo — ideal for cloud kitchens.'},
+{cat:'combo',sub:'Combo Meal',name:'Rice + Chole',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Rice-With-Amritsarichole.jpg',note:'High-protein combo meal — ready in minutes.'},
+{cat:'combo',sub:'Combo Meal',name:'Rice + Rajma',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Rice-With-Rajma.jpg',note:'Wholesome comfort meal combo.'},
+{cat:'millet',sub:'Idli',name:'Multi Millet Idli',qty:'1 KG',tags:['Millet'],img:'src/products/multi millet idli.jpg',note:'Blend of 5 millets for idlis rich in fibre, iron and calcium.'},
+{cat:'millet',sub:'Idli',name:'Jowar & Oats Idli',qty:'1 KG',tags:['Millet'],img:'src/products/jowar idli.png',note:'Sustained energy from jowar and oats.'},
+{cat:'millet',sub:'Idli',name:'Ragi & Jowar Idli',qty:'1 KG',tags:['Millet'],img:'src/products/ragi-idli.png',note:'Excellent for bone health — natural calcium.'},
+{cat:'millet',sub:'Idli',name:'Quinoa Idli',qty:'1 KG',tags:['Millet'],img:'src/products/quinoa idli.jpg',note:'All 9 essential amino acids from quinoa.'},
+{cat:'millet',sub:'Dosa',name:'Multi Millet Dosa',qty:'1 KG',tags:['Millet'],img:'src/products/multi millet dosa.png',note:'Crispy dosa with nutritional variety from 5 millets.'},
+{cat:'millet',sub:'Dosa',name:'Jowar Dosa',qty:'1 KG',tags:['Millet'],img:'src/products/jowar dosa.png',note:'Antioxidant-rich jowar dosa.'},
+{cat:'millet',sub:'Dosa',name:'Ragi Dosa',qty:'1 KG',tags:['Millet'],img:'src/products/Ragi Dosa.png',note:'Finger millet dosa — supports bone density.'},
+{cat:'millet',sub:'Dosa',name:'Oats Dosa',qty:'1 KG',tags:['Millet'],img:'src/products/Oats Dosa.png',note:'Beta-glucan rich oats dosa.'},
+{cat:'millet',sub:'Khichdi',name:'Multi Millet Khichdi',qty:'1 KG',tags:['Millet'],img:'src/products/millet_khichdi.png',note:'Complete one-pot meal.'},
+{cat:'millet',sub:'Khichdi',name:'Foxtail Khichdi',qty:'1 KG',tags:['Millet'],img:'src/products/Foxtail-Khichdi.jpg',note:'Low GI foxtail millet.'},
+{cat:'millet',sub:'Khichdi',name:'Kodo Khichdi',qty:'1 KG',tags:['Millet'],img:'src/products/Kodo Khichdi.png',note:'Polyphenol-rich kodo millet.'},
+{cat:'millet',sub:'Khichdi',name:'Quinoa Khichdi',qty:'1 KG',tags:['Millet'],img:'src/products/Quinoa Khichdi.png',note:'Quinoa + lentil khichdi — all amino acids in one dish.'},
+{cat:'millet',sub:'Biryani',name:'Kodo Millet Biryani',qty:'1 KG',tags:['Millet'],img:'src/products/Kodo Millet Biryani.png',note:'Whole spice biryani with kodo millet.'},
+{cat:'millet',sub:'Lemon Rice',name:'Little Millet Lemon Rice',qty:'1 KG',tags:['Millet'],img:'src/products/Little Millet Lemon Rice.png',note:'Vitamin C enriched fibrous lemon rice.'},
+{cat:'millet',sub:'Upma',name:'Jowar Oats Upma',qty:'1 KG',tags:['Millet'],img:'src/products/Jowar Oats Upma.png',note:'Sustained energy from jowar and oats.'},
+{cat:'millet',sub:'Pongal',name:'Foxtail Millet Sweet Pongal',qty:'1 KG',tags:['Millet'],img:'src/products/Foxtail Millet Sweet Pongal.png',note:'Naturally sweetened with jaggery.'},
+{cat:'millet',sub:'Sheera',name:'Multi Millet Sheera (Jaggery)',qty:'1 KG',tags:['Millet'],img:'src/products/sheera.png',note:'Nutritious jaggery sheera.'},
+{cat:'millet',sub:'Malt',name:'Ragi Malt',qty:'1 KG',tags:['Millet'],img:'src/products/Ragi Malt.png',note:'Sprouted ragi malt — high in calcium and iron.'},
+{cat:'millet',sub:'Malt',name:'Ragi Malt (Sweet)',qty:'1 KG',tags:['Millet'],img:'src/products/Ragi Malt (Sweet).png',note:'Pre-sweetened with jaggery. Just add milk.'},
+{cat:'millet',sub:'Chilla',name:'Sprouted Moong Chilla',qty:'1 KG',tags:['Millet'],img:'src/products/Sprouted Moong Chilla.png',note:'High protein bioavailability.'},
+{cat:'millet',sub:'Chilla',name:'Sprouted Moong + Foxtail Chilla',qty:'1 KG',tags:['Millet'],img:'src/products/Sprouted Moong + Foxtail Millet Chilla.png',note:'Low-GI balanced protein chilla.'},
+{cat:'millet',sub:'Chilla',name:'Sprouted Moong + Jowar Chilla',qty:'1 KG',tags:['Millet'],img:'src/products/Sprouted Moong + Jowar Chilla.png',note:'Gluten-free high-fibre chilla.'},
+{cat:'millet',sub:'Soup',name:'Bajra Soup',qty:'1 KG',tags:['Millet'],img:'src/products/Bajra Soup.png',note:'Iron-rich bajra soup starter.'},
+{cat:'millet',sub:'Pasta Sauce',name:'Oats White Pasta Sauce (GF)',qty:'1 KG',tags:['Millet'],img:'src/products/White-Gravy.jpg',note:'Clean-label gluten-free pasta sauce.'},
+{cat:'nonmillet',sub:'Sheera',name:'Pineapple Sheera',qty:'1 KG',tags:['Premix'],img:'src/products/PINEAPPLE SHEERA.png',note:'Tangy-sweet pineapple sheera.'},
+{cat:'nonmillet',sub:'Halwa',name:'Moong Dal Halwa',qty:'1 KG',tags:['Premix'],img:'src/products/moong daal halwa.png',note:'Winter special high-protein moong dal halwa.'},
+{cat:'nonmillet',sub:'Halwa',name:'Sooji / Rava Halwa',qty:'1 KG',tags:['Premix'],img:'src/products/rava halwa.png',note:'Traditional rava halwa with pre-measured blend.'},
+{cat:'nonmillet',sub:'Kheer',name:'Rice Kheer',qty:'1 KG',tags:['Premix'],img:'src/products/rice kheer.png',note:'Creamy rice kheer mix.'},
+{cat:'nonmillet',sub:'Kheer',name:'Vermicelli Kheer',qty:'1 KG',tags:['Premix'],img:'src/products/VERMICELLI KHEER.png',note:'Fast-prep kheer. Ready in 15 min.'},
+{cat:'nonmillet',sub:'Pasta Sauce',name:'White Sauce for Pasta',qty:'1 KG',tags:['Premix'],img:'src/products/White-Gravy.jpg',note:'Consistent béchamel-style sauce.'},
+{cat:'nonmillet',sub:'Dosa',name:'Rice Dosa Mix',qty:'1 KG',tags:['Premix'],img:'src/products/rice dosa mix.png',note:'Crispy dosas every time.'},
+{cat:'nonmillet',sub:'Idli',name:'Rice Idli Mix',qty:'1 KG',tags:['Premix'],img:'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=500&q=80',note:'Classic soft fluffy idli mix.'},
+{cat:'nonmillet',sub:'Dhokla',name:'Rice Dhokla Mix',qty:'1 KG',tags:['Premix'],img:'src/products/rice_dhokla.png',note:'Light steamed Gujarati snack.'},
+{cat:'nonmillet',sub:'Upma',name:'Sooji / Rava Upma',qty:'1 KG',tags:['Premix'],img:'src/products/Rava Upma.jpg',note:'Pre-seasoned rava upma blend.'},
+{cat:'nonmillet',sub:'Khichdi',name:'Rice Masala Khichdi',qty:'1 KG',tags:['Premix'],img:'src/products/rice masala khichdi.jpg',note:'Complete meal for canteen menus.'},
+{cat:'nonmillet',sub:'Biryani',name:'Rice Biryani',qty:'1 KG',tags:['Premix'],img:'src/products/Veg-Biryani-Rice.jpg',note:'Restaurant-quality biryani spice blend.'},
+{cat:'nonmillet',sub:'Lemon Rice',name:'Lemon Rice Mix',qty:'1 KG',tags:['Premix'],img:'src/products/Lemon-Rice.jpg',note:'Quick, consistent lemon rice.'},
 ];
 
-/* TAG COLOURS */
-const tagClasses={
-  'Frozen':'frozen','IQF':'iqf','Gluten Free':'gf','Healthy':'gf','Farali':'gf',
-  'RTE':'rte','Indo-Chinese':'rte','Millet':'gf','Premix':'frozen','Jaggery':'jag','Gluten Free':'gf','Calcium Rich':'gf'
-};
+const tagClasses={'Frozen':'frozen','IQF':'iqf','Gluten Free':'gf','RTE':'rte','Millet':'gf','Premix':'frozen'};
 function getTagClass(t){return tagClasses[t]||'';}
 
-/* RENDER */
 function renderProducts(filter){
   const body=document.getElementById('products-body');
   const order=['vegs','fries','snacks','breads','curries','combo','millet','nonmillet'];
@@ -1013,22 +888,16 @@ function renderProducts(filter){
   order.forEach(cat=>{
     const items=PRODUCTS.filter(p=>p.cat===cat&&(filter==='all'||filter===cat));
     if(!items.length) return;
-    const info=CATS[cat];
-    const words=info.label.split(' ');
-    const last=words.pop();
-    html+=`<div class="cat-section">
-      <div class="cat-section-head">
-        <h2>${info.emoji} ${words.join(' ')} <span>${last}</span></h2>
-        <small>${items.length} product${items.length>1?'s':''} available</small>
-      </div>
-      <div class="products-grid">`;
-    items.forEach(p=>{
-      const tag1=p.tags[0]||'';
-      const tc=getTagClass(tag1);
-      html+=`<div class="product-card">
+    const info=CATS[cat];const words=info.label.split(' ');const last=words.pop();
+    html+=`<div class="cat-section"><div class="cat-section-head"><h2>${info.emoji} ${words.join(' ')} <span>${last}</span></h2><small>${items.length} product${items.length>1?'s':''} available</small></div><div class="products-grid">`;
+    items.forEach((p,i)=>{
+      const tag1=p.tags[0]||'';const tc=getTagClass(tag1);
+      const pIdx=PRODUCTS.indexOf(p);
+      html+=`<div class="product-card" onclick="openProductModal(PRODUCTS[${pIdx}])">
         <div class="product-card-img">
           <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.src='src/products/mix frozen.jpg'">
           ${tag1?`<div class="product-tag ${tc}">${tag1}</div>`:''}
+          <div class="product-img-hover-hint"><span>View Details</span></div>
         </div>
         <div class="product-card-body">
           <div class="product-card-sub">${p.sub}</div>
@@ -1037,17 +906,16 @@ function renderProducts(filter){
           <p style="font-size:12.5px;color:#9a8a75;line-height:1.6;margin-bottom:14px;">${p.note}</p>
           <div class="product-card-footer">
             <span>Inquiry Based Pricing</span>
-            <button class="btn-enquire" onclick="window.location.hash='contact';nav('home');setTimeout(()=>document.querySelector('#contact').scrollIntoView({behavior:'smooth'}),200);void('${p.name.replace(/'/g,"\\'")}','${p.qty}')">Get Quote</button>
+            <button class="btn-enquire" onclick="event.stopPropagation();goContact()">Get Quote</button>
           </div>
         </div>
       </div>`;
     });
     html+='</div></div>';
   });
-  body.innerHTML=html||'<p style="padding:48px;color:#9a8a75;font-size:15px;">No products found in this category.</p>';
+  body.innerHTML=html||'<p style="padding:48px;color:#9a8a75;font-size:15px;">No products found.</p>';
 }
 
-/* FILTER */
 function filterProducts(f,btnEl){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
   if(btnEl){btnEl.classList.add('on');}
@@ -1070,32 +938,9 @@ function filterProducts(f,btnEl){
     setTimeout(()=>document.getElementById('products-body').scrollIntoView({behavior:'smooth',block:'start'}),100);
 }
 
-/* MODAL */
-function openModal(name,qty){
-  document.getElementById('modal-ref-text').textContent=name+' · '+qty;
-  document.getElementById('inq-modal').classList.add('show');
-  document.getElementById('modal-success').style.display='none';
-  ['m-name','m-co','m-ph','m-city','m-notes'].forEach(id=>document.getElementById(id).value='');
-}
-function closeModal(){document.getElementById('inq-modal').classList.remove('show');}
-document.getElementById('inq-modal').addEventListener('click',e=>{if(e.target.id==='inq-modal')closeModal();});
-function openGlobalInquiry(){}
-function submitModal(){
-  if(!document.getElementById('m-name').value.trim()||!document.getElementById('m-co').value.trim()||!document.getElementById('m-ph').value.trim()){alert('Please fill in Name, Company and Phone.');return;}
-  document.getElementById('modal-success').style.display='block';
-  setTimeout(closeModal,2800);
-}
 function submitContact(){
   if(!document.getElementById('c-name').value.trim()||!document.getElementById('c-co').value.trim()||!document.getElementById('c-ph').value.trim()){alert('Please fill Name, Company and Phone.');return;}
   document.getElementById('contact-success').style.display='block';
-}
-function submitContact(){
-  if(!document.getElementById('c-name').value.trim()||!document.getElementById('c-co').value.trim()||!document.getElementById('c-ph').value.trim()){alert('Please fill Name, Company and Phone.');return;}
-  document.getElementById('contact-success').style.display='block';
-}
-function submitPageInquiry(){
-  if(!document.getElementById('pi-name').value.trim()||!document.getElementById('pi-co').value.trim()||!document.getElementById('pi-ph').value.trim()){alert('Please fill Name, Company and Phone.');return;}
-  document.getElementById('pi-success').style.display='block';
 }
 
 renderProducts('all');
