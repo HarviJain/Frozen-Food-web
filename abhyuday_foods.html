@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin — Abhyuday Bharat Food Cluster</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0f12;--surface:#161a20;--panel:#1e242c;--border:#2a3040;--accent:#e8930a;--accent2:#c0541a;--green:#22c55e;--red:#ef4444;--blue:#3b82f6;--text:#e8eaed;--muted:#6b7280;--subtle:#374151;--font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;--r:10px;--rs:6px;}
+*{margin:0;padding:0;box-sizing:border-box;}html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;overflow:hidden;}
+.app{display:flex;height:100vh;overflow:hidden;}
+/* SIDEBAR */
+.sidebar{width:220px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;}
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid var(--border);}
+.sb-brand{display:flex;align-items:center;gap:10px;}
+.sb-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.sb-name{font-size:12px;font-weight:600;}.sb-sub{font-size:9px;color:var(--muted);}
+.sb-nav{flex:1;padding:10px 8px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;}
+.nav-sec{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:10px 10px 6px;font-weight:600;}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--rs);cursor:pointer;transition:.15s;color:var(--muted);font-size:13px;font-weight:500;border:none;background:none;width:100%;text-align:left;}
+.ni:hover{background:var(--panel);color:var(--text);}
+.ni.active{background:rgba(232,147,10,.12);color:var(--accent);border-left:2px solid var(--accent);padding-left:8px;}
+.ni-icon{font-size:14px;width:18px;text-align:center;flex-shrink:0;}
+.nb{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:30px;min-width:18px;text-align:center;}
+.sb-footer{padding:10px 8px;border-top:1px solid var(--border);}
+.adm{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--rs);background:var(--panel);}
+.adm-av{width:28px;height:28px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;}
+.adm-n{font-size:12px;font-weight:600;}.adm-r{font-size:10px;color:var(--muted);}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{height:56px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;flex-shrink:0;}
+.tb-title{font-size:16px;font-weight:600;}.tb-sub{font-size:12px;color:var(--muted);}
+.tb-acts{display:flex;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--rs);font-family:var(--font);font-size:12px;font-weight:600;cursor:pointer;transition:.15s;border:none;}
+.btn-p{background:var(--accent);color:#fff;}.btn-p:hover{background:var(--accent2);}
+.btn-d{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.25);}.btn-d:hover{background:rgba(239,68,68,.25);}
+.btn-g{background:var(--panel);color:var(--muted);border:1px solid var(--border);}.btn-g:hover{color:var(--text);border-color:var(--accent);}
+.btn-s{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.25);}
+.ca{flex:1;overflow-y:auto;padding:24px;}
+/* DASHBOARD */
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;}
+.sc .si{font-size:22px;margin-bottom:10px;}.sc .sv{font-size:26px;font-weight:700;font-family:var(--mono);}
+.sc .sl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px;}
+.sc .scc{font-size:11px;margin-top:6px;}.scc.up{color:var(--green);}.scc.w{color:var(--accent);}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.dc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;}
+.dc-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.dc-t{font-size:13px;font-weight:600;}
+/* TABLE */
+.tw{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+th{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:600;padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);background:var(--panel);}
+td{padding:10px 12px;border-bottom:1px solid rgba(42,48,64,.5);font-size:13px;vertical-align:middle;}
+tr:hover td{background:rgba(255,255,255,.02);}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:30px;font-size:10px;font-weight:600;}
+.bg{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2);}
+.br{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2);}
+.by{background:rgba(232,147,10,.1);color:var(--accent);border:1px solid rgba(232,147,10,.2);}
+.bb{background:rgba(59,130,246,.1);color:var(--blue);border:1px solid rgba(59,130,246,.2);}
+.bm{background:var(--panel);color:var(--muted);border:1px solid var(--border);}
+.ar{display:flex;gap:6px;align-items:center;}
+/* FORM */
+.fs{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:16px;}
+.fs-t{font-size:13px;font-weight:600;margin-bottom:16px;}
+.fg{display:grid;gap:14px;}
+.fg2{grid-template-columns:1fr 1fr;}.fg3{grid-template-columns:1fr 1fr 1fr;}
+.ff{display:flex;flex-direction:column;gap:6px;}
+.ff label{font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:600;color:var(--muted);}
+.ff input,.ff select,.ff textarea{background:var(--panel);border:1px solid var(--border);border-radius:var(--rs);padding:9px 12px;font-family:var(--font);font-size:13px;color:var(--text);outline:none;transition:.15s;width:100%;}
+.ff input:focus,.ff select:focus,.ff textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(232,147,10,.08);}
+.ff textarea{min-height:70px;resize:vertical;}
+.ip{width:100%;height:110px;border-radius:var(--rs);background:var(--panel);border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;margin-top:6px;overflow:hidden;position:relative;}
+.ip img{width:100%;height:100%;object-fit:cover;}
+/* LIST CARD */
+.cl{display:flex;flex-direction:column;gap:10px;}
+.lc{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:14px;transition:.15s;}
+.lc:hover{border-color:var(--accent);}
+.lct{width:52px;height:44px;border-radius:6px;object-fit:cover;background:var(--surface);flex-shrink:0;}
+.lcp{width:52px;height:44px;border-radius:6px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.lci{flex:1;min-width:0;}
+.lcn{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.lcm{font-size:11px;color:var(--muted);margin-top:2px;}
+.lca{display:flex;gap:6px;flex-shrink:0;}
+/* TABS */
+.tabs{display:flex;gap:2px;background:var(--panel);padding:4px;border-radius:var(--rs);margin-bottom:20px;border:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:7px 14px;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;transition:.15s;color:var(--muted);border:none;background:none;font-family:var(--font);white-space:nowrap;}
+.tab.active{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.3);}
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:9000;display:none;align-items:center;justify-content:center;padding:20px;}
+.mo.show{display:flex;}
+.mb{background:var(--surface);border:1px solid var(--border);border-radius:14px;width:100%;max-width:540px;max-height:85vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.5);}
+.mh{padding:18px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:1;}
+.mt{font-size:15px;font-weight:600;}
+.mc{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px;line-height:1;transition:.15s;}
+.mc:hover{color:var(--text);}
+.mbody{padding:18px 22px;}
+.mf{padding:14px 22px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;background:var(--surface);position:sticky;bottom:0;}
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;}
+.toast{background:var(--surface);border:1px solid var(--border);border-radius:var(--rs);padding:12px 16px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,.4);transform:translateX(120%);transition:.3s;min-width:240px;}
+.toast.show{transform:none;}
+.toast.success{border-color:var(--green);color:var(--green);}
+.toast.error{border-color:var(--red);color:var(--red);}
+.toast.info{border-color:var(--accent);color:var(--accent);}
+/* EMPTY */
+.es{text-align:center;padding:48px 24px;color:var(--muted);}
+.es .ei{font-size:36px;margin-bottom:10px;}
+.es h3{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.es p{font-size:12px;line-height:1.6;}
+/* CHIP */
+.cw{display:flex;flex-wrap:wrap;gap:6px;padding:8px;background:var(--panel);border:1px solid var(--border);border-radius:var(--rs);min-height:38px;cursor:text;align-items:center;}
+.cw:focus-within{border-color:var(--accent);}
+.chip{display:inline-flex;align-items:center;gap:4px;background:rgba(232,147,10,.15);border:1px solid rgba(232,147,10,.3);color:var(--accent);font-size:11px;font-weight:600;padding:3px 8px;border-radius:30px;}
+.chip-x{cursor:pointer;opacity:.7;font-size:12px;}
+.chip-x:hover{opacity:1;}
+.cw input{border:none;background:none;outline:none;font-family:var(--font);font-size:13px;color:var(--text);min-width:80px;flex:1;}
+/* SECTION HDR */
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.st{font-size:18px;font-weight:700;}.ss{font-size:12px;color:var(--muted);margin-top:2px;}
+/* ENQ */
+.ef{margin-bottom:14px;}
+.ef label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:600;display:block;margin-bottom:4px;}
+.ef .val{font-size:13px;color:var(--text);background:var(--panel);padding:10px 14px;border-radius:var(--rs);border:1px solid var(--border);}
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+code{font-family:var(--mono);background:var(--panel);padding:2px 6px;border-radius:4px;font-size:11px;}
+@media(max-width:900px){.sg{grid-template-columns:1fr 1fr;}.dg{grid-template-columns:1fr;}.fg2,.fg3{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="sb-logo"><div class="sb-brand"><div class="sb-icon">🌾</div><div><div class="sb-name">ABFC Admin</div><div class="sb-sub">Control Panel</div></div></div></div>
+  <nav class="sb-nav">
+    <div class="nav-sec">Overview</div>
+    <button class="ni active" onclick="SP('dashboard')"><span class="ni-icon">📊</span>Dashboard</button>
+    <div class="nav-sec">Content</div>
+    <button class="ni" onclick="SP('hero')"><span class="ni-icon">🖼️</span>Hero Slides</button>
+    <button class="ni" onclick="SP('products')"><span class="ni-icon">📦</span>Products</button>
+    <button class="ni" onclick="SP('categories')"><span class="ni-icon">🏷️</span>Categories</button>
+    <button class="ni" onclick="SP('contactinfo')"><span class="ni-icon">📍</span>Contact Info</button>
+    <div class="nav-sec">CRM</div>
+    <button class="ni" onclick="SP('enquiries')" id="ni-enq"><span class="ni-icon">📬</span>Enquiries<span class="nb" id="enq-badge" style="display:none">0</span></button>
+    <div class="nav-sec">Config</div>
+    <button class="ni" onclick="SP('settings')"><span class="ni-icon">⚙️</span>Settings</button>
+  </nav>
+  <div class="sb-footer"><div class="adm"><div class="adm-av">A</div><div><div class="adm-n">Admin</div><div class="adm-r">Super Admin</div></div></div></div>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <div><div class="tb-title" id="tb-t">Dashboard</div><div class="tb-sub" id="tb-s">Welcome back</div></div>
+    <div class="tb-acts">
+      <button class="btn btn-g" onclick="exportData()">⬇ Export</button>
+      <button class="btn btn-p" onclick="saveAll()">💾 Save</button>
+    </div>
+  </div>
+  <div class="ca" id="ca"></div>
+</div>
+</div>
+<div class="mo" id="modal"><div class="mb" id="mb"><div class="mh"><span class="mt" id="mt">Modal</span><button class="mc" onclick="CM()">✕</button></div><div class="mbody" id="mbody"></div><div class="mf" id="mf"></div></div></div>
+<div id="toast"></div>
+
+<script>
+/* ── DB ── */
+const DB={
+  k:k=>'abfc_'+k,
+  get(k){try{return JSON.parse(localStorage.getItem(this.k(k)));}catch{return null;}},
+  set(k,v){localStorage.setItem(this.k(k),JSON.stringify(v));}
+};
+
+/* ── DEFAULTS ── */
+function dfSlides(){return[
+  {id:1,active:true,cat:'Frozen Vegetables',badge:'IQF · Individually Quick Frozen',h1:'Farm Fresh,',hb:'IQF Frozen.',hi:'Global Ready.',sub:'10 varieties of IQF vegetables — peas, corn, broccoli, spinach, okra and more.',chips:['Green Peas','Sweet Corn','Broccoli','Spinach','Baby Corn'],img:'src/products/IQF Mix Veg.png',emoji:'🥦',fk:'vegs',order:1},
+  {id:2,active:true,cat:'French Fries',badge:'Fresh Taste · Perfect Crunch · Anytime',h1:'Crispy Every',hb:'Single Time.',hi:'QSR Proven.',sub:'Straight cut, crinkle, curly and wedges — every fry style your kitchen needs.',chips:['Straight Cut','Crinkle Cut','Curly Fries','Wedges'],img:'src/products/Crinkle Fries.png',emoji:'🍟',fk:'fries',order:2},
+  {id:3,active:true,cat:'Frozen Snacks',badge:'Authentic Indian Snacks',h1:"India's Flavours,",hb:'Frozen Fresh.',hi:'Served Worldwide.',sub:'Samosas, tikkis, kababs — authentic Indian snacks, consistent batch quality.',chips:['Punjabi Samosa','Aloo Tikki','Hara Bhara Kabab'],img:'src/products/Punjabi Samosa.jpg',emoji:'🥟',fk:'snacks',order:3},
+  {id:4,active:true,cat:'Breads & Curries',badge:'Heat & Serve · Restaurant Quality',h1:'Restaurant Quality,',hb:'Heat & Serve.',hi:'Every Batch.',sub:'Naans, parathas, dal makhani, chole, rajma — complete Indian meal solutions.',chips:['Plain Naan','Aloo Paratha','Dal Makhani','Chole Chana'],img:'src/products/Rice-With-Dal-Makhani.jpg',emoji:'🍛',fk:'breads',order:4},
+  {id:5,active:true,cat:'Millet & Grain Premixes',badge:'Healthy · Nutritious · Convenient',h1:'Ancient Grains,',hb:'Modern Menus.',hi:'41 Premixes.',sub:'From ragi idli to quinoa khichdi — 24 millet-based and 17 non-millet premixes.',chips:['Millet Idli & Dosa','Khichdi','Ragi Malt','Rice Kheer'],img:'src/products/millets.jpg',emoji:'🌾',fk:'millet',order:5},
+];}
+function dfCats(){return[
+  {id:'vegs',name:'Frozen Vegetables',emoji:'🥦',label:'IQF Vegetables',img:'src/products/IQF Mix Veg.png'},
+  {id:'fries',name:'French Fries',emoji:'🍟',label:'Fresh Fries',img:'src/products/Stright Fries.png'},
+  {id:'snacks',name:'Frozen Snacks',emoji:'🥟',label:'Indian Snacks',img:'src/products/Punjabi Samosa.jpg'},
+  {id:'breads',name:'Breads & Paratha',emoji:'🫓',label:'Indian Breads',img:'src/products/Plain Naan.jpg'},
+  {id:'curries',name:'Curries & Gravy',emoji:'🍛',label:'RTE Curries',img:'src/products/Dal-Makhani.jpg'},
+  {id:'combo',name:'Combo Meals',emoji:'🍱',label:'Combo Meals',img:'src/products/Rice-With-Dal-Makhani.jpg'},
+  {id:'millet',name:'Millet Premixes',emoji:'🌾',label:'Millet Based',img:'src/products/millets.jpg'},
+  {id:'nonmillet',name:'Non-Millet Premixes',emoji:'🍚',label:'Grain Premixes',img:'src/products/sheera.png'},
+];}
+function dfContact(){return{address:'1001 & 1020 Time Square Arcade, Nr Bagban Party Plot, Thaltej Shilaj Road, Thaltej, Ahmedabad – 380059, Gujarat, India',phone:'+91 9904166522',email:'food@abhyuday.in',hours:'Mon – Sat, 9 AM – 6 PM IST',website:'',linkedin:'',instagram:''};}
+function dfSettings(){return{site_name:'Abhyuday Bharat Food Cluster',tagline:'Premium Frozen Foods · B2B',copyright:'© 2025 Abhyuday Bharat Food Cluster. All rights reserved.',interval:5500};}
+function dfProducts(){return[
+  {id:1,cat:'fries',sub:'French Fries',name:'Straight Cut French Fries',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Stright Fries.png',note:'Classic straight-cut fries — crispy outside, fluffy inside.',active:true},
+  {id:2,cat:'fries',sub:'French Fries',name:'Crinkle Cut French Fries',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Crinkle Fries.png',note:'Crinkle-cut for extra crunch and sauce-holding.',active:true},
+  {id:3,cat:'fries',sub:'French Fries',name:'Curly French Fries',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Curly Fries.png',note:'Fun spiral curly fries.',active:true},
+  {id:4,cat:'fries',sub:'Wedges',name:'Potato Wedges',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Coted Fries.png',note:'Thick seasoned potato wedges.',active:true},
+  {id:5,cat:'vegs',sub:'IQF Vegetables',name:'Green Peas',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Green Peas.png',note:'Flash-frozen sweet green peas.',active:true},
+  {id:6,cat:'vegs',sub:'IQF Vegetables',name:'Sweet Corn',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Sweet Corn.png',note:'Golden sweet corn kernels, individually frozen.',active:true},
+  {id:7,cat:'vegs',sub:'IQF Vegetables',name:'Mixed Vegetables',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Mix Veg.png',note:'Pre-cut blend of seasonal vegetables.',active:true},
+  {id:8,cat:'vegs',sub:'IQF Vegetables',name:'Okra',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Cut Okra (2).png',note:'Tender okra, individually quick frozen.',active:true},
+  {id:9,cat:'vegs',sub:'IQF Vegetables',name:'Cauliflower',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Cualiflower.png',note:'Florets frozen at peak freshness.',active:true},
+  {id:10,cat:'vegs',sub:'IQF Vegetables',name:'French Beans',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF French Beans.png',note:'Tender green beans, trimmed and frozen.',active:true},
+  {id:11,cat:'vegs',sub:'IQF Vegetables',name:'Carrot',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Carrot.png',note:'Diced carrots flash-frozen.',active:true},
+  {id:12,cat:'vegs',sub:'IQF Vegetables',name:'Broccoli',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Broccoli.png',note:'Premium broccoli florets.',active:true},
+  {id:13,cat:'vegs',sub:'IQF Vegetables',name:'Baby Corn',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Baby Corn.png',note:'Tender baby corn.',active:true},
+  {id:14,cat:'vegs',sub:'IQF Vegetables',name:'Spinach',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Spinach.png',note:'Washed, chopped spinach flash-frozen.',active:true},
+  {id:15,cat:'snacks',sub:'Snacks',name:'Punjabi Samosa',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Punjabi Samosa.jpg',note:'Classic Punjabi samosa.',active:true},
+  {id:16,cat:'snacks',sub:'Snacks',name:'Aloo Tikki',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Aloo Tikki.jpg',note:'Ready-to-fry potato tikkis.',active:true},
+  {id:17,cat:'snacks',sub:'Snacks',name:'Hara Bhara Kabab',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen'],img:'src/products/Harabhara Kabab.jpg',note:'Spinach and pea-based kabab.',active:true},
+  {id:18,cat:'breads',sub:'Naan',name:'Plain Naan',qty:'320g · 400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Plain Naan.jpg',note:'Soft, fluffy naans from freezer.',active:true},
+  {id:19,cat:'breads',sub:'Naan',name:'Garlic Butter Naan',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Garlic Butter Naan.jpg',note:'Pre-loaded with garlic butter.',active:true},
+  {id:20,cat:'breads',sub:'Paratha',name:'Plain Paratha',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Plain Paratha.jpg',note:'Layered, flaky plain paratha.',active:true},
+  {id:21,cat:'breads',sub:'Paratha',name:'Aloo Paratha',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Aloo Paratha.jpg',note:'Spiced potato stuffed paratha.',active:true},
+  {id:22,cat:'breads',sub:'Paratha',name:'Lachha Paratha',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Laccha Paratha.jpg',note:'Crispy multi-layered paratha.',active:true},
+  {id:23,cat:'breads',sub:'Paratha',name:'Malabar Paratha',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/malabar paratha.jpg',note:'Soft Kerala-style paratha.',active:true},
+  {id:24,cat:'curries',sub:'Dal',name:'Dal Makhani',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Dal-Makhani.jpg',note:'Slow-cooked creamy dal makhani.',active:true},
+  {id:25,cat:'curries',sub:'Curry',name:'Chole Chana',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Amritsari-Cholle.jpg',note:'Punjabi-style chole.',active:true},
+  {id:26,cat:'curries',sub:'Curry',name:'Rajma Masala',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Shahi-Rajma.jpg',note:'Rich kidney bean curry.',active:true},
+  {id:27,cat:'curries',sub:'Dal',name:'Dal Tadka',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Dal-Tadka.jpg',note:'Classic tempered dal.',active:true},
+  {id:28,cat:'curries',sub:'Pav Bhaji',name:'Pav Bhaji',qty:'300g · 500g · 1kg',tags:['Frozen','RTE'],img:'src/products/Pav-Bhaji.jpg',note:'Mumbai-style pav bhaji.',active:true},
+  {id:29,cat:'combo',sub:'Rice',name:'Jeera Rice',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Plain-Rice.jpg',note:'Cumin-tempered rice.',active:true},
+  {id:30,cat:'combo',sub:'Combo Meal',name:'Rice + Dal Makhani',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Rice-With-Dal-Makhani.jpg',note:'Complete meal combo.',active:true},
+  {id:31,cat:'combo',sub:'Combo Meal',name:'Rice + Chole',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Rice-With-Amritsarichole.jpg',note:'High-protein combo meal.',active:true},
+  {id:32,cat:'combo',sub:'Combo Meal',name:'Rice + Rajma',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Rice-With-Rajma.jpg',note:'Wholesome comfort meal.',active:true},
+  {id:33,cat:'millet',sub:'Idli',name:'Multi Millet Idli',qty:'1 KG',tags:['Millet'],img:'src/products/multi millet idli.jpg',note:'5 millets rich in fibre and calcium.',active:true},
+  {id:34,cat:'millet',sub:'Idli',name:'Jowar & Oats Idli',qty:'1 KG',tags:['Millet'],img:'src/products/jowar idli.png',note:'Sustained energy from jowar and oats.',active:true},
+  {id:35,cat:'millet',sub:'Idli',name:'Ragi & Jowar Idli',qty:'1 KG',tags:['Millet'],img:'src/products/ragi-idli.png',note:'Natural calcium from ragi.',active:true},
+  {id:36,cat:'millet',sub:'Idli',name:'Quinoa Idli',qty:'1 KG',tags:['Millet'],img:'src/products/quinoa idli.jpg',note:'All 9 essential amino acids.',active:true},
+  {id:37,cat:'millet',sub:'Dosa',name:'Multi Millet Dosa',qty:'1 KG',tags:['Millet'],img:'src/products/multi millet dosa.png',note:'Crispy dosa with 5 millets.',active:true},
+  {id:38,cat:'millet',sub:'Dosa',name:'Jowar Dosa',qty:'1 KG',tags:['Millet'],img:'src/products/jowar dosa.png',note:'Antioxidant-rich jowar dosa.',active:true},
+  {id:39,cat:'millet',sub:'Dosa',name:'Ragi Dosa',qty:'1 KG',tags:['Millet'],img:'src/products/Ragi Dosa.png',note:'Finger millet dosa.',active:true},
+  {id:40,cat:'millet',sub:'Dosa',name:'Oats Dosa',qty:'1 KG',tags:['Millet'],img:'src/products/Oats Dosa.png',note:'Beta-glucan rich oats dosa.',active:true},
+  {id:41,cat:'millet',sub:'Khichdi',name:'Multi Millet Khichdi',qty:'1 KG',tags:['Millet'],img:'src/products/millet_khichdi.png',note:'Complete one-pot meal.',active:true},
+  {id:42,cat:'millet',sub:'Khichdi',name:'Foxtail Khichdi',qty:'1 KG',tags:['Millet'],img:'src/products/Foxtail-Khichdi.jpg',note:'Low GI foxtail millet.',active:true},
+  {id:43,cat:'millet',sub:'Khichdi',name:'Kodo Khichdi',qty:'1 KG',tags:['Millet'],img:'src/products/Kodo Khichdi.png',note:'Polyphenol-rich kodo millet.',active:true},
+  {id:44,cat:'millet',sub:'Khichdi',name:'Quinoa Khichdi',qty:'1 KG',tags:['Millet'],img:'src/products/Quinoa Khichdi.png',note:'Quinoa + lentil khichdi.',active:true},
+  {id:45,cat:'millet',sub:'Biryani',name:'Kodo Millet Biryani',qty:'1 KG',tags:['Millet'],img:'src/products/Kodo Millet Biryani.png',note:'Whole spice biryani with kodo millet.',active:true},
+  {id:46,cat:'millet',sub:'Lemon Rice',name:'Little Millet Lemon Rice',qty:'1 KG',tags:['Millet'],img:'src/products/Little Millet Lemon Rice.png',note:'Vitamin C enriched lemon rice.',active:true},
+  {id:47,cat:'millet',sub:'Upma',name:'Jowar Oats Upma',qty:'1 KG',tags:['Millet'],img:'src/products/Jowar Oats Upma.png',note:'Sustained energy from jowar and oats.',active:true},
+  {id:48,cat:'millet',sub:'Pongal',name:'Foxtail Millet Sweet Pongal',qty:'1 KG',tags:['Millet'],img:'src/products/Foxtail Millet Sweet Pongal.png',note:'Naturally sweetened with jaggery.',active:true},
+  {id:49,cat:'millet',sub:'Sheera',name:'Multi Millet Sheera (Jaggery)',qty:'1 KG',tags:['Millet'],img:'src/products/sheera.png',note:'Nutritious jaggery sheera.',active:true},
+  {id:50,cat:'millet',sub:'Malt',name:'Ragi Malt',qty:'1 KG',tags:['Millet'],img:'src/products/Ragi Malt.png',note:'High calcium and iron ragi malt.',active:true},
+  {id:51,cat:'millet',sub:'Malt',name:'Ragi Malt (Sweet)',qty:'1 KG',tags:['Millet'],img:'src/products/Ragi Malt (Sweet).png',note:'Pre-sweetened with jaggery.',active:true},
+  {id:52,cat:'millet',sub:'Chilla',name:'Sprouted Moong Chilla',qty:'1 KG',tags:['Millet'],img:'src/products/Sprouted Moong Chilla.png',note:'High protein bioavailability.',active:true},
+  {id:53,cat:'millet',sub:'Chilla',name:'Sprouted Moong + Foxtail Chilla',qty:'1 KG',tags:['Millet'],img:'src/products/Sprouted Moong + Foxtail Millet Chilla.png',note:'Low-GI balanced protein.',active:true},
+  {id:54,cat:'millet',sub:'Chilla',name:'Sprouted Moong + Jowar Chilla',qty:'1 KG',tags:['Millet'],img:'src/products/Sprouted Moong + Jowar Chilla.png',note:'Gluten-free high-fibre chilla.',active:true},
+  {id:55,cat:'millet',sub:'Soup',name:'Bajra Soup',qty:'1 KG',tags:['Millet'],img:'src/products/Bajra Soup.png',note:'Iron-rich bajra soup.',active:true},
+  {id:56,cat:'millet',sub:'Pasta Sauce',name:'Oats White Pasta Sauce (GF)',qty:'1 KG',tags:['Millet'],img:'src/products/White-Gravy.jpg',note:'Gluten-free pasta sauce.',active:true},
+  {id:57,cat:'nonmillet',sub:'Sheera',name:'Pineapple Sheera',qty:'1 KG',tags:['Premix'],img:'src/products/PINEAPPLE SHEERA.png',note:'Tangy-sweet pineapple sheera.',active:true},
+  {id:58,cat:'nonmillet',sub:'Halwa',name:'Moong Dal Halwa',qty:'1 KG',tags:['Premix'],img:'src/products/moong daal halwa.png',note:'Winter special moong dal halwa.',active:true},
+  {id:59,cat:'nonmillet',sub:'Halwa',name:'Sooji / Rava Halwa',qty:'1 KG',tags:['Premix'],img:'src/products/rava halwa.png',note:'Traditional rava halwa.',active:true},
+  {id:60,cat:'nonmillet',sub:'Kheer',name:'Rice Kheer',qty:'1 KG',tags:['Premix'],img:'src/products/rice kheer.png',note:'Creamy rice kheer mix.',active:true},
+  {id:61,cat:'nonmillet',sub:'Kheer',name:'Vermicelli Kheer',qty:'1 KG',tags:['Premix'],img:'src/products/VERMICELLI KHEER.png',note:'Fast-prep kheer.',active:true},
+  {id:62,cat:'nonmillet',sub:'Pasta Sauce',name:'White Sauce for Pasta',qty:'1 KG',tags:['Premix'],img:'src/products/White-Gravy.jpg',note:'Bechamel-style sauce.',active:true},
+  {id:63,cat:'nonmillet',sub:'Dosa',name:'Rice Dosa Mix',qty:'1 KG',tags:['Premix'],img:'src/products/rice dosa mix.png',note:'Crispy dosas every time.',active:true},
+  {id:64,cat:'nonmillet',sub:'Idli',name:'Rice Idli Mix',qty:'1 KG',tags:['Premix'],img:'',note:'Classic soft fluffy idli.',active:true},
+  {id:65,cat:'nonmillet',sub:'Dhokla',name:'Rice Dhokla Mix',qty:'1 KG',tags:['Premix'],img:'src/products/rice_dhokla.png',note:'Light steamed Gujarati snack.',active:true},
+  {id:66,cat:'nonmillet',sub:'Upma',name:'Sooji / Rava Upma',qty:'1 KG',tags:['Premix'],img:'src/products/Rava Upma.jpg',note:'Pre-seasoned rava upma.',active:true},
+  {id:67,cat:'nonmillet',sub:'Khichdi',name:'Rice Masala Khichdi',qty:'1 KG',tags:['Premix'],img:'src/products/rice masala khichdi.jpg',note:'Complete meal for canteens.',active:true},
+  {id:68,cat:'nonmillet',sub:'Biryani',name:'Rice Biryani',qty:'1 KG',tags:['Premix'],img:'src/products/Veg-Biryani-Rice.jpg',note:'Restaurant-quality biryani.',active:true},
+  {id:69,cat:'nonmillet',sub:'Lemon Rice',name:'Lemon Rice Mix',qty:'1 KG',tags:['Premix'],img:'src/products/Lemon-Rice.jpg',note:'Quick consistent lemon rice.',active:true},
+];}
+
+/* ── INIT ── */
+if(!DB.get('init')){DB.set('slides',dfSlides());DB.set('products',dfProducts());DB.set('cats',dfCats());DB.set('contact',dfContact());DB.set('enquiries',[]);DB.set('settings',dfSettings());DB.set('init',1);}
+let CP='dashboard',PF='all',eId=null,cTags=[],cChips=[];
+UB();RP('dashboard');
+
+window.addEventListener('message',e=>{if(e.data&&e.data.type==='new_enquiry')recvEnq(e.data.enquiry);});
+
+/* ── ROUTING ── */
+const PT={dashboard:['Dashboard','Overview'],hero:['Hero Slides','Manage homepage slider'],products:['Products','Add, edit, remove products'],categories:['Categories','Manage category tiles'],contactinfo:['Contact Info','Address, phone, email'],enquiries:['Enquiries','B2B enquiry inbox'],settings:['Settings','Site configuration']};
+function SP(p){
+  CP=p;
+  document.querySelectorAll('.ni').forEach(e=>e.classList.remove('active'));
+  document.querySelector(`[onclick="SP('${p}')"]`)?.classList.add('active');
+  const[t,s]=PT[p]||[p,''];
+  document.getElementById('tb-t').textContent=t;
+  document.getElementById('tb-s').textContent=s;
+  RP(p);
+}
+function RP(p){
+  const el=document.getElementById('ca');
+  if(p==='dashboard')el.innerHTML=rDash();
+  else if(p==='hero')el.innerHTML=rHero();
+  else if(p==='products')el.innerHTML=rProds();
+  else if(p==='categories')el.innerHTML=rCats();
+  else if(p==='contactinfo')el.innerHTML=rContact();
+  else if(p==='enquiries')el.innerHTML=rEnquiries();
+  else if(p==='settings')el.innerHTML=rSettings();
+}
+
+/* ── DASHBOARD ── */
+function rDash(){
+  const P=DB.get('products')||[],E=DB.get('enquiries')||[],S=DB.get('slides')||[],C=DB.get('cats')||[];
+  const unread=E.filter(e=>!e.seen).length;
+  const rec=[...E].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,5);
+  return`<div class="sg">
+    <div class="sc"><div class="si">📦</div><div class="sv">${P.filter(p=>p.active).length}</div><div class="sl">Active Products</div><div class="scc up">↑ ${P.length} total</div></div>
+    <div class="sc"><div class="si">🖼️</div><div class="sv">${S.filter(s=>s.active).length}</div><div class="sl">Hero Slides</div><div class="scc up">↑ ${S.length} configured</div></div>
+    <div class="sc"><div class="si">📬</div><div class="sv">${E.length}</div><div class="sl">Enquiries</div><div class="scc ${unread>0?'w':'up'}">${unread>0?'⚠ '+unread+' unread':'✓ All read'}</div></div>
+    <div class="sc"><div class="si">🏷️</div><div class="sv">${C.length}</div><div class="sl">Categories</div><div class="scc up">↑ All set</div></div>
+  </div>
+  <div class="dg">
+    <div class="dc">
+      <div class="dc-h"><div class="dc-t">Recent Enquiries</div><button class="btn btn-g" onclick="SP('enquiries')" style="font-size:11px;padding:5px 10px;">View All</button></div>
+      ${rec.length===0?'<div class="es"><div class="ei">📭</div><h3>No enquiries yet</h3><p>Form submissions from the website appear here.</p><button class="btn btn-g" style="margin-top:12px;" onclick="addDemo()">+ Add Demo</button></div>':`
+      <div class="tw"><table><thead><tr><th>Name</th><th>Company</th><th>Date</th><th>Status</th></tr></thead><tbody>
+      ${rec.map(e=>`<tr style="cursor:pointer" onclick="vEnq('${e.id}')"><td><strong>${e.name}</strong></td><td>${e.company}</td><td>${fd(e.date)}</td><td><span class="badge ${e.seen?'bm':'by'}">${e.seen?'Seen':'New'}</span></td></tr>`).join('')}
+      </tbody></table></div>`}
+    </div>
+    <div class="dc">
+      <div class="dc-h"><div class="dc-t">Products by Category</div></div>
+      ${C.map(c=>{const cnt=P.filter(p=>p.cat===c.id&&p.active).length,tot=P.filter(p=>p.active).length,pct=Math.round(cnt/Math.max(tot,1)*100);
+        return`<div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px;"><span>${c.emoji} ${c.name}</span><span style="color:var(--muted);font-family:var(--mono)">${cnt}</span></div>
+        <div style="height:4px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="height:100%;width:${Math.max(pct,4)}%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:4px;"></div></div></div>`;}).join('')}
+    </div>
+  </div>`;
+}
+
+/* ── HERO ── */
+function rHero(){
+  const S=(DB.get('slides')||[]).sort((a,b)=>a.order-b.order);
+  return`<div class="sh"><div><div class="st">Hero Slides</div><div class="ss">Manage homepage slider</div></div><button class="btn btn-p" onclick="oAddSlide()">+ Add Slide</button></div>
+  <div class="cl">${S.map(s=>`<div class="lc" id="sc-${s.id}">
+    <div class="lcp">${s.emoji}</div>
+    <div class="lci"><div class="lcn">${s.cat}</div><div class="lcm">${s.h1} <strong>${s.hb}</strong> · ${(s.chips||[]).slice(0,2).join(', ')}</div></div>
+    <span class="badge ${s.active?'bg':'bm'}" style="cursor:pointer" onclick="tSlide(${s.id})">${s.active?'Active':'Hidden'}</span>
+    <div class="lca">
+      <button class="btn btn-g" style="font-size:11px;padding:5px 10px;" onclick="oEditSlide(${s.id})">✏ Edit</button>
+      <button class="btn btn-d" style="font-size:11px;padding:5px 10px;" onclick="dSlide(${s.id})">🗑</button>
+    </div>
+  </div>`).join('')}</div>
+  <div style="margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;font-size:12px;color:var(--muted);">💡 Images should be local paths like <code>src/products/filename.png</code></div>`;
+}
+function sForm(s={}){
+  cChips=s.chips?[...s.chips]:[];
+  const C=DB.get('cats')||[];
+  return`<div class="fg" style="gap:14px">
+    <div class="fg fg2"><div class="ff"><label>Category Name</label><input id="sf-c" value="${s.cat||''}" placeholder="e.g. Frozen Vegetables"></div>
+    <div class="ff"><label>Emoji</label><input id="sf-e" value="${s.emoji||'🍽️'}" style="font-size:20px;text-align:center;"></div></div>
+    <div class="ff"><label>Badge Text</label><input id="sf-b" value="${s.badge||''}" placeholder="Small text above heading"></div>
+    <div class="fg fg3">
+      <div class="ff"><label>Line 1</label><input id="sf-h1" value="${s.h1||''}" placeholder="Farm Fresh,"></div>
+      <div class="ff"><label>Bold</label><input id="sf-hb" value="${s.hb||''}" placeholder="IQF Frozen."></div>
+      <div class="ff"><label>Italic</label><input id="sf-hi" value="${s.hi||''}" placeholder="Global Ready."></div>
+    </div>
+    <div class="ff"><label>Subtitle</label><textarea id="sf-s">${s.sub||''}</textarea></div>
+    <div class="ff"><label>Product Chips (Enter to add)</label><div class="cw" id="cw-chips" onclick="document.getElementById('ci-chips').focus()"></div></div>
+    <div class="fg fg2">
+      <div class="ff"><label>Background Image Path</label><input id="sf-i" value="${s.img||''}" placeholder="src/products/..." oninput="pImg(this,'sf-ip')"></div>
+      <div class="ff"><label>Filter Key</label><select id="sf-fk">${C.map(c=>`<option value="${c.id}" ${s.fk===c.id?'selected':''}>${c.id}</option>`).join('')}</select></div>
+    </div>
+    <div class="ip" id="sf-ip">${s.img?`<img src="${s.img}"><div style="position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;padding:3px 8px;border-radius:4px;">Preview</div>`:'<span>Image preview</span>'}</div>
+  </div>`;
+}
+function oAddSlide(){eId=null;cChips=[];SM('Add Hero Slide',sForm(),[{l:'Cancel',c:'btn-g',f:'CM()'},{l:'Add Slide',c:'btn-p',f:'svSlide()'}]);setTimeout(()=>rC('cw-chips',cChips,'ci-chips','Type chip + Enter','addC(event,\\'cw-chips\\',cChips,\\'ci-chips\\',\\'Type chip + Enter\\')'),50);}
+function oEditSlide(id){eId=id;const S=DB.get('slides')||[];const s=S.find(s=>s.id===id);cChips=[...(s.chips||[])];SM('Edit Hero Slide',sForm(s),[{l:'Cancel',c:'btn-g',f:'CM()'},{l:'Save',c:'btn-p',f:'svSlide()'}]);setTimeout(()=>rC('cw-chips',cChips,'ci-chips','Type chip + Enter','addC(event,\\'cw-chips\\',cChips,\\'ci-chips\\',\\'Type chip + Enter\\')'),50);}
+function svSlide(){
+  const c=document.getElementById('sf-c')?.value.trim();
+  if(!c){toast('Category name required','error');return;}
+  const S=DB.get('slides')||[];
+  const d={cat:c,emoji:document.getElementById('sf-e')?.value.trim()||'🍽️',badge:document.getElementById('sf-b')?.value.trim()||'',h1:document.getElementById('sf-h1')?.value.trim()||'',hb:document.getElementById('sf-hb')?.value.trim()||'',hi:document.getElementById('sf-hi')?.value.trim()||'',sub:document.getElementById('sf-s')?.value.trim()||'',chips:[...cChips],img:document.getElementById('sf-i')?.value.trim()||'',fk:document.getElementById('sf-fk')?.value||'vegs',active:true};
+  if(eId){const i=S.findIndex(s=>s.id===eId);if(i!==-1)S[i]={...S[i],...d};}
+  else{d.id=Date.now();d.order=S.length+1;S.push(d);}
+  DB.set('slides',S);CM();RP('hero');toast(eId?'Slide updated':'Slide added','success');
+}
+function dSlide(id){if(!confirm('Delete slide?'))return;DB.set('slides',(DB.get('slides')||[]).filter(s=>s.id!==id));RP('hero');toast('Deleted','success');}
+function tSlide(id){const S=DB.get('slides')||[];const s=S.find(s=>s.id===id);if(s)s.active=!s.active;DB.set('slides',S);RP('hero');toast(s.active?'Activated':'Hidden','info');}
+
+/* ── PRODUCTS ── */
+function rProds(){
+  const P=DB.get('products')||[];
+  const C=DB.get('cats')||[];
+  const F=PF==='all'?P:P.filter(p=>p.cat===PF);
+  return`<div class="sh"><div><div class="st">Products</div><div class="ss">${P.length} total · ${P.filter(p=>p.active).length} active</div></div><button class="btn btn-p" onclick="oAddP()">+ Add Product</button></div>
+  <div class="tabs">
+    <button class="tab ${PF==='all'?'active':''}" onclick="PF='all';RP('products')">All (${P.length})</button>
+    ${C.map(c=>`<button class="tab ${PF===c.id?'active':''}" onclick="PF='${c.id}';RP('products')">${c.emoji} ${c.name.split(' ')[0]} (${P.filter(p=>p.cat===c.id).length})</button>`).join('')}
+  </div>
+  <div class="tw"><table><thead><tr><th>Product</th><th>Category</th><th>Sub</th><th>Pack Sizes</th><th>Tags</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+  ${F.length===0?`<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted);">No products</td></tr>`:F.map(p=>{
+    const cat=C.find(c=>c.id===p.cat);
+    return`<tr><td style="display:flex;align-items:center;gap:10px;padding:10px 12px;">
+      ${p.img?`<img src="${p.img}" style="width:40px;height:36px;object-fit:cover;border-radius:6px;background:var(--panel)" onerror="this.style.display='none'">`:'<div style="width:40px;height:36px;border-radius:6px;background:var(--panel);display:flex;align-items:center;justify-content:center;font-size:16px;">'+(cat?.emoji||'📦')+'</div>'}
+      <div><div style="font-weight:600;font-size:13px;">${p.name}</div><div style="font-size:11px;color:var(--muted);">${p.note.substring(0,45)}...</div></div></td>
+      <td>${cat?cat.emoji+' '+cat.name:p.cat}</td>
+      <td style="color:var(--muted);font-size:12px;">${p.sub}</td>
+      <td style="font-size:11px;font-family:var(--mono);color:var(--muted);">${p.qty}</td>
+      <td>${(p.tags||[]).slice(0,2).map(t=>`<span class="badge bb" style="font-size:9px;">${t}</span>`).join(' ')}</td>
+      <td><span class="badge ${p.active?'bg':'br'}" style="cursor:pointer" onclick="tProd(${p.id})">${p.active?'Active':'Hidden'}</span></td>
+      <td><div class="ar"><button class="btn btn-g" style="font-size:11px;padding:5px 10px;" onclick="oEditP(${p.id})">✏</button><button class="btn btn-d" style="font-size:11px;padding:5px 10px;" onclick="dProd(${p.id})">🗑</button></div></td>
+    </tr>`;
+  }).join('')}
+  </tbody></table></div>`;
+}
+function pForm(p={}){
+  cTags=p.tags?[...p.tags]:[];
+  const C=DB.get('cats')||[];
+  return`<div class="fg" style="gap:14px">
+    <div class="fg fg2"><div class="ff"><label>Product Name *</label><input id="pf-n" value="${p.name||''}" placeholder="e.g. Green Peas"></div>
+    <div class="ff"><label>Category *</label><select id="pf-c">${C.map(c=>`<option value="${c.id}" ${p.cat===c.id?'selected':''}>${c.emoji} ${c.name}</option>`).join('')}</select></div></div>
+    <div class="fg fg2"><div class="ff"><label>Sub-Category</label><input id="pf-s" value="${p.sub||''}" placeholder="e.g. IQF Vegetables"></div>
+    <div class="ff"><label>Pack Sizes</label><input id="pf-q" value="${p.qty||''}" placeholder="400g · 1kg · 2.5kg · 10kg"></div></div>
+    <div class="ff"><label>Description</label><textarea id="pf-d">${p.note||''}</textarea></div>
+    <div class="ff"><label>Tags (Enter to add)</label><div class="cw" id="cw-tags" onclick="document.getElementById('ci-tags').focus()"></div></div>
+    <div class="ff"><label>Image Path</label><input id="pf-i" value="${p.img||''}" placeholder="src/products/..." oninput="pImg(this,'pf-ip')">
+    <div class="ip" id="pf-ip">${p.img?`<img src="${p.img}"><div style="position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;padding:3px 8px;border-radius:4px;">Preview</div>`:'<span>Image preview</span>'}</div></div>
+  </div>`;
+}
+function oAddP(){eId=null;cTags=[];SM('Add Product',pForm(),[{l:'Cancel',c:'btn-g',f:'CM()'},{l:'Add Product',c:'btn-p',f:'svProd()'}]);setTimeout(()=>rC('cw-tags',cTags,'ci-tags','e.g. IQF, Frozen','addC(event,\\'cw-tags\\',cTags,\\'ci-tags\\',\\'e.g. IQF\\')'),50);}
+function oEditP(id){eId=id;const P=DB.get('products')||[];const p=P.find(p=>p.id===id);cTags=[...(p.tags||[])];SM('Edit Product',pForm(p),[{l:'Cancel',c:'btn-g',f:'CM()'},{l:'Save',c:'btn-p',f:'svProd()'}]);setTimeout(()=>rC('cw-tags',cTags,'ci-tags','e.g. IQF, Frozen','addC(event,\\'cw-tags\\',cTags,\\'ci-tags\\',\\'e.g. IQF\\')'),50);}
+function svProd(){
+  const n=document.getElementById('pf-n')?.value.trim();if(!n){toast('Name required','error');return;}
+  const P=DB.get('products')||[];
+  const d={name:n,cat:document.getElementById('pf-c')?.value||'vegs',sub:document.getElementById('pf-s')?.value.trim()||'',qty:document.getElementById('pf-q')?.value.trim()||'',note:document.getElementById('pf-d')?.value.trim()||'',tags:[...cTags],img:document.getElementById('pf-i')?.value.trim()||'',active:true};
+  if(eId){const i=P.findIndex(p=>p.id===eId);if(i!==-1)P[i]={...P[i],...d};}else{d.id=Date.now();P.push(d);}
+  DB.set('products',P);CM();RP('products');toast(eId?'Updated':'Added','success');
+}
+function dProd(id){if(!confirm('Delete?'))return;DB.set('products',(DB.get('products')||[]).filter(p=>p.id!==id));RP('products');toast('Deleted','success');}
+function tProd(id){const P=DB.get('products')||[];const p=P.find(p=>p.id===id);if(p)p.active=!p.active;DB.set('products',P);RP('products');}
+
+/* ── CATEGORIES ── */
+function rCats(){
+  const C=DB.get('cats')||[];const P=DB.get('products')||[];
+  return`<div class="sh"><div><div class="st">Categories</div><div class="ss">Homepage category tiles</div></div><button class="btn btn-p" onclick="oAddCat()">+ Add Category</button></div>
+  <div class="cl">${C.map(c=>{const cnt=P.filter(p=>p.cat===c.id).length;return`<div class="lc">
+    <div class="lcp">${c.emoji}</div>
+    ${c.img?`<img src="${c.img}" class="lct" onerror="this.style.display='none'">`:'' }
+    <div class="lci"><div class="lcn">${c.name}</div><div class="lcm">${cnt} products · key: <code>${c.id}</code></div></div>
+    <div class="lca"><button class="btn btn-g" style="font-size:11px;padding:5px 10px;" onclick="oEditCat('${c.id}')">✏ Edit</button><button class="btn btn-d" style="font-size:11px;padding:5px 10px;" onclick="dCat('${c.id}')">🗑</button></div>
+  </div>`;}).join('')}</div>`;
+}
+function cForm(c={}){return`<div class="fg" style="gap:14px">
+  <div class="fg fg2"><div class="ff"><label>Category ID (no spaces) *</label><input id="cf-id" value="${c.id||''}" placeholder="e.g. vegs" ${c.id?'readonly':''}></div>
+  <div class="ff"><label>Emoji</label><input id="cf-e" value="${c.emoji||'🍽️'}" style="font-size:20px;text-align:center;"></div></div>
+  <div class="ff"><label>Display Name *</label><input id="cf-n" value="${c.name||''}" placeholder="e.g. Frozen Vegetables"></div>
+  <div class="ff"><label>Short Label</label><input id="cf-l" value="${c.label||''}" placeholder="e.g. IQF Vegetables"></div>
+  <div class="ff"><label>Image Path</label><input id="cf-i" value="${c.img||''}" placeholder="src/products/..." oninput="pImg(this,'cf-ip')">
+  <div class="ip" id="cf-ip">${c.img?`<img src="${c.img}">`:'<span>Image preview</span>'}</div></div>
+</div>`;}
+function oAddCat(){eId=null;SM('Add Category',cForm(),[{l:'Cancel',c:'btn-g',f:'CM()'},{l:'Add',c:'btn-p',f:'svCat()'}]);}
+function oEditCat(id){eId=id;const C=DB.get('cats')||[];SM('Edit Category',cForm(C.find(c=>c.id===id)||{}),[{l:'Cancel',c:'btn-g',f:'CM()'},{l:'Save',c:'btn-p',f:'svCat()'}]);}
+function svCat(){
+  const id=document.getElementById('cf-id')?.value.trim().toLowerCase().replace(/\s+/g,'');
+  const n=document.getElementById('cf-n')?.value.trim();
+  if(!id||!n){toast('ID and Name required','error');return;}
+  const C=DB.get('cats')||[];
+  const d={id,name:n,emoji:document.getElementById('cf-e')?.value.trim()||'🍽️',label:document.getElementById('cf-l')?.value.trim()||n,img:document.getElementById('cf-i')?.value.trim()||''};
+  if(eId){const i=C.findIndex(c=>c.id===eId);if(i!==-1)C[i]=d;}
+  else{if(C.find(c=>c.id===id)){toast('ID exists','error');return;}C.push(d);}
+  DB.set('cats',C);CM();RP('categories');toast('Saved','success');
+}
+function dCat(id){if(!confirm('Delete category?'))return;DB.set('cats',(DB.get('cats')||[]).filter(c=>c.id!==id));RP('categories');toast('Deleted','success');}
+
+/* ── CONTACT INFO ── */
+function rContact(){
+  const c=DB.get('contact')||{};
+  return`<div class="sh"><div><div class="st">Contact Information</div><div class="ss">Shown in website contact section and footer</div></div><button class="btn btn-p" onclick="svCI()">💾 Save</button></div>
+  <div class="fs"><div class="fs-t">📍 Business Details</div>
+    <div class="fg" style="gap:14px;">
+      <div class="fg fg2">
+        <div class="ff"><label>Full Address</label><textarea id="ci-a">${c.address||''}</textarea></div>
+        <div>
+          <div class="ff" style="margin-bottom:14px;"><label>Phone</label><input id="ci-p" value="${c.phone||''}"></div>
+          <div class="ff"><label>Email</label><input id="ci-e" value="${c.email||''}"></div>
+        </div>
+      </div>
+      <div class="ff"><label>Business Hours</label><input id="ci-h" value="${c.hours||''}"></div>
+    </div>
+  </div>
+  <div class="fs"><div class="fs-t">🌐 Social & Web</div>
+    <div class="fg fg3">
+      <div class="ff"><label>Website URL</label><input id="ci-w" value="${c.website||''}"></div>
+      <div class="ff"><label>LinkedIn</label><input id="ci-li" value="${c.linkedin||''}"></div>
+      <div class="ff"><label>Instagram</label><input id="ci-ig" value="${c.instagram||''}"></div>
+    </div>
+  </div>`;
+}
+function svCI(){
+  DB.set('contact',{address:document.getElementById('ci-a')?.value.trim()||'',phone:document.getElementById('ci-p')?.value.trim()||'',email:document.getElementById('ci-e')?.value.trim()||'',hours:document.getElementById('ci-h')?.value.trim()||'',website:document.getElementById('ci-w')?.value.trim()||'',linkedin:document.getElementById('ci-li')?.value.trim()||'',instagram:document.getElementById('ci-ig')?.value.trim()||''});
+  toast('Contact info saved','success');
+}
+
+/* ── ENQUIRIES ── */
+function rEnquiries(){
+  const E=(DB.get('enquiries')||[]).sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const unread=E.filter(e=>!e.seen).length;
+  return`<div class="sh">
+    <div><div class="st">Enquiries ${unread>0?`<span class="badge by" style="font-size:12px;vertical-align:middle;margin-left:8px;">${unread} new</span>`:''}</div><div class="ss">B2B enquiry submissions</div></div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-g" onclick="markAll()">✓ Mark All Seen</button>
+      <button class="btn btn-d" onclick="clearAll()">🗑 Clear All</button>
+    </div>
+  </div>
+  ${E.length===0?`<div class="es"><div class="ei">📭</div><h3>No enquiries yet</h3><p>Website form submissions appear here automatically.</p><button class="btn btn-g" style="margin-top:14px;" onclick="addDemo()">+ Add Demo Enquiry</button></div>`:`
+  <div class="tw"><table><thead><tr><th>Name</th><th>Company</th><th>Phone</th><th>Email</th><th>Business Type</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+  ${E.map(e=>`<tr style="${!e.seen?'background:rgba(232,147,10,.03);':''}">
+    <td><strong>${e.name}</strong>${!e.seen?' <span class="badge by" style="font-size:8px;">NEW</span>':''}</td>
+    <td>${e.company}</td>
+    <td><a href="tel:${e.phone}" style="color:var(--accent);text-decoration:none;">${e.phone}</a></td>
+    <td><a href="mailto:${e.email}" style="color:var(--accent);text-decoration:none;font-size:12px;">${e.email||'—'}</a></td>
+    <td><span class="badge bb" style="font-size:9px;">${e.business_type||'—'}</span></td>
+    <td style="font-size:11px;color:var(--muted);">${fd(e.date)}</td>
+    <td><span class="badge ${e.seen?'bm':'by'}">${e.seen?'Seen':'New'}</span></td>
+    <td><div class="ar"><button class="btn btn-g" style="font-size:11px;padding:5px 10px;" onclick="vEnq('${e.id}')">👁 View</button><button class="btn btn-d" style="font-size:11px;padding:5px 10px;" onclick="dEnq('${e.id}')">🗑</button></div></td>
+  </tr>`).join('')}
+  </tbody></table></div>`}`;
+}
+function vEnq(id){
+  const E=DB.get('enquiries')||[];const e=E.find(e=>e.id===id);if(!e)return;
+  e.seen=true;DB.set('enquiries',E);UB();
+  SM('Enquiry Details',`
+    <div class="ef"><label>Name</label><div class="val">${e.name}</div></div>
+    <div class="fg fg2" style="gap:12px;">
+      <div class="ef"><label>Company</label><div class="val">${e.company}</div></div>
+      <div class="ef"><label>Phone</label><div class="val"><a href="tel:${e.phone}" style="color:var(--accent);text-decoration:none;">${e.phone}</a></div></div>
+    </div>
+    <div class="ef"><label>Email</label><div class="val"><a href="mailto:${e.email}" style="color:var(--accent);text-decoration:none;">${e.email||'—'}</a></div></div>
+    <div class="ef"><label>Business Type</label><div class="val">${e.business_type||'—'}</div></div>
+    <div class="ef"><label>Message</label><div class="val" style="white-space:pre-wrap;">${e.message||'—'}</div></div>
+    <div class="ef"><label>Submitted</label><div class="val">${new Date(e.date).toLocaleString()}</div></div>
+  `,[{l:'Delete',c:'btn-d',f:`dEnq('${id}')`},{l:'Reply by Email',c:'btn-s',f:`window.open('mailto:${e.email}?subject=Re: B2B Enquiry')`},{l:'Close',c:'btn-g',f:'CM()'}]);
+  if(CP==='enquiries')RP('enquiries');
+}
+function dEnq(id){if(!confirm('Delete enquiry?'))return;DB.set('enquiries',(DB.get('enquiries')||[]).filter(e=>e.id!==id));CM();RP('enquiries');UB();toast('Deleted','success');}
+function markAll(){DB.set('enquiries',(DB.get('enquiries')||[]).map(e=>({...e,seen:true})));RP('enquiries');UB();toast('All marked seen','info');}
+function clearAll(){if(!confirm('Delete ALL enquiries?'))return;DB.set('enquiries',[]);RP('enquiries');UB();toast('Cleared','info');}
+function addDemo(){recvEnq({id:'d-'+Date.now(),name:'Raj Sharma',company:'Fresh Foods Pvt Ltd',phone:'+91 98765 43210',email:'raj@freshfoods.in',business_type:'Distributor / Wholesaler',message:'Interested in IQF vegetables — Green Peas and Sweet Corn, 10kg bulk packs. Need pricing for 500kg/month.',date:new Date().toISOString(),seen:false});}
+function recvEnq(enq){const E=DB.get('enquiries')||[];E.unshift(enq);DB.set('enquiries',E);UB();toast('New enquiry!','info');if(CP==='enquiries')RP('enquiries');}
+
+/* ── SETTINGS ── */
+function rSettings(){
+  const s=DB.get('settings')||{};
+  return`<div class="sh"><div><div class="st">Settings</div><div class="ss">General site configuration</div></div><button class="btn btn-p" onclick="svSettings()">💾 Save</button></div>
+  <div class="fs"><div class="fs-t">🏢 Brand</div>
+    <div class="fg" style="gap:14px;">
+      <div class="ff"><label>Site Name</label><input id="ss-n" value="${s.site_name||''}"></div>
+      <div class="ff"><label>Tagline</label><input id="ss-t" value="${s.tagline||''}"></div>
+      <div class="ff"><label>Copyright Text</label><input id="ss-c" value="${s.copyright||''}"></div>
+    </div>
+  </div>
+  <div class="fs"><div class="fs-t">⚙️ Slider</div>
+    <div class="fg fg2"><div class="ff"><label>Auto-slide Interval (ms)</label><input id="ss-i" type="number" value="${s.interval||5500}" min="2000" max="15000" step="500"></div></div>
+  </div>
+  <div class="fs"><div class="fs-t">🗄️ Data</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-g" onclick="exportData()">⬇ Export JSON Backup</button>
+      <button class="btn btn-d" onclick="resetAll()">⚠ Reset All to Defaults</button>
+    </div>
+    <p style="font-size:11px;color:var(--muted);margin-top:10px;">Data stored in browser localStorage. Export regularly to backup.</p>
+  </div>`;
+}
+function svSettings(){DB.set('settings',{site_name:document.getElementById('ss-n')?.value.trim()||'',tagline:document.getElementById('ss-t')?.value.trim()||'',copyright:document.getElementById('ss-c')?.value.trim()||'',interval:parseInt(document.getElementById('ss-i')?.value)||5500});toast('Settings saved','success');}
+function resetAll(){if(!confirm('Reset ALL data to defaults?'))return;localStorage.removeItem('abfc_init');location.reload();}
+
+/* ── UTILS ── */
+function saveAll(){if(CP==='contactinfo')svCI();else if(CP==='settings')svSettings();else toast('Use section-specific save buttons','info');}
+function exportData(){
+  const d={slides:DB.get('slides'),products:DB.get('products'),cats:DB.get('cats'),contact:DB.get('contact'),enquiries:DB.get('enquiries'),settings:DB.get('settings'),exported:new Date().toISOString()};
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(d,null,2)],{type:'application/json'}));a.download=`abfc_backup_${new Date().toISOString().slice(0,10)}.json`;a.click();toast('Exported','success');
+}
+function UB(){const E=DB.get('enquiries')||[];const u=E.filter(e=>!e.seen).length;const b=document.getElementById('enq-badge');if(b){b.textContent=u;b.style.display=u>0?'inline-flex':'none';}}
+function fd(d){if(!d)return'—';try{return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});}catch{return d;}}
+function pImg(inp,pid){const p=document.getElementById(pid);if(!p)return;const s=inp.value.trim();p.innerHTML=s?`<img src="${s}" onerror="this.parentNode.innerHTML='<span>Not found</span>'"><div style="position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,.6);color:#fff;font-size:10px;padding:3px 8px;border-radius:4px;">Preview</div>`:'<span>Image preview</span>';}
+
+/* ── CHIP INPUT ── */
+function addC(e,wid,arr,iid,hdlr){
+  if(e.key==='Enter'||e.key===','){e.preventDefault();const v=e.target.value.trim().replace(/,$/,'');if(v&&!arr.includes(v)){arr.push(v);rC(wid,arr,iid,e.target.placeholder,hdlr);}e.target.value='';}
+  else if(e.key==='Backspace'&&!e.target.value&&arr.length){arr.pop();rC(wid,arr,iid,e.target.placeholder,hdlr);}
+}
+function rmC(wid,arr,idx,iid,ph,hdlr){arr.splice(idx,1);rC(wid,arr,iid,ph,hdlr);}
+function rC(wid,arr,iid,ph,hdlr){
+  const w=document.getElementById(wid);if(!w)return;
+  w.innerHTML=arr.map((c,i)=>`<span class="chip">${c}<span class="chip-x" onclick="rmC('${wid}',${arr===cTags?'cTags':'cChips'},${i},'${iid}','${ph}','${hdlr}')">✕</span></span>`).join('')+`<input id="${iid}" placeholder="${arr.length?'':ph}" onkeydown="${hdlr}">`;
+}
+
+/* ── MODAL ── */
+function SM(t,b,btns=[]){
+  document.getElementById('mt').textContent=t;
+  document.getElementById('mbody').innerHTML=b;
+  document.getElementById('mf').innerHTML=btns.map(b=>`<button class="btn ${b.c}" onclick="${b.f}">${b.l}</button>`).join('');
+  document.getElementById('modal').classList.add('show');
+}
+function CM(){document.getElementById('modal').classList.remove('show');eId=null;cTags=[];cChips=[];}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))CM();});
+
+/* ── TOAST ── */
+function toast(msg,type='info'){
+  const icons={success:'✓',error:'✕',info:'●'};
+  const t=document.createElement('div');t.className=`toast ${type}`;t.innerHTML=`<span>${icons[type]||'•'}</span><span>${msg}</span>`;
+  document.getElementById('toast').appendChild(t);
+  setTimeout(()=>t.classList.add('show'),20);
+  setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300);},3000);
+}
+
+/* ── EXPOSE ── */
+window.ABFC_ADMIN={recvEnq,getData:k=>DB.get(k)};
+</script>
+</body>
+</html>

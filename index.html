@@ -256,12 +256,7 @@ header.scrolled .hamburger span{background:var(--bark);}
 .btn-enquire:hover{background:var(--terra);}
 
 /* ── CATEGORY SECTION FOOTER ── */
-.cat-section-footer{background:var(--bark);border-radius:16px;padding:24px 28px;margin-top:4px;margin-bottom:52px;display:flex;align-items:center;justify-content:space-between;gap:16px;}
-.cat-section-footer-left .csf-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--turmeric);font-weight:600;margin-bottom:4px;}
-.cat-section-footer-left .csf-title{font-family:var(--font-display);font-size:18px;font-weight:600;color:#fff;}
-.cat-section-footer-left .csf-sub{font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;}
-.cat-section-footer .cat-footer-btn{background:var(--terra);color:#fff;border:none;padding:10px 22px;border-radius:30px;font-size:12px;font-weight:600;font-family:var(--font-body);cursor:pointer;transition:.2s;white-space:nowrap;flex-shrink:0;min-height:40px;}
-.cat-section-footer .cat-footer-btn:hover{background:var(--saffron);}
+
 
 /* ── PRODUCT MODAL ── */
 .product-modal-veil{position:fixed;inset:0;background:rgba(28,18,8,.85);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:6000;display:none;align-items:center;justify-content:center;padding:12px;overscroll-behavior:contain;}
@@ -416,9 +411,7 @@ footer{background:#110c05;padding:56px 48px 28px;}
   .product-card-body{padding:10px;}
   .product-card-name{font-size:13px;}
   .cat-section-head h2{font-size:20px;}
-  .cat-section-footer{flex-direction:row;align-items:center;padding:16px 18px;margin-bottom:36px;}
-  .cat-section-footer-left .csf-title{font-size:15px;}
-  .cat-section-footer .cat-footer-btn{padding:9px 16px;font-size:11px;}
+ 
   /* MODAL mobile — smaller image, CTA always visible */
   .product-modal-veil{padding:8px;}
   .product-modal-box{height:92vh;max-height:92vh;border-radius:20px;}
@@ -1090,9 +1083,8 @@ function renderProducts(filter){
       html+='</div></div>';
     });
     html+='</div>';
-    html+='<div class="cat-section-footer">';
-    html+='<div class="cat-section-footer-left"><div class="csf-label">'+info.label+'</div><div class="csf-title">'+info.emoji+' '+items.length+' Product'+(items.length>1?'s':'')+' Available</div><div class="csf-sub">Inquiry-based pricing · Bulk orders welcome</div></div>';
-    html+='<button class="cat-footer-btn" onclick="goContact()">Request Catalogue &#8594;</button>';
+  
+   
     html+='</div>';
     html+='</div>';
   });
@@ -1121,6 +1113,9 @@ function submitContact(){
     alert('Please fill in Name, Company and Phone.');return;
   }
   document.getElementById('contact-success').style.display='block';
+
+  // After storing locally, also post to admin panel if open
+if(window.opener) window.opener.postMessage({type:'new_enquiry', enquiry: {id:'e-'+Date.now(), name, company, phone, email, business_type, message, date: new Date().toISOString(), seen:false}}, '*');
 }
 
 /* Init */
