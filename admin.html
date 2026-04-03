@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Abhyuday Foods — Admin Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1C1208;--bark:#3B2A14;--terra:#C0541A;--saffron:#E8930A;
+  --turmeric:#F5C842;--cream:#FAF5EC;--parchment:#F0E8D4;
+  --sage:#4A6741;--sage2:#6B9462;--mist:#EEE8DC;--white:#FFFDF8;
+  --red:#dc2626;--blue:#1d4ed8;--teal:#0e7490;
+  --sidebar-w:260px;
+  --font-display:'Cormorant Garamond',serif;
+  --font-body:'Outfit',sans-serif;
+  --ease:cubic-bezier(.25,.46,.45,.94);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;font-family:var(--font-body);background:#f5f0e8;color:var(--ink);}
+body{display:flex;flex-direction:column;}
+
+/* LOGIN */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:var(--bark);padding:16px;}
+.login-box{background:var(--white);border-radius:24px;padding:48px 40px;max-width:420px;width:100%;box-shadow:0 32px 80px rgba(28,18,8,.4);}
+.login-box h1{font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--bark);margin-bottom:4px;}
+.login-box p{font-size:13px;color:#9a8a75;margin-bottom:32px;}
+.login-field{margin-bottom:18px;}
+.login-field label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:#7a6a55;margin-bottom:8px;}
+.login-field input{width:100%;padding:13px 16px;border:1.5px solid var(--parchment);border-radius:10px;font-family:var(--font-body);font-size:15px;background:var(--cream);color:var(--ink);outline:none;transition:.25s;}
+.login-field input:focus{border-color:var(--terra);background:#fff;}
+.login-err{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;font-size:13px;color:var(--red);margin-bottom:14px;display:none;}
+.btn-login{width:100%;background:linear-gradient(135deg,var(--terra),var(--saffron));color:#fff;border:none;padding:15px;border-radius:50px;font-family:var(--font-display);font-size:18px;font-weight:600;cursor:pointer;transition:.3s;}
+.btn-login:hover{opacity:.9;transform:translateY(-1px);}
+
+/* LAYOUT */
+#app{display:none;flex:1;min-height:100vh;}
+#app.visible{display:flex;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--bark);display:flex;flex-direction:column;flex-shrink:0;position:fixed;top:0;left:0;height:100vh;z-index:200;overflow-y:auto;}
+.sidebar-brand{padding:24px 20px 16px;border-bottom:1px solid rgba(255,255,255,.1);}
+.sidebar-brand h2{font-family:var(--font-display);font-size:20px;font-weight:700;color:#fff;}
+.sidebar-brand p{font-size:11px;color:rgba(255,255,255,.45);margin-top:3px;}
+.sidebar-nav{padding:16px 12px;flex:1;}
+.nav-section{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);font-weight:600;padding:12px 8px 6px;margin-top:4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:rgba(255,255,255,.6);font-size:13px;font-weight:500;cursor:pointer;transition:.2s;margin-bottom:2px;}
+.nav-item:hover{background:rgba(255,255,255,.08);color:#fff;}
+.nav-item.active{background:var(--terra);color:#fff;}
+.nav-item .ni-icon{font-size:16px;width:20px;text-align:center;}
+.sidebar-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,.1);}
+.sidebar-footer .profile-row{display:flex;align-items:center;gap:10px;cursor:pointer;padding:8px;border-radius:10px;transition:.2s;position:relative;}
+.sidebar-footer .profile-row:hover{background:rgba(255,255,255,.08);}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--terra),var(--saffron));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;}
+.profile-info strong{display:block;color:#fff;font-size:13px;}
+.profile-info small{font-size:10px;color:rgba(255,255,255,.45);}
+.profile-dropdown{position:absolute;bottom:calc(100% + 4px);left:0;right:0;background:var(--white);border-radius:12px;padding:8px;box-shadow:0 8px 32px rgba(28,18,8,.3);display:none;z-index:300;}
+.profile-dropdown.open{display:block;}
+.pd-item{padding:9px 12px;border-radius:8px;font-size:13px;color:var(--ink);cursor:pointer;transition:.15s;display:flex;align-items:center;gap:8px;}
+.pd-item:hover{background:var(--parchment);}
+.pd-item.danger{color:var(--red);}
+
+/* MAIN */
+.main-content{margin-left:var(--sidebar-w);flex:1;padding:32px;min-height:100vh;}
+
+/* TOP BAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
+.topbar h1{font-family:var(--font-display);font-size:32px;font-weight:700;color:var(--bark);}
+.topbar p{font-size:13px;color:#9a8a75;margin-top:2px;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+
+/* STATS CARDS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+.stat-card{background:var(--white);border-radius:16px;padding:20px;border-left:4px solid var(--terra);}
+.stat-card.blue{border-left-color:var(--blue);}
+.stat-card.green{border-left-color:var(--sage);}
+.stat-card.amber{border-left-color:var(--saffron);}
+.stat-card-val{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--bark);}
+.stat-card-lbl{font-size:11px;color:#9a8a75;text-transform:uppercase;letter-spacing:1.5px;margin-top:4px;}
+
+/* SECTION PANEL */
+.panel{background:var(--white);border-radius:20px;padding:28px;margin-bottom:24px;}
+.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.panel-head h3{font-family:var(--font-display);font-size:22px;font-weight:600;color:var(--bark);}
+.panel-head p{font-size:12px;color:#9a8a75;margin-top:2px;}
+
+/* BUTTONS */
+.btn{padding:9px 20px;border-radius:30px;border:none;font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:var(--terra);color:#fff;}
+.btn-primary:hover{background:var(--saffron);}
+.btn-success{background:var(--sage);color:#fff;}
+.btn-success:hover{background:#3a5232;}
+.btn-ghost{background:var(--parchment);color:var(--bark);}
+.btn-ghost:hover{background:var(--mist);}
+.btn-danger{background:var(--red);color:#fff;}
+.btn-danger:hover{opacity:.85;}
+.btn-sm{padding:6px 14px;font-size:12px;}
+.btn-icon{width:32px;height:32px;padding:0;justify-content:center;border-radius:8px;}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{text-align:left;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9a8a75;font-weight:600;padding:0 12px 12px;border-bottom:1px solid var(--parchment);}
+.data-table td{padding:12px;border-bottom:1px solid var(--parchment);font-size:13px;color:var(--ink);vertical-align:middle;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:var(--cream);}
+.td-actions{display:flex;gap:6px;align-items:center;}
+
+/* BADGE */
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+.badge-active{background:#dcfce7;color:var(--sage);}
+.badge-inactive{background:#fee2e2;color:var(--red);}
+.badge-new{background:#fef3c7;color:#92400e;}
+.badge-seen{background:#f3f4f6;color:#6b7280;}
+
+/* FORM ELEMENTS */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.form-row.cols3{grid-template-columns:1fr 1fr 1fr;}
+.form-row.cols1{grid-template-columns:1fr;}
+.form-group label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;color:#7a6a55;margin-bottom:6px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;border:1.5px solid var(--parchment);border-radius:10px;font-family:var(--font-body);font-size:14px;background:var(--cream);color:var(--ink);outline:none;transition:.2s;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--terra);background:#fff;}
+.form-group textarea{min-height:70px;resize:vertical;}
+
+/* MODAL */
+.modal-veil{position:fixed;inset:0;background:rgba(28,18,8,.7);backdrop-filter:blur(8px);z-index:5000;display:none;align-items:center;justify-content:center;padding:16px;}
+.modal-veil.open{display:flex;}
+.modal-box{background:var(--white);border-radius:24px;max-width:520px;width:100%;padding:36px;position:relative;max-height:90vh;overflow-y:auto;}
+.modal-box h3{font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--bark);margin-bottom:20px;}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--parchment);border:none;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;}
+.modal-close:hover{background:var(--terra);color:#fff;}
+.modal-footer{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bark);color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:500;z-index:9999;transform:translateY(80px);opacity:0;transition:.35s var(--ease);pointer-events:none;}
+.toast.show{transform:none;opacity:1;}
+.toast.success{background:var(--sage);}
+.toast.error{background:var(--red);}
+
+/* ENQUIRY DETAIL */
+.enq-detail{background:var(--cream);border-radius:12px;padding:16px;margin-bottom:12px;}
+.enq-detail dt{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9a8a75;font-weight:600;margin-bottom:3px;}
+.enq-detail dd{font-size:14px;color:var(--ink);margin-bottom:10px;}
+
+/* SWITCH TOGGLE */
+.toggle-wrap{display:flex;align-items:center;gap:8px;}
+.toggle{position:relative;width:36px;height:20px;flex-shrink:0;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:#ddd;border-radius:20px;cursor:pointer;transition:.3s;}
+.toggle-slider::before{content:'';position:absolute;left:3px;top:3px;width:14px;height:14px;background:#fff;border-radius:50%;transition:.3s;}
+.toggle input:checked + .toggle-slider{background:var(--sage);}
+.toggle input:checked + .toggle-slider::before{transform:translateX(16px);}
+.toggle-label{font-size:12px;color:#7a6a55;}
+
+/* CHANGE PASSWORD MODAL */
+#change-pw-modal .modal-box{max-width:400px;}
+
+/* TABS inside panel */
+.inner-tabs{display:flex;gap:4px;margin-bottom:20px;background:var(--parchment);border-radius:12px;padding:4px;}
+.inner-tab{padding:8px 18px;border-radius:9px;border:none;font-family:var(--font-body);font-size:12px;font-weight:600;cursor:pointer;transition:.2s;color:#7a6a55;background:transparent;}
+.inner-tab.active{background:var(--white);color:var(--terra);box-shadow:0 2px 8px rgba(60,42,20,.1);}
+
+/* PRODUCT CARD MINI */
+.prod-img-preview{width:44px;height:44px;border-radius:8px;object-fit:cover;background:var(--parchment);}
+
+@media(max-width:900px){
+  .sidebar{width:220px;}
+  .main-content{margin-left:220px;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:680px){
+  .sidebar{display:none;}
+  .main-content{margin-left:0;padding:16px;}
+  .stats-row{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .form-row.cols3{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN ═══ -->
+<div id="login-screen">
+  <div class="login-box">
+    <h1>Admin Panel</h1>
+    <p>Abhyuday Bharat Food Cluster · Secure Access</p>
+    <div class="login-err" id="login-err">Invalid username or password.</div>
+    <div class="login-field"><label>Username</label><input type="text" id="login-user" placeholder="admin" autocomplete="username"></div>
+    <div class="login-field"><label>Password</label><input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password"></div>
+    <button class="btn-login" onclick="doLogin()">Sign In →</button>
+  </div>
+</div>
+
+<!-- ═══ APP ═══ -->
+<div id="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <h2>Abhyuday Foods</h2>
+      <p>Admin Panel v2.0</p>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Main</div>
+      <div class="nav-item active" onclick="showSection('dashboard')" id="nav-dashboard"><span class="ni-icon">📊</span>Dashboard</div>
+      <div class="nav-item" onclick="showSection('enquiries')" id="nav-enquiries"><span class="ni-icon">📬</span>Enquiries <span id="enq-badge" style="margin-left:auto;background:var(--terra);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;display:none;"></span></div>
+      <div class="nav-section">Catalogue</div>
+      <div class="nav-item" onclick="showSection('categories')" id="nav-categories"><span class="ni-icon">🗂️</span>Categories</div>
+      <div class="nav-item" onclick="showSection('products')" id="nav-products"><span class="ni-icon">📦</span>Products</div>
+      <div class="nav-section">Settings</div>
+      <div class="nav-item" onclick="showSection('contact-settings')" id="nav-contact-settings"><span class="ni-icon">📞</span>Contact Info</div>
+      <div class="nav-item" onclick="showSection('website')" id="nav-website"><span class="ni-icon">🌐</span>View Website</div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="profile-row" onclick="toggleProfile()" id="profile-toggle">
+        <div class="avatar" id="avatar-initials">AD</div>
+        <div class="profile-info"><strong id="sidebar-username">Admin</strong><small>Administrator</small></div>
+        <span style="color:rgba(255,255,255,.4);font-size:12px;margin-left:auto;">▲</span>
+        <div class="profile-dropdown" id="profile-dropdown">
+          <div class="pd-item" onclick="openChangePwModal()">🔑 Change Password</div>
+          <div class="pd-item danger" onclick="doLogout()">🚪 Logout</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- DASHBOARD -->
+    <section id="section-dashboard">
+      <div class="topbar">
+        <div><h1>Dashboard</h1><p>Welcome back — here's your overview</p></div>
+        <div class="topbar-right">
+          <a href="index.html" target="_blank" class="btn btn-ghost btn-sm">🌐 View Website</a>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-card-val" id="stat-total-products">0</div><div class="stat-card-lbl">Total Products</div></div>
+        <div class="stat-card blue"><div class="stat-card-val" id="stat-total-cats">0</div><div class="stat-card-lbl">Categories</div></div>
+        <div class="stat-card green"><div class="stat-card-val" id="stat-enquiries">0</div><div class="stat-card-lbl">Total Enquiries</div></div>
+        <div class="stat-card amber"><div class="stat-card-val" id="stat-new-enq">0</div><div class="stat-card-lbl">New (Unread)</div></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h3>Recent Enquiries</h3><p>Latest 5 customer enquiries</p></div><button class="btn btn-ghost btn-sm" onclick="showSection('enquiries')">View All</button></div>
+        <table class="data-table">
+          <thead><tr><th>Name</th><th>Company</th><th>Phone</th><th>Date</th><th>Status</th></tr></thead>
+          <tbody id="dash-enq-table"><tr><td colspan="5" style="color:#9a8a75;padding:20px 12px;">No enquiries yet.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h3>Category Summary</h3><p>Products per category</p></div></div>
+        <table class="data-table">
+          <thead><tr><th>Category</th><th>Products</th><th>Status</th></tr></thead>
+          <tbody id="dash-cat-table"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ENQUIRIES -->
+    <section id="section-enquiries" style="display:none;">
+      <div class="topbar">
+        <div><h1>Enquiries</h1><p>All B2B customer enquiries from the website</p></div>
+        <div class="topbar-right">
+          <button class="btn btn-ghost btn-sm" onclick="markAllSeen()">Mark All Read</button>
+          <button class="btn btn-danger btn-sm" onclick="clearEnquiries()">Clear All</button>
+        </div>
+      </div>
+      <div class="panel">
+        <table class="data-table" id="enq-table">
+          <thead><tr><th>Name</th><th>Company</th><th>Phone / Email</th><th>Business Type</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="enq-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section id="section-categories" style="display:none;">
+      <div class="topbar">
+        <div><h1>Categories</h1><p>Manage product categories — changes reflect on website instantly</p></div>
+        <div class="topbar-right"><button class="btn btn-primary" onclick="openAddCatModal()">+ Add Category</button></div>
+      </div>
+      <div class="panel">
+        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#92400e;">
+          ⚡ Changes to categories are saved to your browser and instantly applied on the website when it reloads.
+        </div>
+        <table class="data-table" id="cat-table">
+          <thead><tr><th>Emoji</th><th>Category Name</th><th>ID</th><th>Products</th><th>Active</th><th>Actions</th></tr></thead>
+          <tbody id="cat-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="section-products" style="display:none;">
+      <div class="topbar">
+        <div><h1>Products</h1><p>Add, edit or remove products from the catalogue</p></div>
+        <div class="topbar-right"><button class="btn btn-primary" onclick="openAddProductModal()">+ Add Product</button></div>
+      </div>
+      <div class="panel">
+        <div style="margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <label style="font-size:12px;font-weight:600;color:#7a6a55;">Filter by Category:</label>
+          <select id="prod-filter-cat" onchange="renderProductsTable()" style="padding:7px 14px;border-radius:8px;border:1.5px solid var(--parchment);font-family:var(--font-body);font-size:13px;background:var(--cream);color:var(--ink);outline:none;">
+            <option value="all">All Categories</option>
+          </select>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Sub-category</th><th>Pack Sizes</th><th>Tags</th><th>Active</th><th>Actions</th></tr></thead>
+          <tbody id="prod-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- CONTACT SETTINGS -->
+    <section id="section-contact-settings" style="display:none;">
+      <div class="topbar"><div><h1>Contact Info</h1><p>Update the contact details shown on the website</p></div></div>
+      <div class="panel" style="max-width:620px;">
+        <div class="panel-head"><div><h3>Business Contact</h3><p>Displayed in the contact section and footer</p></div></div>
+        <div class="form-row cols1"><div class="form-group"><label>Address</label><textarea id="ci-address" rows="3" placeholder="Full address"></textarea></div></div>
+        <div class="form-row"><div class="form-group"><label>Phone</label><input id="ci-phone" type="tel" placeholder="+91 XXXXX XXXXX"></div><div class="form-group"><label>Email</label><input id="ci-email" type="email" placeholder="info@company.com"></div></div>
+        <div class="form-row cols1"><div class="form-group"><label>Business Hours</label><input id="ci-hours" placeholder="Mon – Sat, 9 AM – 6 PM IST"></div></div>
+        <button class="btn btn-primary" onclick="saveContactInfo()">Save Contact Info</button>
+      </div>
+    </section>
+
+    <!-- WEBSITE -->
+    <section id="section-website" style="display:none;">
+      <div class="topbar"><div><h1>View Website</h1></div></div>
+      <div class="panel" style="text-align:center;padding:60px 32px;">
+        <div style="font-size:56px;margin-bottom:16px;">🌐</div>
+        <h3 style="font-family:var(--font-display);font-size:28px;color:var(--bark);margin-bottom:12px;">Open Website</h3>
+        <p style="color:#9a8a75;margin-bottom:28px;">View the live website with all your changes applied.</p>
+        <a href="index.html" target="_blank" class="btn btn-primary" style="font-size:15px;padding:14px 40px;text-decoration:none;">Open index.html →</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ══ MODALS ══ -->
+
+<!-- ADD / EDIT CATEGORY -->
+<div class="modal-veil" id="cat-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeCatModal()">✕</button>
+    <h3 id="cat-modal-title">Add Category</h3>
+    <input type="hidden" id="cat-edit-id">
+    <input type="hidden" id="cat-edit-idx">
+    <div class="form-row">
+      <div class="form-group"><label>Emoji *</label><input id="cat-emoji" placeholder="🍟" maxlength="4" style="font-size:20px;text-align:center;"></div>
+      <div class="form-group"><label>Category Name *</label><input id="cat-name" placeholder="e.g. Frozen Chinese"></div>
+    </div>
+    <div class="form-row cols1">
+      <div class="form-group">
+        <label>Category ID * <small style="text-transform:none;letter-spacing:0;font-weight:400;color:#9a8a75;">(lowercase, no spaces — used as internal key)</small></label>
+        <input id="cat-id-field" placeholder="e.g. chinese" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')">
+      </div>
+    </div>
+    <div class="form-row cols1">
+      <div class="toggle-wrap">
+        <label class="toggle"><input type="checkbox" id="cat-active" checked><span class="toggle-slider"></span></label>
+        <span class="toggle-label">Active (visible on website)</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeCatModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCat()">Save Category</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD / EDIT PRODUCT -->
+<div class="modal-veil" id="prod-modal">
+  <div class="modal-box" style="max-width:620px;">
+    <button class="modal-close" onclick="closeProdModal()">✕</button>
+    <h3 id="prod-modal-title">Add Product</h3>
+    <input type="hidden" id="prod-edit-idx">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category *</label>
+        <select id="prod-cat"><option value="">Select category</option></select>
+      </div>
+      <div class="form-group"><label>Sub-category *</label><input id="prod-sub" placeholder="e.g. French Fries"></div>
+    </div>
+    <div class="form-row cols1"><div class="form-group"><label>Product Name *</label><input id="prod-name" placeholder="e.g. Straight Cut French Fries"></div></div>
+    <div class="form-row cols1"><div class="form-group"><label>Pack Sizes *</label><input id="prod-qty" placeholder="e.g. 400g · 1kg · 2.5kg · 10kg"></div></div>
+    <div class="form-row cols1"><div class="form-group"><label>Image Path *</label><input id="prod-img" placeholder="src/products/image.jpg"></div></div>
+    <div class="form-row cols1"><div class="form-group"><label>Product Note / Description</label><textarea id="prod-note" placeholder="Short description of this product…"></textarea></div></div>
+    <div class="form-row cols1">
+      <div class="form-group">
+        <label>Tags (comma separated)</label>
+        <input id="prod-tags" placeholder="e.g. Frozen, RTE">
+      </div>
+    </div>
+    <div class="form-row cols1">
+      <div class="toggle-wrap">
+        <label class="toggle"><input type="checkbox" id="prod-active" checked><span class="toggle-slider"></span></label>
+        <span class="toggle-label">Active (visible on website)</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeProdModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProduct()">Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- ENQUIRY DETAIL -->
+<div class="modal-veil" id="enq-modal">
+  <div class="modal-box" style="max-width:480px;">
+    <button class="modal-close" onclick="document.getElementById('enq-modal').classList.remove('open')">✕</button>
+    <h3>Enquiry Details</h3>
+    <dl class="enq-detail" id="enq-detail-body"></dl>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="document.getElementById('enq-modal').classList.remove('open')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- CHANGE PASSWORD -->
+<div class="modal-veil" id="change-pw-modal">
+  <div class="modal-box" style="max-width:380px;">
+    <button class="modal-close" onclick="document.getElementById('change-pw-modal').classList.remove('open')">✕</button>
+    <h3>Change Password</h3>
+    <div class="form-row cols1">
+      <div class="form-group"><label>Current Password</label><input type="password" id="pw-current" placeholder="Enter current password"></div>
+    </div>
+    <div class="form-row cols1">
+      <div class="form-group"><label>New Password</label><input type="password" id="pw-new" placeholder="Enter new password (min 6 chars)"></div>
+    </div>
+    <div class="form-row cols1">
+      <div class="form-group"><label>Confirm New Password</label><input type="password" id="pw-confirm" placeholder="Re-enter new password"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="document.getElementById('change-pw-modal').classList.remove('open')">Cancel</button>
+      <button class="btn btn-primary" onclick="doChangePassword()">Update Password</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ADMIN PANEL — COMPLETE SCRIPT
+   All functions defined before use. No ReferenceErrors.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── DEFAULTS ── */
+var DEFAULT_CREDS = {user:'admin', pass:'admin123'};
+
+var DEFAULT_CATS = [
+  {id:'vegs',    name:'Frozen Vegetables',     emoji:'🥦', active:true},
+  {id:'fries',   name:'Frozen Fries',          emoji:'🍟', active:true},
+  {id:'snacks',  name:'Frozen Snacks',         emoji:'🥟', active:true},
+  {id:'breads',  name:'Breads & Paratha',      emoji:'🫓', active:true},
+  {id:'curries', name:'Curries & Gravy',       emoji:'🍛', active:true},
+  {id:'combo',   name:'Combo Meals',           emoji:'🍱', active:true},
+  {id:'millet',  name:'Millet Based Premixes', emoji:'🌾', active:true},
+  {id:'nonmillet',name:'Non-Millet Premixes',  emoji:'🍚', active:true}
+];
+
+var DEFAULT_PRODUCTS = [
+  {cat:'fries',sub:'French Fries',name:'Straight Cut French Fries',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Stright Fries.png',note:'Classic straight-cut fries.',active:true},
+  {cat:'fries',sub:'French Fries',name:'Crinkle Cut French Fries',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Crinkle Fries.png',note:'Crinkle-cut for extra crunch.',active:true},
+  {cat:'fries',sub:'French Fries',name:'Curly French Fries',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Curly Fries.png',note:'Fun spiral curly fries.',active:true},
+  {cat:'fries',sub:'Wedges',name:'Potato Wedges',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Coted Fries.png',note:'Thick seasoned potato wedges.',active:true},
+  {cat:'vegs',sub:'IQF Vegetables',name:'Green Peas',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Green Peas.png',note:'Flash-frozen at peak freshness.',active:true},
+  {cat:'vegs',sub:'IQF Vegetables',name:'Sweet Corn',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Sweet Corn.png',note:'Golden sweet corn kernels.',active:true},
+  {cat:'vegs',sub:'IQF Vegetables',name:'Mixed Vegetables',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Mix Veg.png',note:'Pre-cut blend of seasonal vegetables.',active:true},
+  {cat:'vegs',sub:'IQF Vegetables',name:'Okra',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Cut Okra (2).png',note:'Tender okra individually quick frozen.',active:true},
+  {cat:'vegs',sub:'IQF Vegetables',name:'Cauliflower',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Cualiflower.png',note:'Florets frozen at peak freshness.',active:true},
+  {cat:'vegs',sub:'IQF Vegetables',name:'French Beans',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF French Beans.png',note:'Tender green beans trimmed and frozen.',active:true},
+  {cat:'vegs',sub:'IQF Vegetables',name:'Carrot',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Carrot.png',note:'Diced carrots flash-frozen.',active:true},
+  {cat:'vegs',sub:'IQF Vegetables',name:'Broccoli',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Broccoli.png',note:'Premium broccoli florets.',active:true},
+  {cat:'vegs',sub:'IQF Vegetables',name:'Baby Corn',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Baby Corn.png',note:'Tender baby corn.',active:true},
+  {cat:'vegs',sub:'IQF Vegetables',name:'Spinach',qty:'400g · 1kg · 2.5kg · 10kg',tags:['IQF'],img:'src/products/IQF Spinach.png',note:'Washed chopped spinach flash-frozen.',active:true},
+  {cat:'snacks',sub:'Snacks',name:'Punjabi Samosa',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Punjabi Samosa.jpg',note:'Classic Punjabi samosa.',active:true},
+  {cat:'snacks',sub:'Snacks',name:'Aloo Tikki',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen','RTE'],img:'src/products/Aloo Tikki.jpg',note:'Ready-to-fry potato tikkis.',active:true},
+  {cat:'snacks',sub:'Snacks',name:'Hara Bhara Kabab',qty:'400g · 1kg · 2.5kg · 10kg',tags:['Frozen'],img:'src/products/Harabhara Kabab.jpg',note:'Spinach and pea-based kabab.',active:true},
+  {cat:'breads',sub:'Naan',name:'Plain Naan',qty:'320g · 400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Plain Naan.jpg',note:'Soft fluffy naans.',active:true},
+  {cat:'breads',sub:'Naan',name:'Garlic Butter Naan',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Garlic Butter Naan.jpg',note:'Pre-loaded with garlic butter.',active:true},
+  {cat:'breads',sub:'Paratha',name:'Plain Paratha',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Plain Paratha.jpg',note:'Layered flaky plain paratha.',active:true},
+  {cat:'breads',sub:'Paratha',name:'Aloo Paratha',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Aloo Paratha.jpg',note:'Classic spiced potato stuffed paratha.',active:true},
+  {cat:'breads',sub:'Paratha',name:'Lachha Paratha',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Laccha Paratha.jpg',note:'Crispy multi-layered lachha paratha.',active:true},
+  {cat:'breads',sub:'Paratha',name:'Malabar Paratha',qty:'400g · 1kg · 5kg',tags:['Frozen'],img:'src/products/Malabar paratha.png',note:'Soft Kerala-style paratha.',active:true},
+  {cat:'curries',sub:'Dal',name:'Dal Makhani',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Dal-Makhani.jpg',note:'Slow-cooked creamy dal makhani.',active:true},
+  {cat:'curries',sub:'Curry',name:'Chole Chana',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Amritsari-Cholle.jpg',note:'Punjabi-style chole.',active:true},
+  {cat:'curries',sub:'Curry',name:'Rajma Masala',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Shahi-Rajma.jpg',note:'Rich kidney bean curry.',active:true},
+  {cat:'curries',sub:'Dal',name:'Dal Tadka',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Dal-Tadka.jpg',note:'Classic tempered dal.',active:true},
+  {cat:'curries',sub:'Curry',name:'Pav Bhaji',qty:'300g · 500g · 1kg',tags:['Frozen','RTE'],img:'src/products/Pav-Bhaji.jpg',note:'Mumbai-style pav bhaji.',active:true},
+  {cat:'combo',sub:'Rice',name:'Jeera Rice',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Plain-Rice.jpg',note:'Cumin-tempered rice.',active:true},
+  {cat:'combo',sub:'Combo Meal',name:'Rice + Dal Makhani',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Rice-With-Dal-Makhani.jpg',note:'Complete meal combo.',active:true},
+  {cat:'combo',sub:'Combo Meal',name:'Rice + Chole',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Rice-With-Amritsarichole.jpg',note:'High-protein combo meal.',active:true},
+  {cat:'combo',sub:'Combo Meal',name:'Rice + Rajma',qty:'300g · 500g · 1kg',tags:['Frozen'],img:'src/products/Rice-With-Rajma.jpg',note:'Wholesome comfort meal combo.',active:true},
+  {cat:'millet',sub:'Idli',name:'Multi Millet Idli',qty:'1 KG',tags:['Millet'],img:'src/products/multi millet idli.jpg',note:'Blend of 5 millets.',active:true},
+  {cat:'millet',sub:'Idli',name:'Jowar & Oats Idli',qty:'1 KG',tags:['Millet'],img:'src/products/jowar idli.png',note:'Sustained energy from jowar and oats.',active:true},
+  {cat:'millet',sub:'Idli',name:'Ragi & Jowar Idli',qty:'1 KG',tags:['Millet'],img:'src/products/ragi-idli.png',note:'Excellent for bone health.',active:true},
+  {cat:'millet',sub:'Idli',name:'Quinoa Idli',qty:'1 KG',tags:['Millet'],img:'src/products/quinoa idli.jpg',note:'All 9 essential amino acids.',active:true},
+  {cat:'millet',sub:'Dosa',name:'Multi Millet Dosa',qty:'1 KG',tags:['Millet'],img:'src/products/multi millet dosa.png',note:'Crispy dosa from 5 millets.',active:true},
+  {cat:'millet',sub:'Dosa',name:'Jowar Dosa',qty:'1 KG',tags:['Millet'],img:'src/products/jowar dosa.png',note:'Antioxidant-rich jowar dosa.',active:true},
+  {cat:'millet',sub:'Dosa',name:'Ragi Dosa',qty:'1 KG',tags:['Millet'],img:'src/products/Ragi Dosa.png',note:'Finger millet dosa.',active:true},
+  {cat:'millet',sub:'Dosa',name:'Oats Dosa',qty:'1 KG',tags:['Millet'],img:'src/products/oats dosa.png',note:'Beta-glucan rich oats dosa.',active:true},
+  {cat:'millet',sub:'Khichdi',name:'Multi Millet Khichdi',qty:'1 KG',tags:['Millet'],img:'src/products/millet_khichdi.png',note:'Complete one-pot meal.',active:true},
+  {cat:'millet',sub:'Khichdi',name:'Foxtail Khichdi',qty:'1 KG',tags:['Millet'],img:'src/products/Foxtail-Khichdi.jpg',note:'Low GI foxtail millet.',active:true},
+  {cat:'millet',sub:'Khichdi',name:'Kodo Khichdi',qty:'1 KG',tags:['Millet'],img:'src/products/Kodo Khichdi.png',note:'Polyphenol-rich kodo millet.',active:true},
+  {cat:'millet',sub:'Khichdi',name:'Quinoa Khichdi',qty:'1 KG',tags:['Millet'],img:'src/products/Quinoa Khichdi.png',note:'Quinoa + lentil khichdi.',active:true},
+  {cat:'millet',sub:'Biryani',name:'Kodo Millet Biryani',qty:'1 KG',tags:['Millet'],img:'src/products/Kodo Millet Biryani.png',note:'Whole spice biryani.',active:true},
+  {cat:'millet',sub:'Lemon Rice',name:'Little Millet Lemon Rice',qty:'1 KG',tags:['Millet'],img:'src/products/Little Millet Lemon Rice.png',note:'Vitamin C enriched lemon rice.',active:true},
+  {cat:'millet',sub:'Upma',name:'Jowar Oats Upma',qty:'1 KG',tags:['Millet'],img:'src/products/Jowar Oats Upma.png',note:'Sustained energy from jowar and oats.',active:true},
+  {cat:'millet',sub:'Pongal',name:'Foxtail Millet Sweet Pongal',qty:'1 KG',tags:['Millet'],img:'src/products/Foxtail Millet Sweet Pongal.png',note:'Naturally sweetened with jaggery.',active:true},
+  {cat:'millet',sub:'Sheera',name:'Multi Millet Sheera (Jaggery)',qty:'1 KG',tags:['Millet'],img:'src/products/sheera.png',note:'Nutritious jaggery sheera.',active:true},
+  {cat:'millet',sub:'Malt',name:'Ragi Malt',qty:'1 KG',tags:['Millet'],img:'src/products/Ragi Malt.png',note:'Sprouted ragi malt.',active:true},
+  {cat:'millet',sub:'Malt',name:'Ragi Malt (Sweet)',qty:'1 KG',tags:['Millet'],img:'src/products/Ragi Malt (Sweet).png',note:'Pre-sweetened with jaggery.',active:true},
+  {cat:'millet',sub:'Chilla',name:'Sprouted Moong Chilla',qty:'1 KG',tags:['Millet'],img:'src/products/Sprouted Moong Chilla.png',note:'High protein bioavailability.',active:true},
+  {cat:'millet',sub:'Chilla',name:'Sprouted Moong + Foxtail Chilla',qty:'1 KG',tags:['Millet'],img:'src/products/foxtail chilla.jpg',note:'Low-GI balanced protein chilla.',active:true},
+  {cat:'millet',sub:'Chilla',name:'Sprouted Moong + Jowar Chilla',qty:'1 KG',tags:['Millet'],img:'src/products/jowar chilla.png',note:'Gluten-free high-fibre chilla.',active:true},
+  {cat:'millet',sub:'Soup',name:'Bajra Soup',qty:'1 KG',tags:['Millet'],img:'src/products/Bajra Soup.png',note:'Iron-rich bajra soup.',active:true},
+  {cat:'millet',sub:'Pasta Sauce',name:'Oats White Pasta Sauce (GF)',qty:'1 KG',tags:['Millet'],img:'src/products/White-Gravy.jpg',note:'Gluten-free pasta sauce.',active:true},
+  {cat:'nonmillet',sub:'Sheera',name:'Pineapple Sheera',qty:'1 KG',tags:['Premix'],img:'src/products/PINEAPPLE SHEERA.png',note:'Tangy-sweet pineapple sheera.',active:true},
+  {cat:'nonmillet',sub:'Halwa',name:'Moong Dal Halwa',qty:'1 KG',tags:['Premix'],img:'src/products/moong daal halwa.png',note:'High-protein moong dal halwa.',active:true},
+  {cat:'nonmillet',sub:'Halwa',name:'Sooji / Rava Halwa',qty:'1 KG',tags:['Premix'],img:'src/products/rava halwa.png',note:'Traditional rava halwa.',active:true},
+  {cat:'nonmillet',sub:'Kheer',name:'Rice Kheer',qty:'1 KG',tags:['Premix'],img:'src/products/rice kheer.png',note:'Creamy rice kheer mix.',active:true},
+  {cat:'nonmillet',sub:'Kheer',name:'Vermicelli Kheer',qty:'1 KG',tags:['Premix'],img:'src/products/VERMICELLI KHEER.png',note:'Fast-prep kheer.',active:true},
+  {cat:'nonmillet',sub:'Pasta Sauce',name:'White Sauce for Pasta',qty:'1 KG',tags:['Premix'],img:'src/products/White-Gravy.jpg',note:'Bechamel-style pasta sauce.',active:true},
+  {cat:'nonmillet',sub:'Dosa',name:'Rice Dosa Mix',qty:'1 KG',tags:['Premix'],img:'src/products/rice dosa mix.png',note:'Crispy dosas every time.',active:true},
+  {cat:'nonmillet',sub:'Idli',name:'Rice Idli Mix',qty:'1 KG',tags:['Premix'],img:'src/products/sheera.png',note:'Classic soft fluffy idli.',active:true},
+  {cat:'nonmillet',sub:'Dhokla',name:'Rice Dhokla Mix',qty:'1 KG',tags:['Premix'],img:'src/products/rice_dhokla.png',note:'Light steamed Gujarati snack.',active:true},
+  {cat:'nonmillet',sub:'Upma',name:'Sooji / Rava Upma',qty:'1 KG',tags:['Premix'],img:'src/products/Rava Upma.jpg',note:'Pre-seasoned rava upma.',active:true},
+  {cat:'nonmillet',sub:'Khichdi',name:'Rice Masala Khichdi',qty:'1 KG',tags:['Premix'],img:'src/products/rice masala khichdi.jpg',note:'Complete meal.',active:true},
+  {cat:'nonmillet',sub:'Biryani',name:'Rice Biryani',qty:'1 KG',tags:['Premix'],img:'src/products/Veg-Biryani-Rice.jpg',note:'Restaurant-quality biryani blend.',active:true},
+  {cat:'nonmillet',sub:'Lemon Rice',name:'Lemon Rice Mix',qty:'1 KG',tags:['Premix'],img:'src/products/Lemon-Rice.jpg',note:'Quick consistent lemon rice.',active:true}
+];
+
+/* ══ STATE ══ */
+var STATE = {
+  cats:     [],
+  products: [],
+  enquiries:[],
+  contact:  {address:'', phone:'', email:'', hours:''},
+  username: 'admin',
+  password: 'admin123',
+  loggedIn: false
+};
+
+/* ══ STORAGE HELPERS ══ */
+function ls_get(k, def) {
+  try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : def; }
+  catch(e) { return def; }
+}
+function ls_set(k, v) {
+  try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {}
+}
+
+/* ── Persist cats / products back to localStorage keys the website reads ── */
+function persistCats()     { ls_set('abfc_cats',     STATE.cats);     }
+function persistProducts() { ls_set('abfc_products', STATE.products); }
+function persistContact()  { ls_set('abfc_contact',  STATE.contact);  }
+
+function loadState() {
+  STATE.cats      = ls_get('abfc_cats',      DEFAULT_CATS);
+  STATE.products  = ls_get('abfc_products',  DEFAULT_PRODUCTS);
+  STATE.enquiries = ls_get('abfc_enquiries', []);
+  STATE.contact   = ls_get('abfc_contact',   {address:'1001 & 1020 Time Square Arcade, Thaltej, Ahmedabad – 380059', phone:'+91 9904166522', email:'food@abhyuday.in', hours:'Mon – Sat, 9 AM – 6 PM IST'});
+  STATE.username  = ls_get('abfc_admin_user','admin');
+  STATE.password  = ls_get('abfc_admin_pass','admin123');
+}
+
+/* ══ TOAST ══ */
+var _toastTmr = null;
+function showToast(msg, type) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className   = 'toast ' + (type || '') + ' show';
+  clearTimeout(_toastTmr);
+  _toastTmr = setTimeout(function() { t.classList.remove('show'); }, 3200);
+}
+
+/* ══ LOGIN ══ */
+function doLogin() {
+  var u = document.getElementById('login-user').value.trim();
+  var p = document.getElementById('login-pass').value;
+  if (u === STATE.username && p === STATE.password) {
+    STATE.loggedIn = true;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    document.getElementById('sidebar-username').textContent = u;
+    document.getElementById('avatar-initials').textContent  = u.substring(0,2).toUpperCase();
+    refreshAdminUI();
+    showSection('dashboard');
+  } else {
+    document.getElementById('login-err').style.display = 'block';
+  }
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !STATE.loggedIn) doLogin();
+});
+
+function doLogout() {
+  STATE.loggedIn = false;
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-pass').value = '';
+  closeProfileDropdown();
+}
+
+/* ══ PROFILE DROPDOWN ══
+   Fixed: function declared before it can be called from HTML onclick
+   ══ */
+function toggleProfile() {
+  var dd = document.getElementById('profile-dropdown');
+  dd.classList.toggle('open');
+  /* Close on outside click */
+  if (dd.classList.contains('open')) {
+    setTimeout(function() {
+      document.addEventListener('click', closeProfileOnOutside);
+    }, 10);
+  }
+}
+function closeProfileDropdown() {
+  document.getElementById('profile-dropdown').classList.remove('open');
+  document.removeEventListener('click', closeProfileOnOutside);
+}
+function closeProfileOnOutside(e) {
+  if (!e.target.closest('#profile-toggle')) closeProfileDropdown();
+}
+
+/* ══ CHANGE PASSWORD MODAL ══ */
+function openChangePwModal() {
+  closeProfileDropdown();
+  document.getElementById('pw-current').value = '';
+  document.getElementById('pw-new').value     = '';
+  document.getElementById('pw-confirm').value = '';
+  document.getElementById('change-pw-modal').classList.add('open');
+}
+function doChangePassword() {
+  var cur  = document.getElementById('pw-current').value;
+  var nw   = document.getElementById('pw-new').value;
+  var conf = document.getElementById('pw-confirm').value;
+  if (cur !== STATE.password)    { showToast('Current password is incorrect', 'error'); return; }
+  if (nw.length < 6)             { showToast('New password must be at least 6 characters', 'error'); return; }
+  if (nw !== conf)               { showToast('Passwords do not match', 'error'); return; }
+  STATE.password = nw;
+  ls_set('abfc_admin_pass', nw);
+  document.getElementById('change-pw-modal').classList.remove('open');
+  showToast('Password updated successfully', 'success');
+}
+
+/* ══ SECTION NAVIGATION ══ */
+function showSection(name) {
+  document.querySelectorAll('section[id^="section-"]').forEach(function(s) { s.style.display = 'none'; });
+  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+  var sec = document.getElementById('section-' + name);
+  var nav = document.getElementById('nav-' + name);
+  if (sec) sec.style.display = 'block';
+  if (nav) nav.classList.add('active');
+  /* Refresh views */
+  if (name === 'dashboard')        renderDashboard();
+  if (name === 'enquiries')        renderEnquiries();
+  if (name === 'categories')       renderCatTable();
+  if (name === 'products')         { populateProdCatFilter(); renderProductsTable(); }
+  if (name === 'contact-settings') loadContactForm();
+}
+
+/* ══ MASTER REFRESH ══ */
+function refreshAdminUI() {
+  renderDashboard();
+  updateEnqBadge();
+}
+
+/* ══ DASHBOARD ══ */
+function renderDashboard() {
+  var cats = STATE.cats.filter(function(c) { return c.active !== false; });
+  var prods = STATE.products.filter(function(p) { return p.active !== false; });
+  var enqs  = STATE.enquiries;
+  var newE  = enqs.filter(function(e) { return !e.seen; }).length;
+  document.getElementById('stat-total-products').textContent = prods.length;
+  document.getElementById('stat-total-cats').textContent     = cats.length;
+  document.getElementById('stat-enquiries').textContent      = enqs.length;
+  document.getElementById('stat-new-enq').textContent        = newE;
+  /* Recent enquiries table */
+  var et = document.getElementById('dash-enq-table');
+  if (!enqs.length) {
+    et.innerHTML = '<tr><td colspan="5" style="color:#9a8a75;padding:20px 12px;">No enquiries yet.</td></tr>';
+  } else {
+    et.innerHTML = enqs.slice(0,5).map(function(e) {
+      return '<tr><td>' + esc(e.name) + '</td><td>' + esc(e.company) + '</td><td>' + esc(e.phone) + '</td><td>' + fmtDate(e.date) + '</td><td><span class="badge ' + (e.seen ? 'badge-seen' : 'badge-new') + '">' + (e.seen ? 'Read' : 'New') + '</span></td></tr>';
+    }).join('');
+  }
+  /* Category summary */
+  var ct = document.getElementById('dash-cat-table');
+  ct.innerHTML = STATE.cats.map(function(c) {
+    var cnt = STATE.products.filter(function(p) { return p.cat === c.id; }).length;
+    return '<tr><td>' + c.emoji + ' ' + esc(c.name) + '</td><td>' + cnt + '</td><td><span class="badge ' + (c.active !== false ? 'badge-active' : 'badge-inactive') + '">' + (c.active !== false ? 'Active' : 'Hidden') + '</span></td></tr>';
+  }).join('');
+}
+
+/* ══ ENQUIRIES ══ */
+function updateEnqBadge() {
+  var n = STATE.enquiries.filter(function(e) { return !e.seen; }).length;
+  var b = document.getElementById('enq-badge');
+  if (n > 0) { b.textContent = n; b.style.display = 'inline-block'; }
+  else b.style.display = 'none';
+}
+function renderEnquiries() {
+  var tb = document.getElementById('enq-tbody');
+  if (!STATE.enquiries.length) {
+    tb.innerHTML = '<tr><td colspan="7" style="color:#9a8a75;padding:20px 12px;">No enquiries yet.</td></tr>';
+    return;
+  }
+  tb.innerHTML = STATE.enquiries.map(function(e, i) {
+    return '<tr>'
+      + '<td>' + esc(e.name) + '</td>'
+      + '<td>' + esc(e.company) + '</td>'
+      + '<td>' + esc(e.phone) + (e.email ? '<br><small style="color:#9a8a75">' + esc(e.email) + '</small>' : '') + '</td>'
+      + '<td>' + esc(e.business_type || '—') + '</td>'
+      + '<td style="white-space:nowrap">' + fmtDate(e.date) + '</td>'
+      + '<td><span class="badge ' + (e.seen ? 'badge-seen' : 'badge-new') + '">' + (e.seen ? 'Read' : 'New') + '</span></td>'
+      + '<td><div class="td-actions">'
+      + '<button class="btn btn-ghost btn-sm" onclick="viewEnquiry(' + i + ')">View</button>'
+      + '<button class="btn btn-danger btn-sm btn-icon" onclick="deleteEnquiry(' + i + ')" title="Delete">✕</button>'
+      + '</div></td></tr>';
+  }).join('');
+}
+function viewEnquiry(idx) {
+  var e = STATE.enquiries[idx];
+  if (!e) return;
+  if (!e.seen) {
+    STATE.enquiries[idx].seen = true;
+    ls_set('abfc_enquiries', STATE.enquiries);
+    updateEnqBadge();
+    renderEnquiries();
+  }
+  document.getElementById('enq-detail-body').innerHTML =
+    '<dt>Name</dt><dd>' + esc(e.name) + '</dd>'
+    + '<dt>Company</dt><dd>' + esc(e.company) + '</dd>'
+    + '<dt>Phone</dt><dd>' + esc(e.phone) + '</dd>'
+    + '<dt>Email</dt><dd>' + esc(e.email || '—') + '</dd>'
+    + '<dt>Business Type</dt><dd>' + esc(e.business_type || '—') + '</dd>'
+    + '<dt>Date</dt><dd>' + fmtDate(e.date) + '</dd>'
+    + '<dt>Message</dt><dd>' + esc(e.message || '—') + '</dd>';
+  document.getElementById('enq-modal').classList.add('open');
+}
+function deleteEnquiry(idx) {
+  if (!confirm('Delete this enquiry?')) return;
+  STATE.enquiries.splice(idx, 1);
+  ls_set('abfc_enquiries', STATE.enquiries);
+  updateEnqBadge();
+  renderEnquiries();
+  showToast('Enquiry deleted');
+}
+function markAllSeen() {
+  STATE.enquiries.forEach(function(e) { e.seen = true; });
+  ls_set('abfc_enquiries', STATE.enquiries);
+  updateEnqBadge();
+  renderEnquiries();
+  showToast('All marked as read', 'success');
+}
+function clearEnquiries() {
+  if (!confirm('Delete ALL enquiries? This cannot be undone.')) return;
+  STATE.enquiries = [];
+  ls_set('abfc_enquiries', STATE.enquiries);
+  updateEnqBadge();
+  renderEnquiries();
+  showToast('All enquiries cleared');
+}
+
+/* ══ CATEGORIES ══ */
+function renderCatTable() {
+  var tb = document.getElementById('cat-tbody');
+  if (!STATE.cats.length) {
+    tb.innerHTML = '<tr><td colspan="6" style="color:#9a8a75;padding:20px 12px;">No categories. Add one above.</td></tr>';
+    return;
+  }
+  tb.innerHTML = STATE.cats.map(function(c, i) {
+    var cnt = STATE.products.filter(function(p) { return p.cat === c.id; }).length;
+    return '<tr>'
+      + '<td style="font-size:20px">' + c.emoji + '</td>'
+      + '<td><strong>' + esc(c.name) + '</strong></td>'
+      + '<td><code style="background:var(--parchment);padding:2px 8px;border-radius:6px;font-size:12px;">' + esc(c.id) + '</code></td>'
+      + '<td>' + cnt + ' products</td>'
+      + '<td><span class="badge ' + (c.active !== false ? 'badge-active' : 'badge-inactive') + '">' + (c.active !== false ? 'Active' : 'Hidden') + '</span></td>'
+      + '<td><div class="td-actions">'
+      + '<button class="btn btn-ghost btn-sm" onclick="openEditCatModal(' + i + ')">Edit</button>'
+      + '<button class="btn ' + (c.active !== false ? 'btn-ghost' : 'btn-success') + ' btn-sm" onclick="toggleCatActive(' + i + ')">' + (c.active !== false ? 'Hide' : 'Show') + '</button>'
+      + '<button class="btn btn-danger btn-sm btn-icon" onclick="deleteCat(' + i + ')" title="Delete">✕</button>'
+      + '</div></td></tr>';
+  }).join('');
+}
+function openAddCatModal() {
+  document.getElementById('cat-modal-title').textContent = 'Add Category';
+  document.getElementById('cat-edit-idx').value  = '';
+  document.getElementById('cat-edit-id').value   = '';
+  document.getElementById('cat-emoji').value     = '';
+  document.getElementById('cat-name').value      = '';
+  document.getElementById('cat-id-field').value  = '';
+  document.getElementById('cat-active').checked  = true;
+  document.getElementById('cat-id-field').disabled = false;
+  document.getElementById('cat-modal').classList.add('open');
+}
+function openEditCatModal(idx) {
+  var c = STATE.cats[idx];
+  if (!c) return;
+  document.getElementById('cat-modal-title').textContent = 'Edit Category';
+  document.getElementById('cat-edit-idx').value  = idx;
+  document.getElementById('cat-edit-id').value   = c.id;
+  document.getElementById('cat-emoji').value     = c.emoji;
+  document.getElementById('cat-name').value      = c.name;
+  document.getElementById('cat-id-field').value  = c.id;
+  document.getElementById('cat-active').checked  = (c.active !== false);
+  /* Allow editing ID only for custom (non-default) categories */
+  var defaultIds = ['vegs','fries','snacks','breads','curries','combo','millet','nonmillet'];
+  document.getElementById('cat-id-field').disabled = (defaultIds.indexOf(c.id) !== -1);
+  document.getElementById('cat-modal').classList.add('open');
+}
+function closeCatModal() {
+  document.getElementById('cat-modal').classList.remove('open');
+}
+function saveCat() {
+  var emoji  = document.getElementById('cat-emoji').value.trim();
+  var name   = document.getElementById('cat-name').value.trim();
+  var idVal  = document.getElementById('cat-id-field').value.trim();
+  var active = document.getElementById('cat-active').checked;
+  var editIdx= document.getElementById('cat-edit-idx').value;
+  if (!emoji || !name || !idVal) { showToast('Please fill Emoji, Name and ID', 'error'); return; }
+  if (editIdx !== '') {
+    /* EDIT existing */
+    var idx = parseInt(editIdx);
+    var oldId = STATE.cats[idx].id;
+    STATE.cats[idx] = {id: idVal, name: name, emoji: emoji, active: active};
+    /* If ID changed, update all products in this category */
+    if (oldId !== idVal) {
+      STATE.products.forEach(function(p) { if (p.cat === oldId) p.cat = idVal; });
+      persistProducts();
+    }
+  } else {
+    /* ADD new — check for duplicate ID */
+    var dup = STATE.cats.some(function(c) { return c.id === idVal; });
+    if (dup) { showToast('Category ID "' + idVal + '" already exists. Choose a different ID.', 'error'); return; }
+    STATE.cats.push({id: idVal, name: name, emoji: emoji, active: active});
+  }
+  persistCats();
+  closeCatModal();
+  renderCatTable();
+  showToast(editIdx !== '' ? 'Category updated ✓' : 'Category added ✓', 'success');
+}
+function toggleCatActive(idx) {
+  STATE.cats[idx].active = !STATE.cats[idx].active;
+  persistCats();
+  renderCatTable();
+  showToast('Category ' + (STATE.cats[idx].active ? 'shown' : 'hidden') + ' on website', 'success');
+}
+function deleteCat(idx) {
+  var c = STATE.cats[idx];
+  var cnt = STATE.products.filter(function(p) { return p.cat === c.id; }).length;
+  var msg = 'Delete category "' + c.name + '"?';
+  if (cnt > 0) msg += '\n\n⚠️ This will also hide ' + cnt + ' product(s) associated with it.';
+  if (!confirm(msg)) return;
+  STATE.cats.splice(idx, 1);
+  persistCats();
+  renderCatTable();
+  showToast('Category deleted', 'success');
+}
+
+/* ══ PRODUCTS ══ */
+function populateProdCatFilter() {
+  var sel = document.getElementById('prod-filter-cat');
+  sel.innerHTML = '<option value="all">All Categories</option>';
+  STATE.cats.forEach(function(c) {
+    sel.innerHTML += '<option value="' + c.id + '">' + c.emoji + ' ' + esc(c.name) + '</option>';
+  });
+}
+function renderProductsTable() {
+  var tb = document.getElementById('prod-tbody');
+  var filterCat = (document.getElementById('prod-filter-cat') || {}).value || 'all';
+  var list = STATE.products.filter(function(p) {
+    return filterCat === 'all' || p.cat === filterCat;
+  });
+  if (!list.length) {
+    tb.innerHTML = '<tr><td colspan="8" style="color:#9a8a75;padding:20px 12px;">No products in this category.</td></tr>';
+    return;
+  }
+  tb.innerHTML = list.map(function(p) {
+    var globalIdx = STATE.products.indexOf(p);
+    var catInfo   = STATE.cats.find(function(c) { return c.id === p.cat; });
+    var catLabel  = catInfo ? catInfo.emoji + ' ' + catInfo.name : p.cat;
+    return '<tr>'
+      + '<td><img class="prod-img-preview" src="' + esc(p.img) + '" onerror="this.src=\'src/products/mix frozen.jpg\'"></td>'
+      + '<td><strong style="font-size:13px">' + esc(p.name) + '</strong></td>'
+      + '<td><small>' + catLabel + '</small></td>'
+      + '<td><small>' + esc(p.sub) + '</small></td>'
+      + '<td><small style="color:#9a8a75">' + esc(p.qty) + '</small></td>'
+      + '<td>' + (p.tags||[]).map(function(t){return '<span class="badge badge-active" style="margin-right:2px">' + esc(t) + '</span>';}).join('') + '</td>'
+      + '<td><span class="badge ' + (p.active !== false ? 'badge-active':'badge-inactive') + '">' + (p.active!==false?'Active':'Hidden') + '</span></td>'
+      + '<td><div class="td-actions">'
+      + '<button class="btn btn-ghost btn-sm" onclick="openEditProdModal(' + globalIdx + ')">Edit</button>'
+      + '<button class="btn ' + (p.active!==false ? 'btn-ghost':'btn-success') + ' btn-sm" onclick="toggleProdActive(' + globalIdx + ')">' + (p.active!==false ? 'Hide':'Show') + '</button>'
+      + '<button class="btn btn-danger btn-sm btn-icon" onclick="deleteProd(' + globalIdx + ')" title="Delete">✕</button>'
+      + '</div></td></tr>';
+  }).join('');
+}
+function populateProdCatSelect() {
+  var sel = document.getElementById('prod-cat');
+  sel.innerHTML = '<option value="">Select category</option>';
+  STATE.cats.forEach(function(c) {
+    sel.innerHTML += '<option value="' + c.id + '">' + c.emoji + ' ' + esc(c.name) + '</option>';
+  });
+}
+function openAddProductModal() {
+  populateProdCatSelect();
+  document.getElementById('prod-modal-title').textContent = 'Add Product';
+  document.getElementById('prod-edit-idx').value  = '';
+  document.getElementById('prod-cat').value       = '';
+  document.getElementById('prod-sub').value       = '';
+  document.getElementById('prod-name').value      = '';
+  document.getElementById('prod-qty').value       = '';
+  document.getElementById('prod-img').value       = '';
+  document.getElementById('prod-note').value      = '';
+  document.getElementById('prod-tags').value      = '';
+  document.getElementById('prod-active').checked  = true;
+  document.getElementById('prod-modal').classList.add('open');
+}
+function openEditProdModal(idx) {
+  var p = STATE.products[idx];
+  if (!p) return;
+  populateProdCatSelect();
+  document.getElementById('prod-modal-title').textContent = 'Edit Product';
+  document.getElementById('prod-edit-idx').value  = idx;
+  document.getElementById('prod-cat').value       = p.cat;
+  document.getElementById('prod-sub').value       = p.sub;
+  document.getElementById('prod-name').value      = p.name;
+  document.getElementById('prod-qty').value       = p.qty;
+  document.getElementById('prod-img').value       = p.img;
+  document.getElementById('prod-note').value      = p.note || '';
+  document.getElementById('prod-tags').value      = (p.tags || []).join(', ');
+  document.getElementById('prod-active').checked  = (p.active !== false);
+  document.getElementById('prod-modal').classList.add('open');
+}
+function closeProdModal() {
+  document.getElementById('prod-modal').classList.remove('open');
+}
+function saveProduct() {
+  var cat    = document.getElementById('prod-cat').value;
+  var sub    = document.getElementById('prod-sub').value.trim();
+  var name   = document.getElementById('prod-name').value.trim();
+  var qty    = document.getElementById('prod-qty').value.trim();
+  var img    = document.getElementById('prod-img').value.trim();
+  var note   = document.getElementById('prod-note').value.trim();
+  var tagsRaw= document.getElementById('prod-tags').value.trim();
+  var active = document.getElementById('prod-active').checked;
+  var editIdx= document.getElementById('prod-edit-idx').value;
+  if (!cat || !sub || !name || !qty || !img) { showToast('Please fill all required fields', 'error'); return; }
+  var tags = tagsRaw ? tagsRaw.split(',').map(function(t){return t.trim();}).filter(Boolean) : [];
+  var prod = {cat:cat, sub:sub, name:name, qty:qty, img:img, note:note, tags:tags, active:active};
+  if (editIdx !== '') {
+    STATE.products[parseInt(editIdx)] = prod;
+  } else {
+    STATE.products.push(prod);
+  }
+  persistProducts();
+  closeProdModal();
+  renderProductsTable();
+  showToast(editIdx !== '' ? 'Product updated ✓' : 'Product added ✓', 'success');
+}
+function toggleProdActive(idx) {
+  STATE.products[idx].active = !(STATE.products[idx].active !== false ? true : false);
+  /* flip properly */
+  STATE.products[idx].active = STATE.products[idx].active === false ? true : false;
+  /* simpler: */
+  STATE.products[idx].active = !STATE.products[idx].active;
+  persistProducts();
+  renderProductsTable();
+  showToast('Product visibility updated', 'success');
+}
+function deleteProd(idx) {
+  if (!confirm('Delete "' + STATE.products[idx].name + '"?')) return;
+  STATE.products.splice(idx, 1);
+  persistProducts();
+  renderProductsTable();
+  showToast('Product deleted', 'success');
+}
+
+/* ══ CONTACT INFO ══ */
+function loadContactForm() {
+  document.getElementById('ci-address').value = STATE.contact.address || '';
+  document.getElementById('ci-phone').value   = STATE.contact.phone   || '';
+  document.getElementById('ci-email').value   = STATE.contact.email   || '';
+  document.getElementById('ci-hours').value   = STATE.contact.hours   || '';
+}
+function saveContactInfo() {
+  STATE.contact = {
+    address: document.getElementById('ci-address').value.trim(),
+    phone:   document.getElementById('ci-phone').value.trim(),
+    email:   document.getElementById('ci-email').value.trim(),
+    hours:   document.getElementById('ci-hours').value.trim()
+  };
+  persistContact();
+  showToast('Contact info saved ✓ — reload the website to see changes', 'success');
+}
+
+/* ══ HELPERS ══ */
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fmtDate(d) {
+  if (!d) return '—';
+  try { return new Date(d).toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'}); }
+  catch(e) { return d; }
+}
+
+/* ══ LISTEN FOR NEW ENQUIRIES ══ */
+window.addEventListener('storage', function(e) {
+  if (e.key === 'abfc_enquiries') {
+    STATE.enquiries = JSON.parse(e.newValue || '[]');
+    updateEnqBadge();
+    if (document.getElementById('section-enquiries').style.display !== 'none') renderEnquiries();
+    if (document.getElementById('section-dashboard').style.display !== 'none') renderDashboard();
+  }
+});
+
+/* ══ INIT ══ */
+document.addEventListener('DOMContentLoaded', function() {
+  loadState();
+  /* Auto-show app if already "logged in" in session — optional convenience */
+  /* Uncomment the block below if you want to auto-login in dev:
+  if (true) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    STATE.loggedIn = true;
+    refreshAdminUI();
+    showSection('dashboard');
+  }
+  */
+});
+</script>
+</body>
+</html>
