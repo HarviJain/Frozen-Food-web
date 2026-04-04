@@ -7,6 +7,13 @@
           gunicorn app:app       (production)
 =============================================================
 """
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+
+
+
 
 import os
 import json
@@ -231,6 +238,77 @@ def ok(data=None, msg='Success', **kwargs):
 def err(msg='Error', code=400):
     return jsonify({'success': False, 'error': msg}), code
 
+
+
+# ──────────────────────────────────────────────
+#  EMAIL SENDER (UPDATED)
+# ──────────────────────────────────────────────
+
+def send_enquiry_email(enquiry):
+    try:
+        EMAIL_USER = os.environ.get("EMAIL_USER")   # sender Gmail
+        EMAIL_PASS = os.environ.get("EMAIL_PASS")   # app password
+        EMAIL_TO   = "food@abhyuday.in"             # admin email (fixed)
+
+        if not EMAIL_USER or not EMAIL_PASS:
+            print("⚠️ Email credentials not set")
+            return
+
+        # 📌 Subject
+        subject = f"📩 New Enquiry - {enquiry.name}"
+
+        # 📌 Email Body (well formatted)
+        body = f"""
+========================================
+        NEW ENQUIRY RECEIVED
+========================================
+
+👤 Name          : {enquiry.name}
+🏢 Company       : {enquiry.company}
+📞 Phone         : {enquiry.phone}
+📧 Email         : {enquiry.email or 'N/A'}
+💼 Business Type : {enquiry.business_type or 'N/A'}
+
+----------------------------------------
+📝 Message:
+{enquiry.message or 'No message provided'}
+----------------------------------------
+
+🕒 Date: {enquiry.created_at}
+
+========================================
+Abhyuday Bharat Food Cluster Website
+========================================
+        """
+
+        # 📌 Create Email
+        msg = MIMEMultipart()
+        msg['From'] = EMAIL_USER
+        msg['To'] = EMAIL_TO
+        msg['Subject'] = subject
+
+        # ✅ IMPORTANT: Reply goes to customer directly
+        if enquiry.email:
+            msg['Reply-To'] = enquiry.email
+
+        msg.attach(MIMEText(body, 'plain'))
+
+        # 📌 SMTP Setup
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(EMAIL_USER, EMAIL_PASS)
+        server.send_message(msg)
+        server.quit()
+
+        print(f"✅ Enquiry email sent to {EMAIL_TO}")
+
+    except Exception as e:
+        print("❌ Email sending failed:", str(e))
+
+
+
+
+
 # ──────────────────────────────────────────────
 #  SERVE FRONTEND
 # ──────────────────────────────────────────────
@@ -340,12 +418,17 @@ def get_contact():
     return ok(c.to_dict() if c else {})
 
 
+
+
+
+
 @app.route('/api/enquiry', methods=['POST'])
 def submit_enquiry():
     data = request.get_json() or {}
-    name    = (data.get('name')    or '').strip()
+
+    name    = (data.get('name') or '').strip()
     company = (data.get('company') or '').strip()
-    phone   = (data.get('phone')   or '').strip()
+    phone   = (data.get('phone') or '').strip()
 
     if not name or not company or not phone:
         return err('Name, company and phone are required')
@@ -354,13 +437,21 @@ def submit_enquiry():
         name          = name,
         company       = company,
         phone         = phone,
-        email         = (data.get('email')         or '').strip(),
+        email         = (data.get('email') or '').strip(),
         business_type = (data.get('business_type') or '').strip(),
-        message       = (data.get('message')       or '').strip(),
+        message       = (data.get('message') or '').strip(),
     )
+
     db.session.add(enq)
     db.session.commit()
+
+    # ✅ SEND EMAIL AFTER SAVE
+    send_enquiry_email(enq)
+
     return ok(enq.to_dict(), 'Enquiry submitted successfully')
+
+
+
 
 # ──────────────────────────────────────────────
 #  ADMIN ROUTES  (auth required)
